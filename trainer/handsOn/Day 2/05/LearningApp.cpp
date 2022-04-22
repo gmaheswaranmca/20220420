@@ -1,20 +1,24 @@
 #include <iostream>
 #include "AirWaySpace.h"
+#include "EPMSSpace.h"
+#include "MyUtil.h"
+
 void flightApp(void) {
 	AirWaySpace::readFlightData();
 	
-	std::cout << "Number of Seasts:" << AirWaySpace::numberOfSeats << std::endl;
-	std::cout << "Fare:" << AirWaySpace::fare << std::endl;
-	std::cout << "First Name:" << AirWaySpace::fullName.firstName << std::endl;
-	std::cout << "Last Name:" << AirWaySpace::fullName.lastName << std::endl;
-	std::cout << "Full Name:" << AirWaySpace::fullName.firstName << " " << AirWaySpace::fullName.lastName << std::endl;
+    MyUtil::out::print((char*)"Number of Seasts:", AirWaySpace::numberOfSeats);
+	MyUtil::out::print((char*)"Fare:", AirWaySpace::fare);
+	MyUtil::out::print((char*)"First Name:", AirWaySpace::fullName.firstName);
+	MyUtil::out::print((char*)"Last Name:", AirWaySpace::fullName.lastName);
 }
+
 void empApp(void) {
 	using namespace EPMSSpace;
 
 	readEmp();
 	printEmp();
 }
+
 int main()
 {
     int choice = 0;

@@ -1,5 +1,6 @@
 #include <iostream>
 #include "AirWaySpace.h"
+#include "EPMSSpace.h"
 void flightApp(void) {
 	AirWaySpace::readFlightData();
 	
@@ -29,11 +30,14 @@ int main()
 		else if (choice == 2) {
 			empApp();
 		}
+		else if (choice == 0) {
+			std::cout << "Hard Exit";
+			break;
+		}
 		else {
 			std::cout << "Wrong Choice";
 		}
 	} while (1 <= choice && choice <= 2);
-
     
 	return 0;
 }
