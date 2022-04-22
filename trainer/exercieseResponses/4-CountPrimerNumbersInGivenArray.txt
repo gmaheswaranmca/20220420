@@ -1,0 +1,20 @@
+4.Find number of prime numbers in an array
+prime number: The number which is divisible by 1 and number itself
+	2 3 5 7 11 13 17 19 
+
+Example:
+bool isPrime(int num){
+	//true or false 
+}
+
+int N = 8;
+int List[N] = {19,50,33,59,11,5,12,93};
+
+Loop the List 
+	Check each number is Prime or Not 
+		If so, Count it 
+End Loop 
+
+Print the Couter value 
+	
+	

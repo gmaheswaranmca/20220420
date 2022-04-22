@@ -1,0 +1,127 @@
+Reverse a given number.
+Example:
+Givent number N = 4237 
+reverse of 4237 : 7324 
+--------------------------------------------------------
+Given code:
+--------------------------------------------------------
+#include <iostream>
+
+using namespace std;
+
+int main() {
+    int N = 4237;
+    int M = N;
+    int S = 0;
+    int R = 0;
+    while(N>0){
+        int D = N%10; // 7      3     2   4
+        //cout << D;
+        S = S + D;
+        R = R + D;
+        int Q = N/10; //423     42    4   0
+        N = Q;
+    }
+    cout << "Sum of " << M << " is " << S << endl;
+    cout << "Reverse of " << M << " is " << R << endl;
+}
+--------------------------------------------------------
+Shrikant
+--------------------------------------------------------
+#include <iostream>
+
+using namespace std;
+
+int main() {
+    int N = 4237;
+    int M = N;
+    int S = 0;
+    int R = 0;
+    while(N>0){
+        int D = N%10; // 7      3     2   4
+        //cout << D;
+        S = S + D;
+        R = R *10+ D;
+        int Q = N/10; //423     42    4   0
+        N = Q;
+    }
+    cout << "Sum of " << M << " is " << S << endl;
+    cout << "Reverse of " << M << " is " << R << endl;
+}
+--------------------------------------------------------
+Avinash
+--------------------------------------------------------
+#include <iostream>
+using namespace std;
+int main() {
+    int n = 4237;
+    int m = n
+    int s = 0;
+    int r = 0;
+    while(n>0){
+        int d = n%10; // 
+    
+        s = s + d;
+        r= r *10+ d;
+        int q = n/10; //
+        n = q;
+    }
+    cout << "Sum of " << m<< " is " << s << endl;
+    cout << "Reverse of " << m << " is " << r << endl;
+}
+--------------------------------------------------------
+Uday
+--------------------------------------------------------
+#include <iostream>
+
+using namespace std;
+
+int main() {
+    int N = 4237;
+    int M = N;
+    int S = 0;
+    int R = 0;
+    while(N>0){
+        int D = N%10; // 7      3     2   4
+        //cout << D;
+        S = S + D;
+        R = R *10+ D;
+        int Q = N/10; //423     42    4   0
+        N = Q;
+    }
+    cout << "Sum of " << M << " is " << S << endl;
+    cout << "Reverse of " << M << " is " << R << endl;
+}
+--------------------------------------------------------
+Divya
+--------------------------------------------------------
+    Posted in whatsapp as picture
+--------------------------------------------------------
+Manikanta
+--------------------------------------------------------
+    Posted in whatsapp as picture
+--------------------------------------------------------
+Anil
+--------------------------------------------------------
+#include <iostream
+using namespace std;
+int main()
+{
+ int N = 4237;
+ int M = N;
+ int S = 0;
+ int R = 0; 
+ while(N>0)
+ {
+   int D = N%10;
+   //cout << D;
+   S = S + D;
+   R = R *10+ D;
+   int Q = N/10;
+   N = Q; 
+ } 
+ cout << "Sum of " << M << " is " << S << endl;
+ cout << "Reverse of " << M << " is " << R << endl;
+}
+--------------------------------------------------------
+
