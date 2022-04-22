@@ -1,0 +1,15 @@
+int a = 20;
+int* p = &a; //pointer to integer : pointer can read / write the pointing variable
+			//pointer can point any integer variable
+
+const int b = 20;
+const int* q = &b; //pointer to integer constant : pointer can do only read the pointing variable
+		//pointer can point any integer constant 
+
+int c = 20;
+int*const r = &c; //constant pointer to integer : pointer can read / write the pointing variable
+	//pointer cannnot be changed to point another integer
+
+const int d = 20;
+const int* const s = &d; //constant pointer to integer constant : : pointer can do only read the pointing variable
+	//pointer cannnot be changed to point another integer

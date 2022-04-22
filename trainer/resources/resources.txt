@@ -1,0 +1,10 @@
+C++ reference 1
+	URL: https://en.cppreference.com/w/
+	
+C++ reference 2
+	URL: https://www.cplusplus.com/
+	
+C++ Tutorial
+	URL: https://www.cplusplus.com/doc/tutorial/
+	
+	
