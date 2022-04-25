@@ -1,0 +1,66 @@
+Assessment:
+1. 
+Maximum Duration: 1 hour
+Score: 100 points
+
+Read the question carefully and post your response here.
+
+i) Define a function 
+void findDifference(const int& firstNumber, const int& secondNumber, 
+	int& theDifferenceAlias)
+to receive "two numbers" as "first two arguments" from the "driver function" (main function) and 
+to send the "difference" of those numbers to the "driver function" using "the third reference argument"
+-- 20 points 
+ii) Define a function 
+int findSumOfDigitsOfNumber(const int& theNumber)
+to receive "a number" as argument from the "driver function" and 
+to send the "sum of digits" of the given number to the "driver function" using "function return statement"
+-- 25 points 
+iii) Define a function 
+int findMaxOfThree(const int& firstNumber, const int& secondNumber, const int& thirdNumber,
+	int& minmumAlias)
+to receive "three numbers" as "first three arguments" from the "driver function" and 
+to send "maximum of those numbers" using the "function return statement" 
+   and "minimum of those numbers" using the "fourth argument" to the "driver function"
+Note: Use if..else statement to find maximum whereas use conditional operator to find minimum    
+--25 points 
+iv) 
+The "driver program" (main function) will read the "three numbers" from the user 
+as "console input" using statement "C++ cin".
+You are requested to find the the "maximum" and "minimum" of those numbers 
+using the function "findMaxOfThree".
+Then find the "difference" betwteen the "maximum" and the "minimum" numbers 
+using the function "findMaxOfThree"
+Then find the "sum of the digits" of the "difference" 
+Finally print the given three numbers, the minumum, maximum, "difference of minium and maximum"
+and the "sum of digits of difference" one by one using the captions "First Number:",
+"Second Number:", "Third Number:", "Maximum:", "Minimum:", "Difference of minumn and maximum:", and
+"Sum of Digits:".
+The above task (from reading three numbers to finding sum of digits of the difference
+of the maximum and minimum of those numbers)  has to be done three times using "for loop".
+Keep the number "3" in the macro constant "NUMBER_OF_TIMES" and use in the "for loop" 
+--30 points
+   
+Test Case:
+Input:
+Enter First Number: 2022
+Enter Second Number: 2050
+Enter Third Number: 1882
+Output:
+First Number: 2022
+Second Number: 2050
+Third Number: 1882
+Maximum: 2050
+Minimum: 1882 
+Difference of minumn and maximum: 168
+Sum of Digits: 15	
+
+
+Note:
+You have to check the sum of digits is odd or even using the function 
+bool checkIsOdd(const int &num)
+and Print after the "Sum of Digits:" is printed 
+Extra Output:
+Sum of Digits is odd.
+Or 
+Sum of Digits is even.
