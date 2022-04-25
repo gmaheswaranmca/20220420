@@ -30,7 +30,7 @@ as "console input" using statement "C++ cin".
 You are requested to find the the "maximum" and "minimum" of those numbers 
 using the function "findMaxOfThree".
 Then find the "difference" betwteen the "maximum" and the "minimum" numbers 
-using the function "findMaxOfThree"
+using the function "findDifference"
 Then find the "sum of the digits" of the "difference" 
 Finally print the given three numbers, the minumum, maximum, "difference of minium and maximum"
 and the "sum of digits of difference" one by one using the captions "First Number:",
