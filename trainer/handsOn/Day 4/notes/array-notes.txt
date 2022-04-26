@@ -1,0 +1,549 @@
+Data Structures in C++
+	• Arrays
+		o Creating and using arrays
+		o Character arrays
+	▪ Null character
+	▪ Strings
+	▪ Functions in string.h
+		o 2 dimensional arrays
+		o Passing arrays as arguments to functions
+	• Structures
+		o Creating and using structures
+		o Array as the member if a structure
+		o Array of structures
+		o Structure as the member of a structure
+		o Passing structures as parameters to functions
+		o Returning a structure from a function
+	• Unions
+		o Creating a using unions
+		o Difference between structures and unions
+---------------------------------------------------------
+Array: sequence of data of similar type 
+    elements are contiguous in memory
+	constant pointer -> holds base address 
+	!base address: address of first element 
+    syntax:
+    i)
+	type name[size];
+	
+    ii)
+	type *name;
+	name = (type*)malloc(size*sizeof(type));
+	
+	Example:
+    i)
+	double salary[10]; // [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] //salary will hold base address
+						  100 108 116 ....	addr 
+							
+	or
+    ii)
+	double *salary = (double*)malloc(10*sizeof(double)); //10*8=80 void* -> double* -> 10 eight double blocks
+					 (double*)calloc(10,sizeof(double))	
+					 
+	---------------------
+	Access
+	---------------------
+	name[index] // index starts 0 // why zero?
+	
+	*salary = 400000.0;
+	
+	salary = &double_var; //wrong 
+	---------------------
+	salary[0] 				salary[I]
+	*(salary + 0)			*(salary + I) // I=5  -> 140 is address where 6th element will be 
+	*(0 + salary)			*(I + salary)
+	0[salary]				I[salary]
+	---------------------
+	Read 
+		int I = 5;
+		double x = salary[I];
+	Write
+		int I = 5;
+		salary[I] = 700000.0;
+	Iteration:
+		for loop:
+		Forward Traversal:
+			// SIZE macro constant = 10
+			//reading from console
+			double salary[SIZE];
+			cout << "Enter salaries one by one:" << endl;
+			for(int index = 0 ; index < SIZE; index++){
+				cout << "Salary at index " << index << ":";
+				cin >> salary[index];
+			}
+			//processing 
+			for(int index = 0 ; index < SIZE; index++){
+				salary[index] = salary[index] << 1000.0; // += 1000.0
+			}
+			//writing 
+			cout << "Salaries:" << endl;
+			for(int index = 0 ; index < SIZE; index++){
+				cout << salary[index] + " ";
+			}
+			
+			//Pointer version
+			cout << "Salaries:" << endl;
+			for(int index = 0 ; index < SIZE; index++){
+				cout << *(salary + index) << " ";
+			}
+			
+		Backward Traversal:
+			//writing 
+			cout << "Reverse of Salaries:" << endl;
+			for(int index = SIZE -1; index >= 0; index--){
+				cout << salary[index] << " ";
+			}
+			
+		recursive function:
+		Forward Traversal:
+			void printSalary(double salary[], int N, int I){
+				if(I < N){
+					cout << salary[I] << " ";
+					printSalary(salary, N, I+1);
+				}
+			}
+			
+			Driver Code:
+			double salary[SIZE];
+			//...
+			cout << "Salaries:" << endl;
+			printSalary(salary,SIZE,0);
+	
+		Backward Traversal:
+			void printSalary(double salary[], int N, int I){
+				if(I < N){
+					printSalary(salary, N, I+1);
+					cout << salary[I] << " ";
+				}
+			}
+			Driver Code:
+			double salary[SIZE];
+			//...
+			cout << "Reverse of the Salaries:" << endl;
+			printSalary(salary,SIZE,0);
+			
+		//
+------------------------------------------------------------		
+Code Tested:
+------------------------------------------------------------
+
+#define SIZE 5
+#include <iostream>
+
+using namespace std;
+
+int main() {
+    double salary[SIZE];
+    //cout << "Enter salaries one by one:" << endl;
+    for(int index = 0 ; index < SIZE; index++){
+    	//cout << "Salary at index " << index << ":";
+    	cin >> salary[index];
+    }
+    
+    cout << "Salaries:" << endl;
+	for(int index = 0 ; index < SIZE; index++){
+		cout << salary[index] << " ";
+	}
+	
+	//Pointer version
+	cout << endl << "Salaries(Pointer Arithmetic):" << endl;
+	for(int index = 0 ; index < SIZE; index++){
+		cout << *(salary + index) << " ";
+	}
+	
+	cout << endl << "Reverse of Salaries:" << endl;
+	for(int index = SIZE -1; index >= 0; index--){
+		cout << salary[index] << " ";
+	}
+}		
+	
+------------------------------------------------------------	
+Modularize the code into functions:
+------------------------------------------------------------
+#define SIZE 5
+#include <iostream>
+
+using namespace std;
+void inputSalaries(double salary[], int length) {
+	cout << "Enter salaries one by one:" << endl;
+	for (int index = 0; index < length; index++) {
+		cout << "Salary at index " << index << ":";
+		cin >> salary[index];
+	}
+}
+
+void travelSalariesF(double salary[], int length) {
+	cout << "Salaries:" << endl;
+	for (int index = 0; index < length; index++) {
+		cout << salary[index] << " ";
+	}
+}
+
+void travelSalariesFByPointer(double salary[], int length) {
+	cout << endl << "Salaries(Pointer Arithmetic):" << endl;
+	for (int index = 0; index < length; index++) {
+		cout << *(salary + index) << " ";
+	}
+}
+
+void travelSalariesB(double salary[], int length) {
+	cout << endl << "Reverse of Salaries:" << endl;
+	for (int index = length - 1; index >= 0; index--) {
+		cout << salary[index] << " ";
+	}
+}
+int main() {
+	double salary[SIZE];
+	//
+	inputSalaries(salary, SIZE);
+
+	travelSalariesF(salary, SIZE);
+
+	//Pointer version
+	travelSalariesFByPointer(salary, SIZE);
+
+	travelSalariesB(salary, SIZE);
+
+	return EXIT_SUCCESS;
+}	
+	
+------------------------------------------------------------
+Into recursion:	
+------------------------------------------------------------
+#define SIZE 5
+#include <iostream>
+
+using namespace std;
+void inputSalaries(double salary[], int length, int index) {
+	if (index < length) {
+		cout << "Salary at index " << index << ":";
+		cin >> salary[index];
+		inputSalaries(salary, length, index + 1);
+	}
+}
+
+void travelSalariesF(double salary[], int length, int index) {
+	if (index < length) {
+		cout << salary[index] << " ";
+		travelSalariesF(salary, length, index + 1);
+	}
+}
+
+void travelSalariesFByPointer(double salary[], int length, int index) {
+	if (index < length) {
+		cout << *(salary + index) << " ";
+		travelSalariesFByPointer(salary, length, index + 1);
+	}
+}
+
+void travelSalariesB(double salary[], int length, int index) {
+	if (index < length) {
+		travelSalariesB(salary, length, index + 1);
+		cout << salary[index] << " ";
+	}
+}
+int main() {
+	double salary[SIZE];
+	//
+	cout << "Enter salaries one by one:" << endl;
+	inputSalaries(salary, SIZE, 0);
+
+	cout << "Salaries:" << endl;
+	travelSalariesF(salary, SIZE, 0);
+
+	//Pointer version
+	cout << endl << "Salaries(Pointer Arithmetic):" << endl;
+	travelSalariesFByPointer(salary, SIZE, 0);
+
+	cout << endl << "Reverse of Salaries:" << endl;
+	travelSalariesB(salary, SIZE, 0);
+
+	return EXIT_SUCCESS;
+}
+------------------------------------------------------------
+Experiment do on recursion
+What is the output of the below code?
+------------------------------------------------------------
+void travelSalaries(double salary[], int length, int index) {
+	if (index < length) {
+		cout << salary[index] << " ";
+		travelSalaries(salary, length, index + 1);
+        if(index == length - 1){
+            cout << "Salaries 1:" << endl;
+        }
+        cout << salary[index] << " ";
+	}
+}
+Driver Code(main function):
+double salary[SIZE] = {1000.0,1200.0,2000.0,1800.0,1002.0};
+cout << endl << "Salaries:" << endl;
+travelSalaries(salary, SIZE, 0);
+
+Output: ???
+1000.0 1200.0 2000.0 1800.0 1002.0
+------------------------------------------------------------
+Function call tracing:
+------------------------------------------------------------
+travelSalaries(...index=5)   x   v 
+travelSalaries(...index=4) ^1001 v \nSalaries 1:\n1002
+travelSalaries(...index=3) ^1800 v 1800
+travelSalaries(...index=2) ^2000 v 2000
+travelSalaries(...index=1) ^1200 v 1200   
+travelSalaries(...index=0) ^1000 v 1000   
+main()                     ^        End
+
+So output:
+Salaries:
+1000 1200 2000 1800 1002 
+Salaries 1:
+1002 1800 2000 1200 1000
+------------------------------------------------------------
+Purpose of the using array: to handle more than one data 
+------------------------------------------------------------
+10 20 30
+40 50 60
+70 90 90 3x3 square matrix 
+
+1   2  3  4  5
+6   7  8  0 10
+11 13 15 17 19 3x5 
+------------------------------------------------------------
+Two-dimensional array:array of arrays, matrix, table 
+    #define MAX_ROWS 10
+    #define MAX_COLS 10
+    Declaration:
+        float salaryMatrix[MAX_ROWS][MAX_COLS];
+        int rowCount=3, colCount=5;
+    Access: the element at second row   fourth column 
+                             index 1     index 3 
+        Write:
+            salaryMatrix[1][3] = 17.0f;
+        Read:
+            float x = salaryMatrix[1][3];
+        Traversal:
+            cout << "The matrix:" << endl;
+            for(int rowIndex = 0; rowIndex < rowCount; rowIndex++){ //0 1 2
+                for(int colIndex =0; colIndex < colCount; colIndex++){ //0 1 2 3 4
+                    cout << salaryMatrix[rowIndex][colIndex] << " ";
+                }
+                cout << endl;
+            }
+------------------------------------------------------------
+Reading and Printing the martrix
+------------------------------------------------------------            
+#define MAX_ROWS 10
+#define MAX_COLS 10        
+#include <iostream>
+using namespace std;
+
+int main(){
+    float salaryMatrix[MAX_ROWS][MAX_COLS];
+    int rowCount=3, colCount=5;
+    cout << "Enter rows count:"; 
+    cin >> rowCount;
+    
+    cout << "Enter columns count:"; 
+    cin >> colCount;
+    
+    cout << "Enter data for the matrix of size " << rowCount << "x" << colCount << endl;
+    for(int rowIndex = 0; rowIndex < rowCount; rowIndex++){ 
+        for(int colIndex =0; colIndex < colCount; colIndex++){ 
+            cout << "Element at row " << rowIndex << " and col at " << colIndex << ":";
+            cin >> salaryMatrix[rowIndex][colIndex];
+        }
+    }    
+    cout << "The matrix:" << endl;
+    for(int rowIndex = 0; rowIndex < rowCount; rowIndex++){ 
+        for(int colIndex =0; colIndex < colCount; colIndex++){ 
+            cout << salaryMatrix[rowIndex][colIndex] << " ";
+        }
+        cout << endl;
+    }
+    
+    return 0;
+}
+
+------------------------------------------------------------
+3
+5
+1   2  3  4  5
+6   7  8  0 10
+11 13 15 17 19
+------------------------------------------------------------
+Reading and Printing the martrix using functions
+------------------------------------------------------------
+#define MAX_ROWS 10
+#define MAX_COLS 10        
+#include <iostream>
+using namespace std;
+void inputSalaryMarix(float sal[][MAX_COLS], const int& rows, const int& cols) {
+	cout << "Enter data for the salary matrix of size " << rows << "x" << cols << endl;
+	for (int rowIndex = 0; rowIndex < rows; rowIndex++) {
+		for (int colIndex = 0; colIndex < cols; colIndex++) {
+			cout << "Element at row " << rowIndex << " and col at " << colIndex << ":";
+			cin >> sal[rowIndex][colIndex];
+		}
+	}
+}
+void printSalaryMatrix(float sal[][MAX_COLS], const int& rows, const int& cols) {
+	cout << "The salary matrix:" << endl;
+	for (int rowIndex = 0; rowIndex < rows; rowIndex++) {
+		for (int colIndex = 0; colIndex < cols; colIndex++) {
+			cout << sal[rowIndex][colIndex] << " ";
+		}
+		cout << endl;
+	}
+}
+
+int main() {
+	float salaryMatrix[MAX_ROWS][MAX_COLS];
+	int rowCount = 3, colCount = 5;
+	cout << "Enter rows count:";
+	cin >> rowCount;
+
+	cout << "Enter columns count:";
+	cin >> colCount;
+
+	inputSalaryMarix(salaryMatrix, rowCount, colCount);
+
+	printSalaryMatrix(salaryMatrix, rowCount, colCount);
+
+	return 0;
+}
+------------------------------------------------------------
+1. Read N long numbers from console 
+   and find sum of odd numbers in the list 
+------------------------------------------------------------   
+#define MAX_SIZE 1000
+#include<iostream>
+
+using namespace std;
+
+
+void readNumbers(long numList[], const int &count) {
+	cout << "Enter large numbers one by one:" << endl;
+	for (int index = 0; index < count; index++) {
+		cout << "Enter number at index " << index << ":";
+		cin >> numList[index];
+	}
+}
+
+long findSumOfOdd(long numList[], const int& count) {
+	long sum = 0L;
+	for (int index = 0; index < count; index++) {
+		if (numList[index] % 2 != 0) {
+			sum = sum + numList[index];
+		}
+	}
+	return sum;
+}
+
+int main() {
+	int numCount;
+	cout << "Enter number of numbers:";
+	cin >> numCount; 
+	
+	long numbers[MAX_SIZE];
+	readNumbers(numbers, numCount);
+	long sumOfNums = findSumOfOdd(numbers, numCount);
+
+	cout << "Sum of Odd Numbers is " << sumOfNums << endl;
+
+	return EXIT_SUCCESS;
+}
+------------------------------------------------------------
+Data:
+3
+11 20 13
+------------------------------------------------------------
+2. Read MxN int matrix 
+   and find sum of numbers of each row 
+   
+   10 20 30 40 50                   => 150
+   60 70 80 90 12                   => 312
+   14 16 18 22 24  3 x 5 matrix     => 94
+------------------------------------------------------------
+#define MAX_ROWS 10
+#define MAX_COLS 10
+#include<iostream>
+
+using namespace std;
+
+
+void readMatrx(int mat[][MAX_COLS],const int& rows, const int& cols) {
+	cout << "Enter the matrix:" << endl;
+	for (int I = 0; I < rows; I++) {
+		for (int J = 0; J < cols; J++) {
+			cout << "Enter the element at row " << I << " at col " << J << ":";
+			cin >> mat[I][J];
+		}
+	}
+}
+int findArraySum(int ar[], const int& size) {
+	int s = 0;
+	for (int K = 0; K < size; K++) {
+		s = s + ar[K];
+	}
+	return s;
+}
+
+void findSumOfEachRow(int mat[][MAX_COLS], const int& rows, const int& cols, int sumAr[]) {
+	long sum = 0L;
+	for (int I = 0; I < rows; I++) {
+		sumAr[I] = findArraySum(mat[I], cols);
+	}
+}
+
+int main() {
+	int M, N;
+	int matrix[MAX_ROWS][MAX_COLS], sumOfRow[MAX_ROWS];
+	cout << "Enter size of the matrix(MxN) space separated:";
+	cin >> M >> N;
+
+	readMatrx(matrix, M, N);
+
+	findSumOfEachRow(matrix, M, N, sumOfRow);
+
+	cout << "Sum of the rows:" << endl;
+	for (int L = 0; L < M; L++) {
+		cout << sumOfRow[L] << " ";
+	}
+
+	return EXIT_SUCCESS;
+}
+------------------------------------------------------------
+Data:
+3 5
+10 20 30 40 50
+60 70 80 90 12
+------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
