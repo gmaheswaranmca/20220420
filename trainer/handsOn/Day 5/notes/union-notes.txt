@@ -49,6 +49,8 @@ gate_keeper app:
 			int person_type;
 			persons_t person;
 		}
+----------------------------------
+Union Example
 ----------------------------------		
 #define _CRT_SECURE_NO_WARNINGS
 #include<iostream>
