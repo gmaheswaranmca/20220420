@@ -1,0 +1,283 @@
+Strings
+	String
+	Character arrays
+	Null character
+	Functions in string.h
+
+Unions
+	Creating and using unions
+	Difference between structures and unions
+---------------------------------------------------------------------------
+char literal: single quoted single character 'H' 'Z' 
+null character: '\0'
+string literal: double quoted sequence of characters "Maheswaran"	 "Govindaraju"
+c-string variable: null terminated character array 
+---------------------------------------------------------------------------
+c-string:
+Declaration:
+	char firstName[256];
+	char firstName[] = "Maheswaran";
+	char firstName[256] = "Maheswaran";
+					// [M] [a] [h] [e] [s] [w] [a] [r] [a] [n] [\0] [?] [?] [?] ... [?]
+			//  index   0   1   2   3   4   5   6   7   8   9   10  ................255
+			//  addr    310 311 312 313 314 315 316 317 318 319 310 311             565
+	char firstName[256] = {'M','a','h','e','s','w','a','r','a','n'};
+	
+Read from firstName: #include<cstring>
+	strcpy(anotherName, firstName); //firstName is copied into anotherName
+	
+Write into firstName: #include<cstring>
+	strcpy(firstName,anotherName); //firstName is copied into anotherName
+---------------------------------------------------------------------------	
+To find length of c-string: 
+	int count = strlen(firstName);
+---------------------------------------------------------------------------		
+To concat two c-strings:
+	char firstName[256] = "Maheswaran ";
+	char lastName[256] = "Govindaraju";
+	strcat(firstName,lastName); 
+	Here, characters from lastName is appended to firstName 
+	So, firstName becomes "Maheswaran Govindaraju"
+	Note:lastName remains unchanged
+---------------------------------------------------------------------------
+Assignment of a string into another string is not possible using assignment operator
+We use strcpy to do assignment of a string into another string 
+---------------------------------------------------------------------------
+Example for strcpy, strlen
+---------------------------------------------------------------------------
+#define _CRT_SECURE_NO_WARNINGS
+#include<iostream>
+#include<cstring>
+using namespace std;
+int main(){
+	char firstName[256];
+	char anotherName[256];
+	
+	cout << "Enter first name:";
+	cin >> firstName;
+	strcpy(anotherName,firstName);
+	cout << "first name: " << firstName << endl;
+	cout << "another name: " << anotherName << endl;
+	
+	cout << "char count in first name: " << strlen(firstName) << endl;
+	
+	return EXIT_SUCCESS;
+}
+---------------------------------------------------------------------------
+Example to write the code replacing the strcpy
+---------------------------------------------------------------------------
+#define _CRT_SECURE_NO_WARNINGS
+#include<iostream>
+#include<cstring>
+using namespace std;
+int main() {
+	char firstName[256];
+	char anotherName[256];
+
+	cout << "Enter first name:";
+	cin >> firstName;					//Maheswaran \0
+	//strcpy(anotherName, firstName);	//0123456789 10
+	int I = 0;
+	for (I=0; firstName[I] != '\0'; I++) { //for (int I; I < 256; I++)
+		anotherName[I] = firstName[I];
+	}
+	anotherName[I] = '\0';
+	cout << "first name: " << firstName << endl;
+	cout << "another name: " << anotherName << endl;
+
+	cout << "char count in first name: " << strlen(firstName) << endl;
+
+	return EXIT_SUCCESS;
+}
+---------------------------------------------------------------------------
+Example for strcat
+---------------------------------------------------------------------------
+#define _CRT_SECURE_NO_WARNINGS
+#include<iostream>
+#include<cstring>
+
+using namespace std;
+int main(){
+	char firstName[256];
+	char lastName[256];
+	
+	cout << "Enter first name:";
+	cin >> firstName;	            
+	
+	cout << "Enter last name:";
+	cin >> lastName;                
+	
+	strcat(firstName,lastName);     
+	cout << "first name: " << firstName << endl;
+	cout << "last name: " << lastName << endl;
+	
+	return EXIT_SUCCESS;
+}
+---------------------------------------------------------------------------
+Solve:
+---------------------------------------------------------------------------
+Console read the two c-strings "firstName", "lastName" 
+and do string addition (concatenation) of those names into "fullName" c-string
+---------------------------------------------------------------------------
+#define _CRT_SECURE_NO_WARNINGS
+#include<iostream>
+#include<cstring>
+
+using namespace std;
+int main(){
+	char firstName[256];
+	char lastName[256];
+	char fullName[256];
+	
+	cout << "Enter first name:";
+	cin >> firstName;			// "Maheswaran"
+	
+	cout << "Enter last name:";
+	cin >> lastName;			// "Govindaraju"
+	
+	strcpy(fullName,firstName);	// fullName <= "Maheswaran"
+	strcat(fullName," ");		// fullName <= "Maheswaran "
+	strcat(fullName,lastName);	// fullName <= "Maheswaran Govindaraju"
+	cout << "first name: " << firstName << endl;
+	cout << "last name: " << lastName << endl;
+	cout << "full name: " << fullName << endl;
+	
+	return EXIT_SUCCESS;
+}
+---------------------------------------------------------------------------
+c-string functions:
+strcpy(s1,s2)		s1=s2
+strncpy(s1,s2,n)	s1=first "n" chars of "s2"
+strlen(s1)			len of s1 
+strcat(s1,s2)		s1=s1+s2 
+strncat(s1,s2,n)	s1=s1+ first "n" chars of "s2"
+strcmp(s1,s2)		s1<s2 ? negative : (s1>s2 ? positive : zero)
+strncmp(s1,s2,n)	s1_n_chars<s2_n_chars ? negative : (s1_n_chars>s2_n_chars ? positive : zero)
+strchr(s,ch)		is ch in s !!!note: first occurance of ch
+					returns the string starting from ch 
+							or NULL ptr 
+strrchr(s,ch)		is ch in s from right side!!!first occurance from right side
+					returns the string start from found ch 
+							or NULL ptr 
+strstr(s1,s2)		is s2 in s1 !!!note: first occurance of s2							
+					returns the string starting from s2	
+							or NULL ptr 
+---------------------------------------------------------------------------
+Example for strcmp
+---------------------------------------------------------------------------
+#define _CRT_SECURE_NO_WARNINGS
+#include<iostream>
+#include<cstring>
+
+using namespace std;
+int main(){
+	cout << strcmp("apple","banana") << endl;
+	cout << strcmp("banana","apple") << endl;
+	cout << strcmp("apple","apple") << endl;
+	cout << strcmp("apple cake","apple fruit") << endl;
+	cout << strncmp("apple cake","apple fruit",5) << endl;
+	cout << strchr("apple cake",'p') << endl;
+	cout << strrchr("apple cake",'p') << endl;
+	cout << strstr("apple is a word. the word means a fruit.","word") << endl;
+	return EXIT_SUCCESS;
+}
+---------------------------------------------------------------------------
+To extract each attribute of employee record in csv (comma separated value)
+Example:
+101,Maheswaran,Trainer
+---------------------------------------------------------------------------
+#define _CRT_SECURE_NO_WARNINGS
+#include<iostream>
+#include<cstring>
+
+using namespace std;
+int main() {
+	
+	char csv[] = "101,Maheswaran,Trainer";
+	char* attr;
+	cout << "The csv text:";
+	cout << csv << endl;
+
+	attr = strtok(csv, ",");
+	while (attr != NULL)
+	{
+		cout << attr << endl;
+		attr = strtok(NULL, ",");
+	}
+	
+	return EXIT_SUCCESS;
+}
+---------------------------------------------------------------------------
+To extract each attribute of employee record in csv (comma separated value)
+and assign into emp structure object
+Example:
+101,Maheswaran,Trainer,200.20
+---------------------------------------------------------------------------
+#define _CRT_SECURE_NO_WARNINGS
+#include<iostream>
+#include<cstring>
+#include<cstdlib>
+
+using namespace std;
+
+struct _emp_t {
+	int empId;
+	char empName[256];
+	char jobTitle[256];
+	float sal;
+};
+typedef struct _emp_t emp_t;
+int main() {
+	emp_t mahesh;
+	char csv[] = "101,Maheswaran,Trainer,200.20";
+	char* attr;
+	cout << "The csv text:";
+	cout << csv << endl;
+
+	attr = strtok(csv, ","); // "101"
+	mahesh.empId = atoi(attr);
+	attr = strtok(NULL, ","); // "Maheswaran"
+	strcpy(mahesh.empName, attr);
+	attr = strtok(NULL, ","); // "Trainer"
+	strcpy(mahesh.jobTitle, attr);
+	attr = strtok(NULL, ","); // "200.20"
+	mahesh.sal = atof(attr);
+
+	cout << "empId:" << mahesh.empId << endl;
+	cout << "empName:" << mahesh.empName << endl;
+	cout << "jobTitle:" << mahesh.jobTitle << endl;
+	cout << "sal:" << mahesh.sal << endl;
+
+	return EXIT_SUCCESS;
+}
+---------------------------------------------------------------------------
+ 5. reverse string, fibonacii
+--------------------------------------------------------------------------- 
+#define _CRT_SECURE_NO_WARNINGS
+#include<iostream>
+#include<cstring>
+using namespace std;
+
+void stringReverse(char text[], char reversed[]) {
+	//find the last index of the given word using strlen -> lastIndex=strlen(text)-1;
+	//(::J=0)
+	//from the last index till 0 th index (::I) <-- Decrement loop
+	//	loop
+			//copy character into reversed
+			//reversed[J] = text[I]; J++;
+	//  end loop
+}
+
+int main() {
+	char someText[256];
+	char result[256];
+	cout << "Enter text/name:";
+	cin >> someText;	//fibonacii
+
+	stringReverse(someText, result);
+
+	cout << "Reverse of " << someText << " is " << result;
+
+	return EXIT_SUCCESS;
+}
+---------------------------------------------------------------------------

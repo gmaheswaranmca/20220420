@@ -1,0 +1,282 @@
+union
+----------------------------------
+union is like struct type
+struct declaration creates memory for all the members of struct type 
+	we can access any member without any loss of data 
+	struct is used to define record type such as employee, person, flight, etc
+----------------------------------	
+union  declaration creates memory for largest member of union type 
+	we can access the member what we did write just
+	if we try to access the member other than just we wrote, the loss of data or 
+		unpredicatable data we will get 
+	union is used along with the struct to save the memory.
+		how?
+			example:
+				if there are three class of peoples coming to the gate of the school
+				a. teacher	identified by name	  (c-string[256])
+				b. student	identified by roll_no (int)
+				c. parent   identified by parent aadhaar number (long long)
+				"gate keeper log app" we maitain record of attributes
+					time			c-string[6] "10:30"
+					person_type		int !!!1-teacher, 2-student, 3-parent 
+					person			either teacher, student, parent 
+			So,
+			union persons_t{
+				char teacher_name[256];
+				int student_roll_no;
+				long long parent_aadhaar_no;
+			};
+			struct gate_log_t{
+				char time[6];
+				int person_type;
+				persons_t person;
+			}
+----------------------------------	
+gate_keeper app:
+	Define the struct "gate_log_t" to store a gate entry.
+	Read the gate entry 
+	Note: Based on "person_type" we have to read either of student, teacher or parent detail
+	And print the gate entry 
+	
+	Required types:
+		union persons_t{
+			char teacher_name[256];
+			int student_roll_no;
+			long long parent_aadhaar_no;
+		};
+		struct gate_log_t{
+			char time[6];
+			int person_type;
+			persons_t person;
+		}
+----------------------------------		
+#define _CRT_SECURE_NO_WARNINGS
+#include<iostream>
+
+using namespace std;
+
+struct emp_st {
+	int empId;
+	char empName[256];
+	float salaray;
+};
+
+union emp_ut {
+	int empId;			//4
+	char empName[256];	//256
+	float salaray;		//4
+};
+int main() {
+	struct emp_st empS;
+	empS.empId = 101;
+	strcpy(empS.empName, "Mahesh");
+	empS.salaray = 2000;
+
+	cout << "Employee Struct object:" << endl;
+	cout << "ID:" << empS.empId << endl;
+	cout << "Name:" << empS.empName << endl;
+	cout << "Salary:" << empS.salaray << endl;
+
+	union emp_ut empU;	
+	empU.empId = 101;
+	empU.salaray = 2000;
+	strcpy(empU.empName, "Mahesh");
+	
+	cout << "Employee Union object:" << endl;
+	cout << "ID:" << empU.empId << endl;
+	cout << "Name:" << empU.empName << endl;
+	cout << "Salary:" << empU.salaray << endl;
+
+	return EXIT_SUCCESS;
+}
+----------------------------------
+3:30PM teacher Name:Manikanda
+3:35PM student 1030					Anil
+3:40PM student 4012					Shrikant
+4:00PM parent 3456 7898 7323   		Maheswaran
+
+Avinash is the programmer 
+
+struct log_t{
+	char time[10];
+	int personType; //1-teacher, 2-student, 3-parent
+	char teacherName[256];
+	int studentRollNum;
+	long long parentAadhaar;
+};	//10 + 4 + 256 + 4 + 10 = 284
+
+500 x 3 per object x 10000 = 10000 x 1500 =
+							 10000 x 500
+
+union persons_t{
+	char teacherName[256];
+	int studentRollNum;
+	long long parentAadhaar;						 
+};	// 256							 
+struct log_t{
+	char time[10];
+	int personType; //1-teacher, 2-student, 3-parent
+	union persons_t person;
+};	//10 + 4 + 256 = 270
+----------------------------------
+#define _CRT_SECURE_NO_WARNINGS
+#include<iostream>
+
+using namespace std;
+
+union persons_t {
+	char teacherName[256];
+	int studentRollNum;
+	long long parentAadhaar;
+};					 
+struct log_t {
+	char time[10];
+	int personType; //1-teacher, 2-student, 3-parent
+	union persons_t person;
+};
+
+void readLog(struct log_t& entry) {
+	cout << "Enter Log:" << endl;
+	
+	cout << "Time:";
+	cin >> entry.time;
+
+	cout << "Person(1-Teacher,2-Student,3-Parent):";
+	cin >> entry.personType;
+
+	switch (entry.personType) {
+	case 1:
+		cout << "Teacher Name:";
+		cin >> entry.person.teacherName;
+		break;
+	case 2:
+		cout << "Student Roll Number:";
+		cin >> entry.person.studentRollNum;
+		break;
+	case 3:
+		cout << "Parent aadhaar number:";
+		cin >> entry.person.parentAadhaar;
+		break;
+	}
+}
+
+void printLog(struct log_t& entry) {
+	cout << "Gate keeper a log entry:" << endl;
+
+	cout << "Time:" << entry.time << endl;
+	
+	switch (entry.personType) {
+	case 1:
+		cout << "Teacher Name:" << entry.person.teacherName << endl;
+		break;
+	case 2:
+		cout << "Student Roll Number:" << entry.person.studentRollNum << endl;
+		break;
+	case 3:
+		cout << "Parent aadhaar number:" << entry.person.parentAadhaar << endl;
+		break;
+	}
+}
+int main() {
+	struct log_t log;
+
+	readLog(log);
+	printLog(log);
+
+	return EXIT_SUCCESS;
+}
+----------------------------------
+Menu Based Gate Keeper App:
+
+----------------------------------
+#define _CRT_SECURE_NO_WARNINGS
+#include<iostream>
+#include<cstdlib>
+
+using namespace std;
+
+union persons_t {
+	char teacherName[256];
+	int studentRollNum;
+	long long parentAadhaar;
+};					 
+struct log_t {
+	char time[10];
+	int personType; //1-teacher, 2-student, 3-parent
+	union persons_t person;
+};
+
+void readLog(struct log_t& entry) {
+	cout << "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^" << endl;
+	cout << "Enter Log:" << endl;
+	
+	cout << "Time:";
+	cin >> entry.time;
+
+	cout << "Person(1-Teacher,2-Student,3-Parent):";
+	cin >> entry.personType;
+
+	switch (entry.personType) {
+	case 1:
+		cout << "Teacher Name:";
+		cin >> entry.person.teacherName;
+		break;
+	case 2:
+		cout << "Student Roll Number:";
+		cin >> entry.person.studentRollNum;
+		break;
+	case 3:
+		cout << "Parent aadhaar number:";
+		cin >> entry.person.parentAadhaar;
+		break;
+	}
+	cout << "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^" << endl;
+}
+
+void printLog(struct log_t& entry) {
+	
+	cout << entry.time << "\t";
+	switch (entry.personType) {
+	case 1:
+		cout << "Teacher Name:" << entry.person.teacherName;
+		break;
+	case 2:
+		cout << "Student Roll Number:" << entry.person.studentRollNum;
+		break;
+	case 3:
+		cout << "Parent aadhaar number:" << entry.person.parentAadhaar;
+		break;
+	}
+	cout << endl;
+}
+int main() {
+	struct log_t logs[100];
+	//struct log_t* logs = (struct log_t*)malloc(100 * sizeof(struct log_t));
+	int count = 0;
+	
+	//1-Entry, 2-View all
+	int menu;
+
+	do{
+		cout << "Choices(1-Entry, 2-View all):" << endl;
+		cout << "Your choice:";
+		cin >> menu;
+
+		switch(menu){
+		case 1:
+			readLog(logs[count]);
+			count++;
+			break;
+		case 2:
+			cout << "**************************************************" << endl;
+			cout << "Time" << "\tDetail" << endl;
+			cout << "**************************************************" << endl;
+			for (int I = 0;I < count;I++) {
+				printLog(logs[I]);
+			}
+			cout << "**************************************************" << endl;
+		}
+	} while (menu == 1 || menu == 2);
+
+	return EXIT_SUCCESS;
+}
