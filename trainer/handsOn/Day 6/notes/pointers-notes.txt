@@ -1,0 +1,430 @@
+Pointers in C++
+	• Pointers
+		o Declaring and using a pointer
+		o * operator
+		o & operator
+		o Array of pointers
+		o Passing pointers as arguments to functions
+		o Pointer to an array
+	▪ Pointer arithmetic
+		o Pointer to a structure
+	▪ The -> operator
+		o Pointer to a pointer
+		o Returning a pointer
+		o Dynamic Memory Allocation
+	▪ new operator
+	▪ delete operator
+	▪ Using new and delete with arrays
+---------------------------------------------	
+Pointer: pointer is a special variable to hold address
+---------------------------------------------
+Operators:
+	a[b]	subscript
+	*a		indirection
+	&a		address-of
+	a->b	member of pointer
+	a.b		member of object
+---------------------------------------------	
+Example:
+	int myvar = 25;		//	[25]
+						//	1776
+	int* foo = &myvar;	//	[1776]
+						//
+	int bar = myvar;	//	[25]
+						//
+---------------------------------------------	
+True comparsons:
+	myvar == 25
+	&myvar == 1776
+	foo == 1776
+	*foo == 25
+---------------------------------------------	
+Declarations:
+	int * number;
+	char * character;
+	double * decimals;
+	T* var;			//T* is pointer type for the type "T"
+	T** var2;		//T** is pointer type for the type "T*"
+					//var2 can hold address of pointer to datatype "T"
+---------------------------------------------	
+	Why for pointer?
+--------------------------------------------------------------	
+Read two numbers and find sum using pointers 
+Notes: Declare variables "firstNum", "secondNum", "sum" 
+and pointers "firstNumAddr", "secondNumAddr", "sumAddr" 
+to point them respectively.
+--------------------------------------------------------------
+#include<iostream>
+using namespace std;
+int main() {
+	int firstNum;
+	int secondNum;
+	int sum;
+
+	int* firstNumAddr = NULL;
+	int* secondNumAddr = NULL;
+	int* sumAddr = NULL;
+
+	firstNumAddr = &firstNum;
+	secondNumAddr = &secondNum;
+	sumAddr = &sum;
+
+	cout << "Enter first number:";
+	cin >> (*firstNumAddr); // (*firstNumAddr) alias for firstNum 
+
+	cout << "Enter second number:";
+	cin >> (*secondNumAddr);
+
+	(*sumAddr) = (*firstNumAddr) + (*secondNumAddr);
+
+	cout << "First number:" << (*firstNumAddr) << endl;
+	cout << "Second number:" << (*secondNumAddr) << endl;
+	cout << "Sum:" << (*sumAddr) << endl;
+
+	return 0;
+}
+--------------------------------------------------------------
+Migrate into functions
+const qualifier for data
+--------------------------------------------------------------
+#include<iostream>
+using namespace std;
+void inputNumbers(int* firstNumAddr, int* secondNumAddr) {
+	cout << "Enter first number:";
+	cin >> (*firstNumAddr); // (*firstNumAddr) alias for firstNum 
+
+	cout << "Enter second number:";
+	cin >> (*secondNumAddr);
+}
+void doFindSum(const int* firstNumAddr, const int* secondNumAddr, int* sumAddr) {
+	(*sumAddr) = (*firstNumAddr) + (*secondNumAddr);
+}
+void print(const int* firstNumAddr, const int* secondNumAddr, const int* sumAddr) {
+	cout << "First number:" << (*firstNumAddr) << endl;
+	cout << "Second number:" << (*secondNumAddr) << endl;
+	cout << "Sum:" << (*sumAddr) << endl;
+}
+int main() {
+	int firstNum;
+	int secondNum;
+	int sum;
+
+	inputNumbers(&firstNum, &secondNum);
+	doFindSum(&firstNum, &secondNum, &sum);
+	print(&firstNum, &secondNum, &sum);	
+
+	return 0;
+}
+--------------------------------------------------------------
+const qualifier for pointer
+--------------------------------------------------------------
+#include<iostream>
+using namespace std;
+void inputNumbers(int*const firstNumAddr, int* const secondNumAddr) {
+	cout << "Enter first number:";
+	cin >> (*firstNumAddr); 
+
+	cout << "Enter second number:";
+	cin >> (*secondNumAddr);
+}
+void doFindSum(const int*const firstNumAddr, const int* const secondNumAddr, int* const sumAddr) {
+	(*sumAddr) = (*firstNumAddr) + (*secondNumAddr);
+}
+void print(const int* const firstNumAddr, const int* const secondNumAddr, const int* const sumAddr) {
+	cout << "First number:" << (*firstNumAddr) << endl;
+	cout << "Second number:" << (*secondNumAddr) << endl;
+	cout << "Sum:" << (*sumAddr) << endl;
+}
+int main() {
+	int firstNum;
+	int secondNum;
+	int sum;
+
+	inputNumbers(&firstNum, &secondNum);
+	doFindSum(&firstNum, &secondNum, &sum);
+	print(&firstNum, &secondNum, &sum);	
+
+	return 0;
+}
+--------------------------------------------------------------
+const keyword in the pointer declaration
+1. after the symbol asterisk *
+    the pointer should not change its address
+2. before the symbol asterisk *
+    the pointer should not change the valued it is pointing 
+    
+Examples:
+    01 const int* p=&var; //using pointer we should not try to write into "var"
+    02 int const* p=&var; //01 and 02 are synonymous 
+    03 int *const p=&var; //the address in the pointer cannot be changed 
+    04 const int*const p=&var; //using pointer we should not try to write into "var"
+                               //and also the address in the pointer cannot be changed  
+--------------------------------------------------------------     
+int x[10000]
+Migration from static allocation to dynamic allocation
+    ===>
+                          
+int N=10;
+int *x = (int*)malloc(N*sizeof(int));  
+        //malloc will create N x bytes required for int 
+            //return void* -> 1 full block 
+        //(int*) type casting from (void*)
+            //void* 1 full block is divided into "N" int blocks 
+            //address of the first block will be returned 
+        //non contiguous blocks 
+int *x = (int*)calloc(N,sizeof(int));        
+        //contiguous blocks -> blocks are very [near] next next
+ 
+    x[0] = 100; x[1]=110; ... x[9]=190;
+x = (int*)realloc(x,N/2*sizeof(int));
+        //x will indices 20 : 0,1,2,..19
+        //deallocates all blocks already allocated using first argument 
+        //allocates number of blocks required 
+        //copies old blocks data 
+        
+free(x); //release the memory        
+C++ version        
+int *x = new int;  // one block int 
+int *x = new int[N];  // dynamic array  
+
+delete int; //one block 
+delete[] int; //dynamic array 
+--------------------------------------------------------------
+/*
+  Read two numbers and find sum using pointers 
+Notes: Declare variables "firstNum", "secondNum", "sum" 
+and pointers "firstNumAddr", "secondNumAddr", "sumAddr" 
+to point them respectively.
+ 
+Migrate into functions
+
+const qualifier for pointer
+
+c-dynamic memory 
+*/
+#include<iostream>
+#include<cstdlib>
+using namespace std;
+void inputNumbers(int*const firstNumAddr, int* const secondNumAddr) {
+	cout << "Enter first number:";
+	cin >> (*firstNumAddr); 
+
+	cout << "Enter second number:";
+	cin >> (*secondNumAddr);
+}
+void doFindSum(const int*const firstNumAddr, const int* const secondNumAddr, int* const sumAddr) {
+	(*sumAddr) = (*firstNumAddr) + (*secondNumAddr);
+}
+void print(const int* const firstNumAddr, const int* const secondNumAddr, const int* const sumAddr) {
+	cout << "First number:" << (*firstNumAddr) << endl;
+	cout << "Second number:" << (*secondNumAddr) << endl;
+	cout << "Sum:" << (*sumAddr) << endl;
+}
+int main() {
+	int* firstNumAddr = NULL;		// to avoid WILD ptr
+	int* secondNumAddr = NULL;
+	int* sumAddr = NULL;
+
+	firstNumAddr = (int*)malloc(1 * sizeof(int));
+	secondNumAddr = (int*)malloc(1 * sizeof(int));
+	sumAddr = (int*)malloc(1 * sizeof(int));
+
+	inputNumbers(firstNumAddr, secondNumAddr);
+	doFindSum(firstNumAddr, secondNumAddr, sumAddr);
+	print(firstNumAddr, secondNumAddr, sumAddr);
+
+	free(firstNumAddr);	//Dangling ptr -> pointer points to released memory block
+	free(secondNumAddr);
+	free(sumAddr);
+
+	firstNumAddr = NULL; //to avoid illegal access with Dangling pt
+	secondNumAddr = NULL;
+	sumAddr = NULL;
+	
+	return 0;
+}                             
+--------------------------------------------------------------
+memory management 
+--------------------------------------------------------------
+NULL ptr -> point to emptry/no address 
+WILD ptr -> the pointer if not initialized can point the memory not allocated for our process
+    -> we may do illegal operation wrt memory management 
+DANGLING ptr -> the pointer after released its memory will hold the same address 
+    -> we may do illegal operation wrt memory management 
+How ll we handle WILD or DANGLING?
+    set the pointers to NULL 
+Memory leak/hold problem?
+    if we are releasing the memory, and those memory are not referred longer in our process,
+    those memory may not be available for any processes (including ours)
+    This poin will lead to memory hole 
+How will we fix Memory leak/hold problem?    
+    Releasing the allocated memory after usage 
+--------------------------------------------------------------    
+/*
+Read two numbers and find sum using pointers 
+Notes: Declare variables "firstNum", "secondNum", "sum" 
+and pointers "firstNumAddr", "secondNumAddr", "sumAddr" 
+to point them respectively.
+ 
+Migrate into functions
+
+const qualifier for pointer
+
+c++ dynamic memory 
+*/    
+#include<iostream>
+#include<cstdlib>
+using namespace std;
+void inputNumbers(int*const firstNumAddr, int* const secondNumAddr) {
+	cout << "Enter first number:";
+	cin >> (*firstNumAddr); 
+
+	cout << "Enter second number:";
+	cin >> (*secondNumAddr);
+}
+void doFindSum(const int*const firstNumAddr, const int* const secondNumAddr, int* const sumAddr) {
+	(*sumAddr) = (*firstNumAddr) + (*secondNumAddr);
+}
+void print(const int* const firstNumAddr, const int* const secondNumAddr, const int* const sumAddr) {
+	cout << "First number:" << (*firstNumAddr) << endl;
+	cout << "Second number:" << (*secondNumAddr) << endl;
+	cout << "Sum:" << (*sumAddr) << endl;
+}
+
+
+int main() {
+	int* firstNumAddr = NULL;	
+	int* secondNumAddr = NULL;
+	int* sumAddr = NULL;
+
+	firstNumAddr = new int;
+	secondNumAddr = new int;
+	sumAddr = new int;
+
+	inputNumbers(firstNumAddr, secondNumAddr);
+	doFindSum(firstNumAddr, secondNumAddr, sumAddr);
+	print(firstNumAddr, secondNumAddr, sumAddr);
+
+	delete firstNumAddr;
+	delete secondNumAddr;
+	delete sumAddr;
+
+	firstNumAddr = NULL; 
+	secondNumAddr = NULL;
+	sumAddr = NULL;
+	
+	return 0;
+}    
+--------------------------------------------------------------
+/*
+Read two numbers and find sum using pointers 
+Notes: Declare variables "firstNum", "secondNum", "sum" 
+and pointers "firstNumAddr", "secondNumAddr", "sumAddr" 
+to point them respectively.
+ 
+Migrate into functions
+
+references for data processing
+
+c++ dynamic memory 
+*/    
+#include<iostream>
+#include<cstdlib>
+using namespace std;
+void inputNumbers(int& firstNum, int& secondNum) {
+	cout << "Enter first number:";
+	cin >> firstNum; 
+
+	cout << "Enter second number:";
+	cin >> secondNum;
+}
+void doFindSum(int& firstNum, int& secondNum, int& sum) {
+	sum = firstNum + secondNum;
+}
+void print(int& firstNum, int& secondNum, int& sum) {
+	cout << "First number:" << firstNum << endl;
+	cout << "Second number:" << secondNum << endl;
+	cout << "Sum:" << sum << endl;
+}
+
+
+int main() {
+	int* firstNumAddr = NULL;	
+	int* secondNumAddr = NULL;
+	int* sumAddr = NULL;
+
+	firstNumAddr = new int;
+	secondNumAddr = new int;
+	sumAddr = new int;
+
+	inputNumbers((*firstNumAddr), (*secondNumAddr));
+	doFindSum((*firstNumAddr), (*secondNumAddr), (*sumAddr));
+	print((*firstNumAddr), (*secondNumAddr), (*sumAddr));
+
+	delete firstNumAddr;
+	delete secondNumAddr;
+	delete sumAddr;
+
+	firstNumAddr = NULL; 
+	secondNumAddr = NULL;
+	sumAddr = NULL;
+	
+	return 0;
+}
+--------------------------------------------------------------
+Qn:
+Create six dynamic memories and put into pointers
+named 
+firstNumAddr, secondNumAddr, sumAddr, diffAddr, productAddr, quotientAddr
+Use following functions 
+void readNumbers(int& firstNum, int& secondNum) to read two numbers 
+void doFindSumExt(int& firstNum, int& secondNum,
+    int &sum, int &diff, int &product, int & quotient); to do sum, diff, product, quotient 
+void print(int& firstNum, int& secondNum,
+    int &sum, int &diff, int &product, int & quotient)
+
+
+void readNumbers(int& firstNum, int& secondNum){
+    cout << "Enter first number:";
+	cin >> firstNum; 
+
+	cout << "Enter second number:";
+	cin >> secondNum;
+}
+void doFindSumExt(int& firstNum, int& secondNum,
+    int &sum, int &diff, int &product, int & quotient){
+        sum = firstNum + secondNum;
+        diff = firstNum - secondNum;
+        product = firstNum * secondNum;
+        quotient = firstNum / secondNum;
+}
+void print(int& firstNum, int& secondNum,
+    int &sum, int &diff, int &product, int & quotient){
+    cout << "First number:" << firstNum << endl;
+	cout << "Second number:" << secondNum << endl;
+	cout << "Sum:" << sum << endl;
+    cout << "Diff:" << diff << endl;
+    cout << "Product:" << product << endl;
+    cout << "Quotient:" << quotient << endl;
+}
+
+int main() {
+    //CODE HERE 
+    return 0;
+}
+------------------------------------------------------
+Solution is updated in the github
+		.... #37
+-----------------------------------------------------
+		Yet to be covered:
+-----------------------------------------------------
+o Array handling using pointer          !!! pointer uses op "subscript"
+o Array handling using pointer          !!! pointer uses op "indirection"
+    but Pointer arithmetic
+o Function, Pass array as pointer
+o Pointer to structure / object 
+o Function, Pass the Pointer to structure / object
+o function Pointer     
+o Dynamic array 
+-----------------------------------------------------
+
