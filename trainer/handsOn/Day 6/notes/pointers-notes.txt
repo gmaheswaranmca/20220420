@@ -3,13 +3,13 @@ Pointers in C++
 		o Declaring and using a pointer
 		o * operator
 		o & operator
-		o Array of pointers
+		o Array of pointers     ***************
 		o Passing pointers as arguments to functions
 		o Pointer to an array
 	▪ Pointer arithmetic
 		o Pointer to a structure
 	▪ The -> operator
-		o Pointer to a pointer
+		o Pointer to a pointer  ***************
 		o Returning a pointer
 		o Dynamic Memory Allocation
 	▪ new operator
@@ -545,6 +545,8 @@ int main() {
 	cout << "Prime Numbers in the given array is " << count << endl;
 
 	delete[] A;
+    
+    A = NULL;
 
 	return EXIT_SUCCESS;
 }
@@ -558,9 +560,45 @@ int main() {
 --------------------------------------------------------------
 #include<iostream>
 using namespace std;
+
+struct _emp_t {
+	int empId;
+	char empName[256];
+	float sal;
+	float bonus;
+};
+typedef struct _emp_t emp_t;
+
+void readEmp(emp_t* empAddr) {
+	cout << "Employee ID:";
+	cin >> (*empAddr).empId;
+
+	cout << "Employee Name:";
+	cin >> (*empAddr).empName;
+
+	cout << "Salary:";
+	cin >> (*empAddr).sal;
+
+	cout << "Bonus:";
+	cin >> (*empAddr).bonus;
+}
+float findTotalSalary(emp_t* empAddr) {
+	float tot = empAddr->sal + empAddr->bonus;
+	return tot;
+}
+
+
 int main() {
-	
-	
+	emp_t* empPtr = new emp_t;
+
+	readEmp(empPtr);
+	float totSal = findTotalSalary(empPtr);
+
+	cout << "Total salary is " << totSal << endl;
+
+	delete empPtr;
+	empPtr = NULL;
+
 	return EXIT_SUCCESS;
 }
 --------------------------------------------------------------
