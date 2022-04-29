@@ -30,6 +30,9 @@ int main() {
 	createNew(&dataAddr); //30000
 	cout << "Address in the dataAddr: " << dataAddr << endl; 
 	cout << "Data by dataAddr: " << (*dataAddr) << endl;
-
+    
+    delete dataAddr;
+    dataAddr = NULL;
+    
 	return EXIT_SUCCESS;
 }
