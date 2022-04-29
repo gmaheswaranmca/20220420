@@ -549,24 +549,18 @@ int main() {
 	return EXIT_SUCCESS;
 }
 --------------------------------------------------------------
-//Find sum of salaries using pass by array, pass by pointer
-//and using subscript operator, indirection operator, pointer arithmetic 
+//Create emp_t of struct {empId, empName, sal, bonus}
+//C++ dynamic memory for emp_t 
+//Read emp details using function void readEmp(emp_t *empAddr)
+//find total salary using function 
+// float findTotalSalary(emp_t *empAddr) 
+//and print the total salary 
+--------------------------------------------------------------
 #include<iostream>
 using namespace std;
 int main() {
-	float salaries[5] = { 1000.0f, 1200.f, 1100.0f, 1300.0f, 1150.0f};//8 byte
-					//		800		808		816		
-	float sum1 = findSumOfSalariesv1(salaries, 5);
-	float sum2 = findSumOfSalariesv2(salaries, 5);
-	float sum3 = findSumOfSalariesv3(salaries, 5);
-	float sum4 = findSumOfSalariesv4(salaries, 5);
-	float sum5 = findSumOfSalariesv4(salaries, 5);
-
-	cout << "v1-The sum of the salaries is " << sum1 << endl;
-	cout << "v2-The sum of the salaries is " << sum2 << endl;
-	cout << "v3-The sum of the salaries is " << sum3 << endl;
-	cout << "v4-The sum of the salaries is " << sum4 << endl;
-	cout << "v5-The sum of the salaries is " << sum5 << endl;
+	
+	
 	return EXIT_SUCCESS;
 }
 --------------------------------------------------------------
