@@ -602,3 +602,150 @@ int main() {
 	return EXIT_SUCCESS;
 }
 --------------------------------------------------------------
+pointer to pointer 
+array of pointers
+function pointer 
+--------------------------------------------------------------
+pointer to pointer : double pointer 
+int *x = new int; //pointer to value 
+or 
+int y = 10; // value 
+int *x = &y;//pointer to value 
+--------------------------------------------------------------
+T obj;
+T* objAddr = &obj;
+
+type is int*
+we want the pointer for our type
+
+int** is pointer type for the type int*
+
+Declaration:
+int **s = &x; //pointer to pointer or double pointer 
+
+as we had the type int**
+can we have the pointer for it?
+
+int*** t = &s; // pointer to "pointer to pointer"  | triple pointer 
+--------------------------------------------------------------
+using namespace std;
+void createNew(int N) {
+	N = 20;
+}
+
+int main() {
+	int M = 10;
+	cout << M << endl; //10
+	createNew(M);
+	cout << M << endl; //10
+	return EXIT_SUCCESS;
+}
+Symbols of above code:
+main() : M=10
+createNew() : N = 20
+--------------------------------------------------------------
+
+using namespace std;
+void createNew(int* p) {
+	delete p;
+	p = NULL;
+
+	p = new int;
+	*p = 200;
+}
+
+int main() {
+	int* x = new int; // x is the pointer to value      //I
+	*x = 100;                                           //II
+	cout << "Address in the x: " << x << endl;
+	cout << "Data by x: " << (*x) << endl;
+	createNew(x); //released x we created at I
+	cout << "Address in the x: " << x << endl; //are we getting newly created block
+	cout << "Data by x: " << (*x) << endl;
+
+	return EXIT_SUCCESS;
+}
+
+main()
+    x  
+    [5670] int*   --->  [100] released  
+                         5670
+                    
+createNew()      over     
+    p               
+    [9020] ------>      [200]
+                        9020
+    
+    
+--------------------------------------------------------------
+using namespace std;
+void createNew(int* N) {
+	(*N) = 20;
+}
+
+int main() {
+	int M = 10;
+	cout << M << endl; //10
+	createNew(&M);
+	cout << M << endl; //20
+	return EXIT_SUCCESS;
+}
+
+--------------------------------------------------------------
+using namespace std;
+void createNew(int** q) {//q -> 30000
+    int *p = *q; //5670 is copied into p                    [200]9020
+    // [5670] 40000 -> [x] 40000 -> [9020] 40000
+	delete p;
+	p = NULL;
+
+	p = new int;    //9020
+	*p = 200;
+    
+    *q = p;     
+}
+
+int main() {
+	int* x = new int; // x is the pointer to value      //I    [100] 5670
+    //  [5670] 30000 -> [9020] 30000
+	*x = 100;                                           //II
+	cout << "Address in the x: " << x << endl;
+	cout << "Data by x: " << (*x) << endl;
+	createNew(&x); //released x we created at I
+	cout << "Address in the x: " << x << endl; //are we getting newly created block
+	cout << "Data by x: " << (*x) << endl;
+
+	return EXIT_SUCCESS;
+}
+-------------------------------------------------
+Double pointer
+Give proper Namings to the pointers for better readability and understanding
+-------------------------------------------------
+using namespace std;
+void createNew(int** numAddrAddr) { //30000
+    int *numAddr = *numAddrAddr; //numAddr[9020]40000
+    
+	delete numAddr; 
+	numAddr = NULL;
+
+	numAddr = new int;                  //[200]9020
+	*numAddr = 200;
+    
+    *numAddrAddr = numAddr;     
+}
+
+int main() {
+	int* dataAddr = new int; // dataAddr[9020]30000     [100x]5670
+	*dataAddr = 100;               
+	cout << "Address in the dataAddr: " << dataAddr << endl;
+	cout << "Data by dataAddr: " << (*dataAddr) << endl;
+	createNew(&dataAddr); //30000
+	cout << "Address in the dataAddr: " << dataAddr << endl; 
+	cout << "Data by dataAddr: " << (*dataAddr) << endl;
+    
+    delete dataAddr;
+    dataAddr = NULL;
+    
+	return EXIT_SUCCESS;
+}
+-------------------------------------------------
