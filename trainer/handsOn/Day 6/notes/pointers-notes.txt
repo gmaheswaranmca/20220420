@@ -749,3 +749,84 @@ int main() {
 	return EXIT_SUCCESS;
 }
 -------------------------------------------------
+array of pointers
+int *x; // x is pointer to int 
+    //x can have address of single int block 
+    //x can have address of multiple int blocks
+
+int *y[10]; // y is "array of pointers" or "pointer array"
+    y[0] y[1] .. y[9] will be as "pointer to int"
+    
+Wit y, each pointer element can have address of single int block 
+       each pointer element can have address of multipe int blocks
+       
+array of pointers we can think it as matrix 
+
+Qn:
+Using array of pointers 
+    have matrix of size m x n 
+    
+and find sum of all the elements in the matrix     
+-------------------------------------------------
+function pointer
+-------------------------------------------------
+function will also have the address at the time of running 
+So, we can have the function pointer 
+-------------------------------------------------       
+Syntax for declaring function pointer:
+    retType (*fnPtrName)(arg1Type,arg2Type,...) = NULL;
+    
+Assignment:
+    fnPtrName = &fnName;    //fnName should have the same return type and argument signature of fnPtrName
+
+Example functions whose declarations:
+    void deposit(float amount);
+    void withdraw(float amount);
+Function pointers for them:
+    void (*opBankAddr)(float) = NULL;
+Assignment:
+    opBankAddr = &deposit;
+Call using function pointer:
+    (*opBankAddr)(10000.00f);
+
+opBankAddr = &withdraw;    
+(*opBankAddr)(100.00f);
+-------------------------------------------------
+Function Pointers are useful for abstraction based library / framework 
+-------------------------------------------------
+Example for Function Pointer 
+-------------------------------------------------
+#include<iostream>
+using namespace std;
+int findSum(int firstNum, int secondNum) {
+	return firstNum + secondNum;
+}
+int findDiff(int firstNum, int secondNum) {
+	return firstNum - secondNum;
+}
+
+/*int findResult(int firstNum, int secondNum, T* ptr) {
+	findSum(firstNum, secondNum);
+	findDiff(firstNum, secondNum);
+}*/
+
+int main() {
+	int (*opArithAddr)(int, int) = NULL;
+
+	opArithAddr = &findSum;
+	//cout << findSum(10, 20) << endl;
+	cout << (*opArithAddr)(10, 20) << endl;
+
+
+	opArithAddr = &findDiff;
+	//cout << findDiff(40, 5) << endl;
+	cout << (*opArithAddr)(40, 5) << endl;
+
+	return EXIT_SUCCESS;
+}
+ -------------------------------------------------   
+    
+    
+    
+    
+
