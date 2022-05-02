@@ -1,0 +1,275 @@
+--------------------------------------------------------------
+o Different paradigms of problem solving 
+o POP vs OOP
+o Features of Object-Oriented Programming Languages
+		o Object
+		o Class
+		o Abstraction
+		o Encapsulation
+		o Inheritance
+		o Polymorphism
+		o Dynamic Binding
+		o Message Communication
+
+Classes and Objects 
+	• Defining a Class
+	• Creating Objects
+	• Access specifiers
+		o private
+		o public
+	• Accessing Class Members
+	• Achieving abstraction and encapsulation using objects
+	• Scope Resolution Operator (::)
+	• Defining Member Functions
+		o Outside the class
+		o Inside the class
+		o Passing Objects as Arguments
+		o Returning Objects
+	• Function Overloading
+	• Constructors
+		o Properties of constructors
+		o Constructor Overloading
+	▪ Types of constructors
+	• Default Constructors
+	• Parameterized Constructors
+	• Copy Constructors
+	• Destructors
+	• Static Data Members
+	• Static member functions
+	• Constant data members
+	• Constant Member Functions
+	• Friend Functions
+	• Friend Class
+	• Array of objects
+	• Object as member of a class - composition
+		o Container class
+		o Contained class
+		o The “has a” relationship
+	• Pointer to objects
+	• The this pointer
+	• Dynamic objects
+-------------------------------------------------------	
+POP - Procedure Oriented Programming 
+-------------------------------------------------------	
+	Collection of tasks to solve a problem 
+	Top Down Approach
+	Tough to code advanced solutions
+		because track of data and functions operating data 
+
+OOP - Object Oriented Programming 
+	Collection of objects via objects communication 
+	to solve a problem 
+	Bottom Up Approach 
+	Easy to code advanced solutions 
+		because data and functions are encapsulated 
+-------------------------------------------------------	
+Features of Object-Oriented Programming Languages
+-------------------------------------------------------	
+class: type to declare object
+	composite type to declare/define object to hold 
+		o mutiple data of different types 
+			along with 
+		o their encapsulated functions 
+			o to operate on data 
+	
+	Analogy: template, blueprint
+	
+	Examples: 
+		Flight, Customer, Admin, Booking
+		Account, Transaction
+		Employee, Project, Allocation
+--------------------------------------------------------------		
+object: map to real-world object 
+	variable of type class 
+	It holds composite data and their encapsulated functions
+	
+	Analogy: physical entity, actual memory 
+	
+	Exmples: flight, customer, admin, booking
+		account, tran
+		emp, project, allocation
+--------------------------------------------------------------		
+Encapsulation:
+	The Process
+	o To put data and functions together so that
+	functions will operate those data 
+--------------------------------------------------------------	
+Abstraction:
+	The way we call the function or object function 
+	are abstractions where we cannot see the 
+	actual code which is going to run by that function
+--------------------------------------------------------------	
+Inheritance: is-a relationship
+	Mechanism:
+	To create new class using existing class 
+--------------------------------------------------------------	
+Polimorphism:
+	(poly)many (morphism)forms 
+	
+	function overloading: static polimorphism
+		o many functions having same name 
+		but different signatures ie arguments in number, types,
+		arrangements
+	operator overloading:static polimorphism
+		giving different meaning to ther operators to operate on user objects 
+		c3 = c1 + c2
+	function overriding: static polimorphism
+		o having member function of same signature(name, arguments)
+		in both parent and child class 
+	virtual function (dynamic polimorphism/binding):
+		o function overriding 
+		but parent pointer to child object will invoke the 
+		child member function using "virtual" qualifier
+		to the parent function 
+--------------------------------------------------------------	
+Message communication
+	o to make calls of objects services(public member functions) from 
+		o driver program (main function)
+		o another object 
+		o same object 
+		so that states of the object will be changed
+--------------------------------------------------------------	
+Account{accountId, accountNumber, accountHolderName, balance}
+struct Account{
+	int accountId;
+	int accountNumber;
+	char accountHolderName[256];
+	float balance;
+};
+--------------------------------------------------------------
+union Account{
+	int accountId;
+	int accountNumber;
+	char accountHolderName[256];	//256
+	float balance;
+};
+--------------------------------------------------------------
+class Account{
+	int accountId;
+	int accountNumber;
+	char accountHolderName[256];
+	float balance;
+};
+--------------------------------------------------------------
+class 
+	A class is a user-defined type
+	Syntax:
+		class-key class-head-name { member-specification }
+		Here,
+			class-key -	one of class, struct, union
+			class-head-name	-	the name of the class that's being defined
+			member-specification	-	list of access specifiers, 
+					member object and member function 
+					declarations and definitions
+--------------------------------------------------------------
+"this" : keyword 
+	"this" is the pointer to the invoking(calling) object  
+--------------------------------------------------------------
+
+
+//Account.h
+#pragma once
+class Account
+{
+private:
+	static int objCount;
+	static void updateObjCount();
+	int accountId;
+	int accountNumber;
+	char accountHolderName[256];
+	float balance;
+public:
+	Account();
+	void read();
+	void print();
+	void deposit(float amount);
+	void withdraw(float amount);
+	~Account();
+};
+
+
+
+//Account.cpp
+#include "Account.h"
+#include<iostream>
+using namespace std;
+void Account::deposit(float amount) {
+	this->balance = this->balance + amount;
+}
+
+void Account::withdraw(float amount) {
+	this->balance = this->balance - amount;
+}
+void Account::read() {
+	cout << "Enter Account Number:";
+	cin >> this->accountNumber;
+
+	cout << "Enter Account Holder Name:";
+	cin >> this->accountHolderName;
+
+	cout << "Initial Deposit:";
+	cin >> this->balance;
+}
+void Account::print() {
+	cout << "Account ID:" << this->accountId << endl;
+	cout << "Account Number:" << this->accountNumber << endl;
+	cout << "Account Holder Name:" << this->accountHolderName << endl;
+	cout << "Balance:" << this->balance << endl;
+}
+
+//has no-return type, may have args | name is class name
+//at the time object creation (allocating memory)
+//initialization process: intialze attributes, opening the resources
+Account::Account() {
+	Account::updateObjCount();
+	this->accountId = Account::objCount;
+	cout << this->accountId << ")Constructor is called" << endl;
+}
+//has no-return type, have no args | name is class name
+//at the time object destruction (deallocating memory)
+//cleaning up process: releasing the resources
+Account::~Account() {
+	cout << this->accountId << ")Destructor is called" << endl;
+}
+
+int Account::objCount = 0;
+void Account::updateObjCount() {
+	Account::objCount++;
+}
+
+
+
+
+
+//main.cpp
+#define _CRT_SECURE_NO_WARNINGS
+#include<iostream>
+#include"Account.h"
+
+void doProcess(Account& account) {
+	account.read();
+
+	account.deposit(500);
+	account.deposit(1500);
+	account.deposit(500);
+	account.deposit(2000);
+	account.withdraw(100);
+	account.deposit(300); //4700+1000=5700
+
+	account.print();
+}
+
+int main() {
+	Account acMani;
+	doProcess(acMani);
+
+	Account acAnil;
+	Account acUdai;
+		
+	doProcess(acAnil);
+	doProcess(acUdai);
+
+
+	return EXIT_SUCCESS;
+}
+--------------------------------------------------------------	
