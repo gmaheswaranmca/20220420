@@ -307,6 +307,10 @@ difference between static member and non-static member:
 this:
 	the pointer for the called object 
 ---------------------------------------------------------------------
+friend function: non-member function to access the invoked class/object private members
+friend class: another class member functions (static or non-static) 
+	to access the invoked class/object private members
+---------------------------------------------------------------------
 #define _CRT_SECURE_NO_WARNINGS
 #include<iostream>
 #include<cstdlib>
@@ -351,9 +355,18 @@ int main() {
 	return EXIT_SUCCESS;
 }
 ---------------------------------------------------------------------
+c++ dynamic memory 
+new - creates dynamic memory and calls constructor if it is object 
+delete - destroys dynamic memory and calls destrcutor if it is object 
 
-
-
+c vs c++ dynamic memory 
+new and malloc/calloc 
+	new is strictly connected with constructor 
+	malloc/calloc is not at all connected with constructor 
+delete and free 	
+	delete is strictly connected with destrcutor 
+	free is not at all connected with destrcutor 
+---------------------------------------------------------------------
 
 
 
