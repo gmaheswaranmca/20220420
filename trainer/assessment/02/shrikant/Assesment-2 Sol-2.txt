@@ -1,0 +1,33 @@
+#include<iostream>
+using namespace std;
+int findSquare(int& num) {
+	return num * num;
+}
+int findCube(int& num) {
+	return num * num * num;
+}
+int findPower(int& num, int (*givePower) (int&)) {
+
+	return (*givePower)(num);
+
+}
+int main() {
+	int N;
+	cout << "Enter number:";
+	cin >> N;
+
+	int menu;
+	cout << "Enter choice(1-Square, 2-Cube):";
+	cin >> menu;
+
+	switch (menu) {
+	case 1:
+		cout << "square is " << findPower(N, &findSquare) << endl;/* call findPower pass N and findSquare */;
+		break;
+	case 2:
+		cout << "cube is " << findPower(N, &findCube) << endl;/* call findPower pass N and findCube */;
+		break;
+	}
+
+	return EXIT_SUCCESS;
+}

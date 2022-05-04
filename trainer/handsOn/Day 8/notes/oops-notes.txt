@@ -187,7 +187,7 @@ public:
 	~Account();
 };
 
-
+--------------------------------------------------------------
 
 //Account.cpp
 #include "Account.h"
@@ -239,7 +239,7 @@ void Account::updateObjCount() {
 
 
 
-
+--------------------------------------------------------------
 
 //main.cpp
 #define _CRT_SECURE_NO_WARNINGS
@@ -272,4 +272,88 @@ int main() {
 
 	return EXIT_SUCCESS;
 }
+--------------------------------------------------------------
+constructor: special non-static member function
+	it is called at the object creation (instance instantiation)
+	starting up process 
+		o initialize the attributes(member data),
+		o open resource such as file/database/network
+	name of the constructor is its class name 
+	it will not have "return type"
+	it may have arguments (parameters)
+		o no-arg constructor - default constructor 
+		o args constructor - args to update the attributes
+		o copy constructor - arg is the same class object reference (probably const)
+---------------------------------------------------------------------		
+destructor: special non-static member function
+	it is called at the object destruction
+	cleaning up process 
+		o close resource such as file/database/network/printer/barcode scanner
+	name of the destructor is its class name prefixed with tilde (~) symbol
+	it will not have "return type" like constructor 
+	it will not have "arguments" as well 
+---------------------------------------------------------------------	
+difference between static member and non-static member:
+	o static members are common to all objects 
+	o non-static members are belong to the called object 
+	
+	static-members:
+		data (attribute)
+		function - service (utility)
+	non-static members:
+		data (attribute)
+		function - service/constructor/destructor 
+---------------------------------------------------------------------	
+this:
+	the pointer for the called object 
+---------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 --------------------------------------------------------------	
+Generalization: "is a"		Account->Savings,Current
+Association: 
+	Aggregation: "has a"		one-to-many		college-student,teacher
+	Composition: "has a" and "part-of"			car-tyre,engine
+--------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		

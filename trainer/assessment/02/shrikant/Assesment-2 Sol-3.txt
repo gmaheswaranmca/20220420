@@ -1,0 +1,39 @@
+#include <iostream>
+#include <string.h>
+using namespace std;
+
+struct _person_t {
+	char firstName[256];
+	char lastName[256];
+	char fullName[256];
+};
+typedef struct _person_t person_t;
+
+void doProcess(person_t* person) {
+	
+	/* Do here the update and then swap of names */
+	strcpy(person->fullName, person->firstName);
+	strcpy(person->firstName, person->lastName);
+	strcpy(person->lastName, person->fullName);
+
+	cout << "First Name: " << person->firstName << endl;
+	cout << "Last Name: " << person->lastName << endl;
+
+	strcat(person->fullName, " ");
+	strcat(person->fullName, person->firstName);
+	cout << "Full Name: " << person->fullName << endl;
+
+}
+int main()
+{
+	person_t person;
+	cout << "Enter first Name:";
+	cin >> person.firstName;
+
+	cout << "Enter second Name:";
+	cin >> person.lastName;
+
+	doProcess(&person);
+
+	return 0;
+}
