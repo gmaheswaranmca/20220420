@@ -1,0 +1,129 @@
+-------------------------------------------------------
+Q:1
+The member in class by default are 
+
+Options:
+protected
+static
+public
+private     *****************************         
+
+Ans: D
+-------------------------------------------------------
+Q:2
+Which OOPs concept is allowed to reuse the code? OR
+Which feature of OOP indicates code reusability?
+Options:
+Inheritance         **************************
+Abstraction
+Message Passing
+Polymorphism
+
+Ans:A
+-------------------------------------------------------
+Q:3
+Who invented OOP?
+
+Options:
+Andrea Ferro
+Adele Goldberg
+Alan Kay            ************************
+Dennis Ritchie
+
+Ans:C Alan Kay
+-------------------------------------------------------
+Q:4
+Which among the following doesn’t come under OOP concept?
+
+Options:
+Data hiding
+Message passing
+Platform independent    ************
+Data binding
+Ans:C
+-------------------------------------------------------
+Q:5
+Which feature of OOP is indicated by the following code?
+
+class student{  int marks;  };
+class topper:public student{  int age;  topper(int age){ this->age=age; } };
+
+Options:
+Encapsulation and Inheritance   *********************
+Inheritance and polymorphism
+Polymorphism
+Inheritance
+
+Ans:A
+-------------------------------------------------------
+Q:6
+The feature by which one object can interact with another object is _____________
+
+Options:
+Message reading
+Message Passing     ************************
+Data transfer
+Data Binding
+
+Ans: B
+-------------------------------------------------------
+Q:7
+How many types of access specifiers are provided in OOP (C++)?
+
+Options:
+4
+3   
+2
+1
+
+Ans: B private protected public 
+-------------------------------------------------------
+Q:8
+What is encapsulation in OOP?
+
+Options:
+A:It is a way of combining various data members and member functions 
+    that operate on those data members into a single unit ************************
+B:It is a way of combining various data members and member functions 
+    into a single unit which can operate on any data
+C:It is a way of combining various data members into a single unit
+D:It is a way of combining various member functions into a single unit
+
+Ans:A
+-------------------------------------------------------
+Q:9
+Which of the following is not true about polymorphism?
+
+Options:
+Helps in redefining the same functionality          
+Increases overhead of function definition always *******************
+It is feature of OOP                                
+Ease in readability of program                      
+
+Ans:B
+-------------------------------------------------------
+Q:10
+Which constructor will be called from the object created in the below C++ code?
+
+class A
+{ 
+	int i;
+	A()
+	{ 
+		i=0; cout<<i; 
+	}
+	A(int x=0)
+	{ 
+		i=x;  cout<<I;  
+	}
+};
+A obj1;
+
+Options:
+Parameterized constructor
+Default constructor
+Run time error
+Compile time error          *****************
+
+Ans: D
+-------------------------------------------------------

@@ -307,8 +307,50 @@ difference between static member and non-static member:
 this:
 	the pointer for the called object 
 ---------------------------------------------------------------------
+#define _CRT_SECURE_NO_WARNINGS
+#include<iostream>
+#include<cstdlib>
+#include<ctime>
+#include<string>
+using namespace std;
 
+int main() {
+	string players[] = {
+		"Anil","Avinash","Divya","Manikanta","Shrikant","Uday","Subhash"
+	};
+	int track[7] = { -1,-1,-1,-1,-1,-1,-1 };
+	int trackCount = 0;
+	int count = 0;
+	srand(time(NULL));
+	int x;
 
+	do {
+		char choice;
+		cout << "Can I pick(y/n)?";
+		cin >> choice;
+
+		if (choice == 'n') {
+			break;
+		}
+
+		x = (rand() % 7);
+		
+		for (int I = 0; I < 7; I++) {
+			if (track[I] == -1) {
+				break;
+			}
+			while (track[I] == x) {
+				x = (rand() % 7);
+			}
+		}
+		cout << "The player is suggested by the app is " << players[x] << endl;
+		track[trackCount] = x;
+		trackCount++;
+	} while (true || trackCount<7);
+
+	return EXIT_SUCCESS;
+}
+---------------------------------------------------------------------
 
 
 
