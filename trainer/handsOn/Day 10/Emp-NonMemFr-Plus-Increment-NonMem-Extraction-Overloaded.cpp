@@ -73,7 +73,7 @@ int main() {
 	//cout.operator<<(cout.operator<<(cout.operator<<(cout.operator<<(cout,uday),anil),shrikant),divya);
 
 	Emp res = ++uday; //operator++(uday);
-	Emp anoRes = anil++;
+	Emp anoRes = anil++;//operator++(anil,0);
 	
 	cout << uday;
 	cout << anil;
