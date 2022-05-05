@@ -1,0 +1,83 @@
+------------------------------------------------
+game or sport: game shop
+------------------------------------------------
+	video games | virtual reality
+------------------------------------------------
+	children by parents
+		play game 
+		
+		subscription 
+			digital wallet 
+				wallet id 
+				Subscriber: Cithra
+				Player: Vignesh
+				Intial Subscription Charge: Rs.1000
+			play 
+				wallet id 
+				play charge Rs.250 (1hour)
+							Rs.150
+							Rs.200
+							Rs.300 	== 900
+							
+							
+							
+							
+			topup 
+				wallet id 		
+				topup amount Rs500
+				
+						play Rs.250	= 1150
+						
+						
+					wallet : Rs.350	
+			
+			Saravanan Ram 1000
+				150
+				250
+				300 (700)
+				wallet 300
+				
+			shop : (5/5/2022)
+				collection amount
+					1000
+					 500
+					1000
+					...
+------------------------------------------------
+business: shops 
+shop: collections, wallets, topups, playTrans, pref
+	
+wallet{walletId,subscriber,phoneNumber,player,walletBalance}
+topup{topupId,walletId,topupDate,topupAmount}
+playTran{tranId,walletId,playDate,usageAmount}
+collection{collectionDate,collectionAmount}
+pref: subscriptionAmount
+
+shop:
+	1-Subscription 
+	2-Update Play 
+	3-Manager 
+
+1-Subscription 
+	Enter Subscriber Name:
+	Enter Phone Number:
+	Enter Player Name: 
+	Subscription Charge: Rs 1000 (Display)
+	Are you sure to subscribe(y/n)? y
+	
+	You are subscribed to our Game Shop!!!!
+	Your wallet id is 102001
+	
+2-Update Play 
+	Enter Phone Number: 4343533334
+	Subscriber: xxxx, Player: xxxx, Wallet: Rs800 (Display)
+	Play charges Rs.: 250
+	
+	Play charges is updated.	
+	
+3-Manager	
+	1-View Today Collection
+	2-View Today Subscriptions 
+		No of Subscriptions
+	3-View Today Transactions
+------------------------------------------------
