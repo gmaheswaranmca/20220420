@@ -1,0 +1,39 @@
+operator overloading:
+-----------------------------------------
+	Refer the cpp documentation to go with the updates
+-----------------------------------------
+operator overloading:
+	giving new meaning to the operator with respect to business/user object
+	
+ways for operator overloading:	
+1. member operator overloading
+2. non-member/friend operator overloading
+
+operators we can overload 
+	binary operators 
+		arithmetic operators: + - * / %
+		bitwise: & | 
+	unary operators:
+		unary +, unary -, unary ~
+		pre increment/decrement 
+		post increment/decrement 
+		logical NOT !
+	assignment operators:
+		= 
+		+= -= *= /= %= &= |=
+	relational operators:
+		< 	>   <=   >= == !=
+	logical operators:
+		&& ||  
+	input / output stream operators:   >>	<<
+-----------------------------------------
+Mathematical objects
+	we can apply the operators to get overloaded 
+Rule: Dont apply operators overloading for the business objects 	
+-----------------------------------------
+Complex		a+ib
+Fraction	a/b	
+-----------------------------------------
+	
+	
+	
