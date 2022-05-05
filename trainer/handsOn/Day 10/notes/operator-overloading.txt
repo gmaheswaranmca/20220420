@@ -32,8 +32,75 @@ Mathematical objects
 Rule: Dont apply operators overloading for the business objects 	
 -----------------------------------------
 Complex		a+ib
-Fraction	a/b	
+Fraction	a/b			Ratio
 -----------------------------------------
+#include<iostream>
+using namespace std;
+class Fraction{	//	a/b	
+	private:
+		int numerator;		//a 
+		int denominator;	//b
+	public:
+		Fraction();			//0/1	right		0/0 wrong
+		Fraction(int numerator, int denominator);
+        Fraction operator+(const Fraction& second);    
+        Fraction operator-(const Fraction& second);
+        Fraction operator*(const Fraction& second);
+        Fraction operator/(const Fraction& second);
+        //Fraction operator%(const Fraction& second);
+        Fraction operator+();    
+        Fraction operator-();
+        
+        Fraction operator++();//pre 
+        Fraction operator++(int);//post
+        Fraction operator--();//pre 
+        Fraction operator--(int);//post
+        
+        bool operator<(const Fraction& second);    
+        bool operator>(const Fraction& second);    
+        bool operator<=(const Fraction& second);    
+        bool operator>=(const Fraction& second);    
+        bool operator==(const Fraction& second);    
+        bool operator!=(const Fraction& second);    
+        
+        Fraction operator=(Fraction& second);
+        Fraction operator+=(Fraction& second);
+        
+        friend istream& opeartor>>(istream& input, Fraction& first);
+        friend ostream& opeartor<<(ostream& output,const Fraction& first); //[2/3]
+};
+//define 
+int main(){
+    Fraction f1(1,4),f2(3,4),f3(1,2),f4(1,8);
+    cout << f1 << f2 << f3 << f4 << endl;
+    Fraction f5 = ((f1 + f2) - f3) * f4;
+    Fraction f6 = ++f5;
+    Fraction f7 = f5++;
+    Fraction f8 = --f5;
+    Fraction f9 = f5--;
+    Fraction f10 = -f1;
+    Fraction f11 = +f1;
+    Fraction f12 = f1;
+    f12 += f3;
+    
+    cout << f5 << f6 << f7 << f8 << f9 << f10 << f11 << f12 << endl;
+    
+    return EXIT_SUCCESS;
+}
+
+-----------------------------------------	
 	
-	
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 	
