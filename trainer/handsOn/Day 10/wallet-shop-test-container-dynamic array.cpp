@@ -28,7 +28,7 @@ public:
 
 	Wallet* wallets; //indexings wallets[index] or (*(wallets+index))
 	int walletCount;
-	ShopDb(int maxsize);
+	ShopDb(int maxsize = 1000);
 	~ShopDb();
 };
 
@@ -89,7 +89,9 @@ void Wallet::updatePlay(float amount) {
 	cout << "Update play yet to be done" << endl << endl;
 }
 int main() {
-	ShopDb shop(1000);
+	ShopDb shop;
+    //ShopDb shop(1100);
+    //ShopDb shop(900);
 	
 	int menu;
 	do{
