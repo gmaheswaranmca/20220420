@@ -23,8 +23,8 @@ Classes and Objects
 	• Defining Member Functions
 		o Outside the class
 		o Inside the class
-		o Passing Objects as Arguments
-		o Returning Objects
+		o Passing Objects as Arguments	****************
+		o Returning Objects				****************
 	• Function Overloading
 	• Constructors
 		o Properties of constructors
@@ -36,8 +36,8 @@ Classes and Objects
 	• Destructors
 	• Static Data Members
 	• Static member functions
-	• Constant data members
-	• Constant Member Functions
+	• Constant data members					****************
+	• Constant Member Functions				****************
 	• Friend Functions
 	• Friend Class
 	• Array of objects
