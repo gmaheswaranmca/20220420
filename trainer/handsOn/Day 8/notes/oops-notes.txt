@@ -369,7 +369,8 @@ delete and free
 ---------------------------------------------------------------------
 
 
-
+draw.io 
+	for UML diagrams
 
 
 
@@ -384,10 +385,29 @@ delete and free
 
 
 --------------------------------------------------------------	
-Generalization: "is a"		Account->Savings,Current
-Association: 
+Generalization: "is a"		
+	ie.Inheritance 
+	Examples: Account->Savings,Current		<---------------Bank App 
+	Examples: Loan->HousingLoan, PersonalLoan, EducationalLoad <---------------Finance App 
+	Deposit is a Transaction
+	Withdrawal is a Transaction 
+Association: "has a" 
+	ie Container 	
 	Aggregation: "has a"		one-to-many		college-student,teacher
+												car-musicSystem		
+												   multiplicy
+													1..1
+													1..many
+													many..1
+													many..many
+		Examples: 
+			Account has Transactions
+			Account has Deposits, Withdrawals
+			
 	Composition: "has a" and "part-of"			car-tyre,engine
+		Examples: 
+			Bank - Head Office, Branch   ???
+			Sentence - Words		(one another example)
 --------------------------------------------------------------
 
 
