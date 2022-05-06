@@ -1,21 +1,21 @@
 Inheritance
-	• Class hierarchies
-	• Base classes
-	• Derived Classes
-	• Derived Class Definition
-	• The “is a” relationship
-	• Access specifier: protected
-	• Function overriding
-		o Polymorphism using overriding
+	• Class hierarchies         ************            
+	• Base classes              ************
+	• Derived Classes           ************
+	• Derived Class Definition  ************
+	• The “is a” relationship   ************
+	• Access specifier: protected ************
+	• Function overriding           ************ 
+		o Polymorphism using overriding ********
 	• Types of Inheritance
-		o Single inheritance
-		o Multiple inheritance
-		o Hierarchical inheritance
-		o Multi-level inheritance
-		o Hybrid inheritance
-		o Multi-path inheritance
-	• Constructors in Derived Classes
-	• Destructors in Derived Classes
+		o Single inheritance        **********
+		o Multiple inheritance      **********
+		o Hierarchical inheritance  **********
+		o Multi-level inheritance   **********
+		o Hybrid inheritance    **********
+		o Multi-path inheritance    **********
+	• Constructors in Derived Classes **********
+	• Destructors in Derived Classes **********
 ------------------------------------------------------
 Inheritance:
 	"Generalization"
@@ -666,8 +666,353 @@ int main(){
     return EXIT_SUCCESS;
 }
 --------------------------------------------------------------------
-    1. Box Constructor should not have the "member initializer list"
-    2. Box Constructor must have the "member initializer list"
-    3. Box Constructor should access the Rect private members 
+    1. Box Constructor should not have the "member initializer list"    ***DONE
+    2. Box Constructor must have the "member initializer list"          ***DONE
+    3. Box Constructor should access the Rect private members           ***DONE 
+    4. getter setter for the objects/classes to access private members  ***DONE
 --------------------------------------------------------------------
+4. getter setter for the objects/classes to access private members 
+--------------------------------------------------------------------
+#include<iostream>
+#include<string>
+using namespace std;
+class Rect {
+private:
+	int length;
+	int width;
+public:
+	Rect();
+	Rect(int length, int width);
+	int getLength() {		
+		return this->length;
+	}
+	void setLength(int length) {		
+		this->length = length;
+	}
+	int getWidth() {
+		return this->width;
+	}
+	void setWidth(int width) {
+		this->width = width;
+	}
+	void print();
+};
+
+class Box :public Rect {
+private:
+	int height;
+public:
+	int getHeight() {
+		return this->height;
+	}
+	void setHeight(int height) {
+		this->height = height;
+	}
+	Box();
+	Box(int length, int width, int height);
+	void print();
+};
+
+//Define Rect member functions 
+Rect::Rect() {
+	this->setLength(0);
+	this->setWidth(0);
+}
+Rect::Rect(int length, int width) {
+	this->setLength(length);
+	this->setWidth(width);
+}
+void Rect::print() {
+	cout << "length=" << this->getLength() << endl;
+	cout << "width=" << this->getWidth() << endl;
+}
+//Define Box member functions 
+Box::Box() {
+	this->setLength(0);
+	this->setWidth(0);
+	this->setHeight(0);
+}
+Box::Box(int length, int width, int height) {
+	this->setLength(length);
+	this->setWidth(width);
+	this->setHeight(height);
+}
+void Box::print() {
+	cout << "length=" << this->getLength() << endl;
+	cout << "width=" << this->getWidth() << endl;
+	cout << "height=" << this->getHeight() << endl;
+}
+
+int main() {
+	Rect rOne(3, 2);
+	Rect rTwo;
+
+	rOne.print();
+	rTwo.print();
+
+
+	Box bOne(7, 5, 4);
+	Box bTwo;
+	bOne.print();
+	bTwo.print();
+
+
+	return EXIT_SUCCESS;
+}
+--------------------------------------------------------------------
+2. Box Constructor must have the "member initializer list"
+--------------------------------------------------------------------
+#include<iostream>
+#include<string>
+using namespace std;
+class Rect {
+private:
+	int length;
+	int width;
+public:
+	Rect();
+	Rect(int length, int width);	
+	void print();
+};
+
+class Box :public Rect {
+private:
+	int height;
+public:	
+	Box();
+	Box(int length, int width, int height);
+	void print();
+};
+
+//Define Rect member functions 
+Rect::Rect():length(0), width(0) {
+	
+}
+Rect::Rect(int length, int width) : length(length), width(width) {
+	
+}
+void Rect::print() {
+	cout << "length=" << this->length << endl;
+	cout << "width=" << this->width << endl;
+}
+//Define Box member functions 
+Box::Box() : Rect(),height(0) {	
+}
+Box::Box(int length, int width, int height):Rect(length,width),height(height) {
+	
+}
+void Box::print() {
+	Rect::print();
+	cout << "height=" << this->height << endl;
+}
+
+int main() {
+	Rect rOne(3, 2);
+	Rect rTwo;
+
+	rOne.print();
+	rTwo.print();
+
+
+	Box bOne(7, 5, 4);
+	Box bTwo;
+	bOne.print();
+	bTwo.print();
+
+
+	return EXIT_SUCCESS;
+}
+--------------------------------------------------------------------
+1. Box Constructor should not have the "member initializer list"    
+--------------------------------------------------------------------
+#include<iostream>
+#include<string>
+using namespace std;
+class Rect {
+private:
+	int length;
+	int width;
+public:
+	Rect();
+	void initRect(int length, int width);
+	Rect(int length, int width);	
+	void print();
+};
+
+class Box :public Rect {
+private:
+	int height;
+public:	
+	Box();
+	void initBox(int length, int width, int height);
+	Box(int length, int width, int height);
+	void print();
+};
+
+//Define Rect member functions 
+Rect::Rect() {
+	this->initRect(0, 0);
+}
+void Rect::initRect(int length, int width) {
+	this->length = length;
+	this->width = width;
+}
+Rect::Rect(int length, int width){
+	this->initRect(length, width);
+}
+void Rect::print() {
+	cout << "length=" << this->length << endl;
+	cout << "width=" << this->width << endl;
+}
+//Define Box member functions 
+Box::Box(){	
+	this->initBox(0,0,0);
+}
+void Box::initBox(int length, int width, int height) {
+	this->initRect(length, width);
+	this->height = height;
+}
+Box::Box(int length, int width, int height) {
+	this->initBox(length, width, height);
+}
+void Box::print() {
+	Rect::print();
+	cout << "height=" << this->height << endl;
+}
+
+int main() {
+	Rect rOne(3, 2);
+	Rect rTwo;
+
+	rOne.print();
+	rTwo.print();
+
+
+	Box bOne(7, 5, 4);
+	Box bTwo;
+	bOne.print();
+	bTwo.print();
+
+
+	return EXIT_SUCCESS;
+}
+--------------------------------------------------------------------
+3. Box Constructor should access the Rect private members 
+via protected access 
+--------------------------------------------------------------------
+#include<iostream>
+#include<string>
+using namespace std;
+class Rect {
+protected:
+	int length;
+	int width;
+public:
+	Rect();
+	Rect(int length, int width);	
+	void print();
+};
+//Define Rect member functions 
+Rect::Rect() {
+	this->length = 0;
+	this->width = 0;
+}
+
+Rect::Rect(int length, int width) {
+	this->length = length;
+	this->width = width;
+}
+void Rect::print() {
+	cout << "length=" << this->length << endl;
+	cout << "width=" << this->width << endl;
+}
+
+
+class Box :public Rect {
+protected:
+	int height;
+public:	
+	Box();
+	Box(int length, int width, int height);
+	void print();
+};
+
+
+//Define Box member functions 
+Box::Box(){	
+	this->length = 0;
+	this->width = 0;
+	this->height = 0;
+}
+
+Box::Box(int length, int width, int height) {
+	this->length = length;
+	this->width = width;
+	this->height = height;
+}
+void Box::print() {
+	cout << "length=" << this->length << endl;
+	cout << "width=" << this->width << endl;
+	cout << "height=" << this->height << endl;
+}
+
+int main() {
+	Rect rOne(3, 2);
+	Rect rTwo;
+
+	rOne.print();
+	rTwo.print();
+
+
+	Box bOne(7, 5, 4);
+	Box bTwo;
+	bOne.print();
+	bTwo.print();
+
+
+	return EXIT_SUCCESS;
+}
+--------------------------------------------------------------------
+private access: the private members can be access within the class 
+    and cannot be accessed in derived class and outside of the class 
+    
+protected access: the protected members can be accessed with the class,
+    derived class and 
+    cannot be accessed other than same class and derived classes(any level)
+    
+public access: the public mebers can be accessed with class,
+    derived classes and outside of the class 
+--------------------------------------------------------------------
+THUMB RULE:
+if the class is standalone(no parent, no child), then 
+use private access for data hiding.
+
+THUMB RULE:
+if the class has parent or child, then 
+use protected access for data hiding.
+--------------------------------------------------------------------
+THUMB RULE:
+for handing attributes, INDUSTRY STANDARD is getter setter     
+--------------------------------------------------------------------
+Function overriding: "static polimorphism" via "inheritance"
+    "the derived having the same function signature/declaration 
+    of the parent" 
+    
+    it means 
+    1. derived member function name is the parent member function name 
+    2. derived member function argments must match the parent member function arguments in type,name,arrangements
+    3. derived member function return type is the parent member function return type
+--------------------------------------------------------------------   
+    
+    
+    
+    
+   
+        
+    
+    
+    
+    
+    
+
 
