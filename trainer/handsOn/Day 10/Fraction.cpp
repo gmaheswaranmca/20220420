@@ -24,8 +24,13 @@ public:
 	void operator=(const Fraction& second);
 	void operator+=(Fraction& second);
 
+	bool operator<(const Fraction& second);
+
 	friend ostream& operator<<(ostream& output, Fraction& first); //[2/3]
 };
+
+Fraction fOne(1, 1);
+
 int Fraction::gcf() {
 	Fraction& first = *this;
 	int n1 = first.numerator;
@@ -42,6 +47,7 @@ int Fraction::gcf() {
 	}
 	return n1;
 }
+
 Fraction::Fraction() {
 	Fraction& first = *this;
 	first.numerator = 0;
@@ -52,16 +58,15 @@ Fraction::Fraction(int numerator, int denominator) {
 	first.numerator = numerator;
 	first.denominator = denominator;
 }
-Fraction fOne(1, 1);
-void Fraction::operator=(const Fraction& second) {
-	numerator = second.numerator;
-	denominator = second.denominator;
-}
+
+
 Fraction Fraction::operator+(const Fraction& second) {
 	Fraction& first = *this;
 	Fraction res;
+	//cout << "Start We are at the binary +" << endl;
 	res.numerator = first.numerator * second.denominator + second.numerator * first.denominator;
 	res.denominator = first.denominator * second.denominator;
+	//cout << "End We are at the binary +" << endl;
 	return res;
 }
 Fraction Fraction::operator-(const Fraction& second) {
@@ -97,41 +102,63 @@ Fraction Fraction::operator-() {
 	return res;
 }
 
-Fraction Fraction::operator++() {
+Fraction Fraction::operator++() {//pre increment b=++a;
 	Fraction& first = *this;
 	Fraction res;
-	first = first + fOne;
-	res = first;
+	//cout << "Start We are at pre increment" << endl;
+	first = first + fOne;	// a = a + 1;	// first.operator=(first.operator+(fOne))
+	//cout << "End We are at pre increment" << endl;
+	res = first;			// b = a;
+	return res;
+}
+/*
+Start We are at pre increment
+Start We are at the binary +
+End We are at the binary +
+Start We are at the binary =
+End We are at the binary =
+End We are at pre increment
+*/
+
+Fraction Fraction::operator++(int) {//post increment b=a++;
+	Fraction& first = *this;
+	Fraction res = first;	// b = a;
+	first = first + fOne;	// a = a + 1;
 	return res;
 }
 
-Fraction Fraction::operator++(int) {
-	Fraction& first = *this;
-	Fraction res = first;
-	first = first + fOne;
-	return res;
-}
-
-Fraction Fraction::operator--() {
-	Fraction& first = *this;
+Fraction Fraction::operator--() {	//pre decrement b=--a
+	Fraction& first = *this;	
 	Fraction res;
-	first = first - fOne;
-	res = first;
+	first = first - fOne;		// a = a- 1;
+	res = first;				// b = a;
 	return res;
 }
 
-Fraction Fraction::operator--(int) {
+Fraction Fraction::operator--(int) {//post decrement b=a--
 	Fraction& first = *this;
-	Fraction res = first;
-	first = first - fOne;
+	Fraction res = first;	//b = a
+	first = first - fOne;	//a = a - 1
 	return res;
 }
 
-void Fraction::operator+=(Fraction& second) {
+void Fraction::operator=(const Fraction& second) {
+	Fraction& first = *this;
+	//cout << "Start We are at the binary =" << endl;
+	first.numerator = second.numerator;
+	first.denominator = second.denominator;
+	//cout << "End We are at the binary =" << endl;
+}
+
+void Fraction::operator+=(Fraction& second) {//a+=b; => a=a+b
 	Fraction& first = *this;
 	first = first + second;
 }
-
+bool Fraction::operator<(const Fraction& second) {	//a=4,b=5   a<b -> a-b=-1<0
+	Fraction& first = *this;
+	Fraction third = first - second; //1/2 - 3/4  ->  -1/4 | 3/4-1/2 -> 1/2
+	return third.numerator < 0;//false for -1/4   | true for 1/2
+}
 ostream& operator<<(ostream& output, Fraction& first) {
 	int factor = first.gcf();
 	first.numerator /= factor;
@@ -143,19 +170,20 @@ ostream& operator<<(ostream& output, Fraction& first) {
 int main() {
 	Fraction f1(1, 4), f2(3, 4), f3(1, 2), f4(1, 8);
 	cout << f1 << f2 << f3 << f4 << endl;
-	Fraction f5 = ((f1 + f2) - f3) * f4;
+	Fraction f5 = ((f1 + f2) - f3) * f4;//1/16
 	cout << f5 << endl;
-	Fraction f6 = f5++;
-	Fraction f7 = ++f5;
-	Fraction f8 = f5--;
-	Fraction f9 = --f5;
-	Fraction f10 = -f1;
-	Fraction f11 = +f1;
+	Fraction f6 = f5++;//f6=1/16; f5=1/16 + 1/1=17/16
+	Fraction f7 = ++f5;//f5=17/16 + 1/1=33/16	f7=33/16
+	Fraction f8 = f5--;//f8=33/16    f5=33/16-1/1=17/16
+	Fraction f9 = --f5;//f5=17/16-1/1=1/16   f9=1/16
+	Fraction f10 = -f1;//f10=-1/4    f1=1/4
+	Fraction f11 = +f1;//f10=1/4    f1=1/4
 	Fraction f12;
-	f12 = f1;
-	f12 += f3;
+	f12 = f1;//f12=1/4
+	f12 += f3;//f12=1/4+1/2 =6/8->3/4
 
 	cout << f5 << f6 << f7 << f8 << f9 << f10 << f11 << f12 << endl;
+	cout << (f3 < f2) <<  " " << (f2 < f3) << endl;//1/2 < 3/4 | 3/4 < 1/2
 
 	return EXIT_SUCCESS;
 }
