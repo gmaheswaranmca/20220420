@@ -8,23 +8,25 @@ private:
 public:
 	Fraction();			//0/1	right		0/0 wrong
 	Fraction(int numerator, int denominator);
-	Fraction operator+(const Fraction& second);
-	Fraction operator-(const Fraction& second);
+    //Binary Arithmetic Operators 
+	Fraction operator+(const Fraction& second);//c=a+b -> c=a.operator+(b)  userObj
+	Fraction operator-(const Fraction& second);//c=a-b -> c=a.operator-(b)  userObj
 	Fraction operator*(const Fraction& second);
 	Fraction operator/(const Fraction& second);
 	//Fraction operator%(const Fraction& second);
+    //Unary + and Unary -
 	Fraction operator+();
-	Fraction operator-();
-
-	Fraction operator++();//pre 
-	Fraction operator++(int);//post
+	Fraction operator-();   //b=-a; -> a.operator-()    userObj
+    //Pre and Post increment/decrement 
+	Fraction operator++();//pre         b=++a; -> a=a+1;b=a; -> a.operator++()  userObj
+	Fraction operator++(int);//post     b=a++;  -> b=a;a=a+1; -> a.operator++(0) userObj
 	Fraction operator--();//pre 
 	Fraction operator--(int);//post
-
-	void operator=(const Fraction& second);
-	void operator+=(Fraction& second);
-
-	bool operator<(const Fraction& second);
+    //Binary Assignment and Binary Short hand assignment
+	void operator=(const Fraction& second); //a=b   -> a.operator=(b)  noReturn
+	void operator+=(Fraction& second);//a+=b; -> a=a+b; -> a.operator+=(b) noReturn 
+    //Binary Relational Operator
+	bool operator<(const Fraction& second); //a<b   -> a.operator<(b)  bool 
 
 	friend ostream& operator<<(ostream& output, Fraction& first); //[2/3]
 };
