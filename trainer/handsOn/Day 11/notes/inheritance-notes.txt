@@ -351,7 +351,7 @@ void RecurringAccount::print() {
 		<< this->maturityDuration << "]" << endl;
 }
 int main() {
-	Bank bank;
+	//Bank bank;
 	
 
 	Account uday(102030, "Uday", 7000);
@@ -387,9 +387,138 @@ int main() {
 	return EXIT_SUCCESS;
 }
 
+--------------------------------------------------------------------
+//The order of the constructors and destructors 
+//wrt base class and derived class (ie inheritance)
+--------------------------------------------------------------------
+#include<iostream>
+#include<string>
+using namespace std;
 
+class Account;
+class Bank {
+public:
+	Account* accounts; //dynamic array
+	int accountCount;
+	Bank();
+	~Bank();
+};
 
+class Account {
+public:
+	int accountNumber;
+	string accountHolderName;
+	float balance;
 
+	Account();
+	Account(int accountNumber, string accountHolderName, float balance);
+	//void print();
+	virtual void print();
+	~Account();
+};
+
+class FixedAccount : public Account {
+	// FixedAccount = Account members + members introduced in FixedAccount
+public:
+	int maturityDuration;
+	float interestRate;
+
+	FixedAccount();
+	FixedAccount(int accountNumber, string accountHolderName, float balance,
+		int maturityDuration, float interestRate);
+	void print();//function overriding
+	~FixedAccount();
+};
+
+class RecurringAccount : public Account {
+	// FixedAccount = Account members + members introduced in FixedAccount
+public:
+	int maturityDuration;
+	float interestRate;
+
+	RecurringAccount();
+	RecurringAccount(int accountNumber, string accountHolderName, float balance,
+		int maturityDuration, float interestRate);
+	void print();//function overriding
+	~RecurringAccount();
+};
+
+Bank::Bank() {
+	this->accounts = new Account[5]; //dynamic array
+	this->accountCount = 0;
+}
+Bank::~Bank() {
+	delete[] this->accounts;
+	this->accounts = NULL;
+}
+
+//member initializer list
+Account::Account() :accountNumber(0), accountHolderName(""), balance(0.0f) {
+	cout << "We are in Account(Default Constructor)" << endl;
+}
+Account::Account(int accountNumber, string accountHolderName,
+	float balance) :accountNumber(accountNumber),
+	accountHolderName(accountHolderName), balance(balance)
+{
+	cout << "We are in Account(Args Constructor)" << endl;
+}
+Account::~Account() {
+	cout << "We are in Account(Destructor)" << endl;
+}
+FixedAccount::~FixedAccount() {
+	cout << "We are in FixedAccount(Destructor)" << endl;
+}
+RecurringAccount::~RecurringAccount() {
+	cout << "We are in RecurringAccount(Destructor)" << endl;
+}
+void Account::print() {
+	cout << "Base Account-" << this->accountNumber << "[" << this->accountHolderName << ","
+		<< this->balance << "]" << endl;
+}
+FixedAccount::FixedAccount():Account(),interestRate(0.0f),maturityDuration(0) {
+	cout << "We are in FixedAccount(Default Constructor)" << endl;
+}
+FixedAccount::FixedAccount(int accountNumber, string accountHolderName, 
+	float balance,
+	int maturityDuration, float interestRate) : 
+	Account(accountNumber, accountHolderName, balance),
+		interestRate(interestRate), maturityDuration(maturityDuration) {
+	cout << "We are in FixedAccount(Args Constructor)" << endl;
+}
+void FixedAccount::print() {
+	Account::print();
+	cout << "+FixedAccount[" << this->interestRate << "," 
+		<< this->maturityDuration << "]" << endl;
+}
+
+RecurringAccount::RecurringAccount() :Account(), interestRate(0.0f), maturityDuration(0) {
+	cout << "We are in RecurringAccount(Default Constructor)" << endl;
+}
+RecurringAccount::RecurringAccount(int accountNumber, string accountHolderName,
+	float balance,
+	int maturityDuration, float interestRate) :
+	Account(accountNumber, accountHolderName, balance),
+	interestRate(interestRate), maturityDuration(maturityDuration) {
+	cout << "We are in RecurringAccount(Args Constructor)" << endl;
+}
+void RecurringAccount::print() {
+	Account::print();
+	cout << "+RecurringAccount[" << this->interestRate << ","
+		<< this->maturityDuration << "]" << endl;
+}
+int main() {
+	Account uday(102030, "Uday", 7000);
+	FixedAccount anil(102031, "Anil", 50000, 36, 7.25f);
+	RecurringAccount shrikant(102032, "Shrikant", 1000, 24, 12.0f);
+
+	uday.print();
+	anil.print();
+	shrikant.print();
+
+	return EXIT_SUCCESS;
+}
+
+--------------------------------------------------------------------
 
 
 
