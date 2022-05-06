@@ -134,7 +134,7 @@ class-head-name: name of the class
 ------------------------------------------------------
 Example for inheritance 
 ------------------------------------------------------
-
+//Account->FixedAccount | Single Level Inheritance
 #include<iostream>
 #include<string>
 using namespace std;
@@ -242,7 +242,150 @@ int main() {
 	return EXIT_SUCCESS;
 }
 ------------------------------------------------------
+//Account->FixedAccount,Account->RecurringAccount
+//| Hierarchical Inheritance
+------------------------------------------------------
+#include<iostream>
+#include<string>
+using namespace std;
 
+class Account;
+class Bank {
+public:
+	Account* accounts; //dynamic array
+	int accountCount;
+	Bank();
+	~Bank();
+};
+
+class Account {
+public:
+	int accountNumber;
+	string accountHolderName;
+	float balance;
+
+	Account();
+	Account(int accountNumber, string accountHolderName, float balance);
+	//void print();
+	virtual void print();
+};
+
+class FixedAccount : public Account {
+	// FixedAccount = Account members + members introduced in FixedAccount
+public:
+	int maturityDuration;
+	float interestRate;
+
+	FixedAccount();
+	FixedAccount(int accountNumber, string accountHolderName, float balance,
+		int maturityDuration, float interestRate);
+	void print();//function overriding
+	
+};
+
+class RecurringAccount : public Account {
+	// FixedAccount = Account members + members introduced in FixedAccount
+public:
+	int maturityDuration;
+	float interestRate;
+
+	RecurringAccount();
+	RecurringAccount(int accountNumber, string accountHolderName, float balance,
+		int maturityDuration, float interestRate);
+	void print();//function overriding
+
+};
+
+Bank::Bank() {
+	this->accounts = new Account[5]; //dynamic array
+	this->accountCount = 0;
+}
+Bank::~Bank() {
+	delete[] this->accounts;
+	this->accounts = NULL;
+}
+
+//member initializer list
+Account::Account() :accountNumber(0), accountHolderName(""), balance(0.0f) {
+	//cout << "We are in Account(Default Constructor)" << endl;
+}
+Account::Account(int accountNumber, string accountHolderName,
+	float balance) :accountNumber(accountNumber),
+	accountHolderName(accountHolderName), balance(balance)
+{
+	//cout << "We are in Account(Args Constructor)" << endl;
+}
+void Account::print() {
+	cout << "Base Account-" << this->accountNumber << "[" << this->accountHolderName << ","
+		<< this->balance << "]" << endl;
+}
+FixedAccount::FixedAccount():Account(),interestRate(0.0f),maturityDuration(0) {
+	//cout << "We are in FixedAccount(Default Constructor)" << endl;
+}
+FixedAccount::FixedAccount(int accountNumber, string accountHolderName, 
+	float balance,
+	int maturityDuration, float interestRate) : 
+	Account(accountNumber, accountHolderName, balance),
+		interestRate(interestRate), maturityDuration(maturityDuration) {
+	//cout << "We are in FixedAccount(Args Constructor)" << endl;
+}
+void FixedAccount::print() {
+	Account::print();
+	cout << "+FixedAccount[" << this->interestRate << "," 
+		<< this->maturityDuration << "]" << endl;
+}
+
+RecurringAccount::RecurringAccount() :Account(), interestRate(0.0f), maturityDuration(0) {
+	//cout << "We are in FixedAccount(Default Constructor)" << endl;
+}
+RecurringAccount::RecurringAccount(int accountNumber, string accountHolderName,
+	float balance,
+	int maturityDuration, float interestRate) :
+	Account(accountNumber, accountHolderName, balance),
+	interestRate(interestRate), maturityDuration(maturityDuration) {
+	//cout << "We are in FixedAccount(Args Constructor)" << endl;
+}
+void RecurringAccount::print() {
+	Account::print();
+	cout << "+RecurringAccount[" << this->interestRate << ","
+		<< this->maturityDuration << "]" << endl;
+}
+int main() {
+	Bank bank;
+	
+
+	Account uday(102030, "Uday", 7000);
+	bank.accounts[bank.accountCount] = uday;
+	bank.accountCount++;
+	uday.print();
+
+	FixedAccount anil(102031, "Anil", 50000,36,7.25f);
+	bank.accounts[bank.accountCount] = anil;
+	bank.accountCount++;
+	anil.print();
+
+	RecurringAccount shrikant(102032, "Shrikant", 1000, 24, 12.0f);
+	bank.accounts[bank.accountCount] = anil;
+	bank.accountCount++;
+	shrikant.print();
+
+	/*
+	Account* accAddr = NULL;
+	accAddr = &uday;
+	accAddr->print();
+
+	accAddr = &anil;
+	accAddr->print();
+
+	for (int I = 0; I < bank.accountCount;I++) {
+		Account* account = &bank.accounts[I];
+		account->print();
+		//bank.accounts[I].print();
+	}
+	*/
+
+	return EXIT_SUCCESS;
+}
 
 
 
