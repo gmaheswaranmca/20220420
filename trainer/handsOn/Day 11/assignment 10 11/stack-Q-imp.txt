@@ -33,6 +33,35 @@
     Examples: railway station ticket counter 
         movie theatre ticket counter 
         vehicles in the tollgate
+        
+                  front
+    numbers        10     20   30     40    50
+             -1     0     1     2      3     4  
+                                           rear  
+              
+              
+              
+         10 20 30 40 50 60      
+                        --
+                        
+         add the element into the queue : enqueue
+            REAR == (MAX_SIZE - 1)
+            ===> QUEUE is full
+            
+            REAR ++
+            numbers[REAR] = data 
+            
+            if FRONT == -1
+                THEN FRONT = 0
+         remove the element from the queue: dequeue
+            FRONT == -1
+            ===> QUEUE is empty 
+         
+            data = numbers[FRONT]
+            FRONT++
+            if FRONT == REAR 
+                THEN FRONT = -1 AND REAR = -1
+                        
 ----------------------------------------------------------------------------
 Stack Implementation
 ----------------------------------------------------------------------------
@@ -105,3 +134,50 @@ int main() {
 	return EXIT_SUCCESS;
 }
 ----------------------------------------------------------------------------
+Queue Implementation
+----------------------------------------------------------------------------
+#define MAX_SIZE 5
+#include<iostream>
+using namespace std;
+
+class QGQueue {
+private:
+	int numbers[MAX_SIZE];
+	int FRONT;
+    int REAR;
+public:
+	QGQueue();
+	void enqueue(int data);
+	int dequeue();
+	void print();
+};
+
+//Define QGQueue 
+
+int main() {
+
+
+	QGQueue queue;
+	int menu,data;
+	do {
+		cout << "Choice(1-Add,2-Delete,3-Print):"; cin >> menu;
+		switch (menu) {
+		case 1:
+			
+			cout << "Enter data:"; cin >> data;
+			queue.enque(data);
+			break;
+		case 2:
+			
+			data = queue.deque();
+			if (data != -999) {
+				cout << "The FIFO data read is " << data << endl;
+			}
+			break;
+		case 3:
+			queue.print();
+			break;
+		}
+	} while (1 <= menu && menu << 3);//1 <= menu <= 3   
+	return EXIT_SUCCESS;
+}
