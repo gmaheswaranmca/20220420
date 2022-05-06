@@ -89,9 +89,50 @@ int main(){
 }
 
 -----------------------------------------	
+assume a and b are user objects for example Rational or ComplexNumber
+we are working with same user objects 
+binary + 
+	UserObject operator+(UserObject&)	!!!member binary -
+		a + b				!!!returns UserObject ieRational
+		a.opearator+(b)		
+
+unary -
+	UserObject operator-()	!!!member unary -
+	-a						!!!returns UserObject ieRational
+	a.operator-()
 	
-    
-    
+binary <
+	bool operator<(UserObject&)	!!!member binary <
+	a < b						!!! returns bool 
+	a.operator<(b)
+	
+assignment=
+	void operator=(UserObject&)	!!!member binary  =
+	a=b;						!!! returns void 
+	a.operator=(b)
+	
+assignment+=
+	void operator+=(UserObject&)	!!!member binary  +=
+	a+=b;						!!! returns void 
+	a.operator+=(b)	
+-----------------------------------------    
+Fraction (4,6)
+4/6	=> 2/3
+
+2 is gcd 
+
+12/18		=> 2/3
+6 is gcd 
+
+lcm -> least common multiple
+gcd -> greatest common divisor (synonymous:hcf -> highest common factor)
+-----------------------------------------
+f1(7, 4), f2(3, 2)
+7/4 + 3/2   -> 
+
+7      3        7 * 2    3 * 4       7 * 2  +  3 * 4
+--  +  --   ==  ------ + -------  =  ---------------
+4      2        4 * 2    2 * 4           4 * 2
     
     
     
