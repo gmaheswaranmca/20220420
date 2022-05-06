@@ -1,0 +1,54 @@
+Communction media 
+	team conversations/communication
+		- gmeet / webex, whatsapp group, install git 
+						 --------
+						 me 		
+SDLC of the wall fall modle 
+	-> Analysis, Design, Implementation(Coding-Unit Test, QC/QA), Testing (UAT)
+	-> Analysis, 		Design, 				Coding/Testing, 		UAT
+
+	   Requirement 		"Use Case" 				Coding 
+													- Git (VCS) - Source Code 
+													- Unit Code (if possible)	
+	   Gathering 		"Define Use Case"		"Test Cases"(Functional)
+						"Class Diagram"			"Integration Test"	
+	   Functional		"Activity Diagram"			- Automation (if possible)
+	   Document 		"Sequence Diagram"
+	   (System Requirement Specification)
+
+Bank: Avinash Anil Shrikant 
+              ---- (poc)
+	cust-acc-trans
+		   |	|
+		 savings, current, fd, rd 
+			    |
+				widthdraw, deposit, transfer(within bank/other bank/self account)
+	emp-reports, approval
+		
+	1) Problem Statement 	
+	2) Literature Review 
+	
+Finance: Uday Divya Manikanta Subhash
+         ---- (poc)
+	cust-loans-emi payments
+		loan approval request - processing | - payments 
+			|
+			|
+			housing loan, personal loan(), educational loan 
+				(college/yearly pay/wait after study 4yr/stop(4yr) + 6mo - start the interest - EMI)
+			1.property collateral - verification through documents
+			  income 
+			2.property audit
+			70-80% of the estimation of the project
+			3. stage-stage loan will be releases 
+				i) ground floor 
+				ii) first floor 
+			less loan amount - no stages  
+			more loan amont - all the stages 
+				
+			
+	emp-approval		
+	1) Problem Statement 
+	2) Literature Review 
+	
+	

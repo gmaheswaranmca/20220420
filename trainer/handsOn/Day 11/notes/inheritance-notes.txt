@@ -483,6 +483,7 @@ FixedAccount::FixedAccount(int accountNumber, string accountHolderName,
 	int maturityDuration, float interestRate) : 
 	Account(accountNumber, accountHolderName, balance),
 		interestRate(interestRate), maturityDuration(maturityDuration) {
+            
 	cout << "We are in FixedAccount(Args Constructor)" << endl;
 }
 void FixedAccount::print() {
@@ -519,6 +520,116 @@ int main() {
 }
 
 --------------------------------------------------------------------
+"attribute/member intialization list section"
+where it is?
+In the constructor, 
+beween function declaration and start of the body 
+
+ie
+
+closing parenthesis of the funcition declaration 
+and opening curly bracket of the function body 
+
+
+Replace "attr init list" to old school 
+Remove "attr init list"
+--------------------------------------------------------------------
+#include<iostream>
+#include<string>
+using namespace std;
 
 
 
+class Account {
+private:
+	int accountNumber;
+	string accountHolderName;
+	float balance;
+public:
+	Account();
+	Account(int accountNumber, string accountHolderName, float balance);
+	//void print();
+	void print();
+	~Account();
+	void init(int accountNumber, string accountHolderName, float balance);
+};
+
+class FixedAccount : public Account {
+	// FixedAccount = Account members + members introduced in FixedAccount
+private:
+	int maturityDuration;
+	float interestRate;
+public:
+	FixedAccount();
+	FixedAccount(int accountNumber, string accountHolderName, float balance,
+		int maturityDuration, float interestRate);
+	void print();//function overriding
+	~FixedAccount();
+	void init(int maturityDuration, float interestRate);
+};
+
+
+
+void Account::init(int accountNumber, string accountHolderName, float balance) {
+	this->accountNumber = accountNumber;
+	this->accountHolderName = accountHolderName;
+	this->balance = balance;
+}
+
+Account::Account() {
+	this->init(0, "", 0.0f);
+	cout << "We are in Account(Default Constructor)" << endl;
+}
+Account::Account(int accountNumber, string accountHolderName,
+	float balance)
+{
+	this->init(accountNumber, accountHolderName, balance);
+	cout << "We are in Account(Args Constructor)" << endl;
+}
+Account::~Account() {
+	cout << "We are in Account(Destructor)" << endl;
+}
+
+
+void Account::print() {
+	cout << "Base Account-" << this->accountNumber << "[" << this->accountHolderName << ","
+		<< this->balance << "]" << endl;
+}
+
+void FixedAccount::init(int maturityDuration, float interestRate) {
+	this->interestRate = interestRate;
+	this->maturityDuration = maturityDuration;
+}
+FixedAccount::FixedAccount() {
+	this->FixedAccount::init(0, 0.0f);
+	cout << "We are in FixedAccount(Default Constructor)" << endl;
+}
+FixedAccount::FixedAccount(int accountNumber, string accountHolderName,
+	float balance,
+	int maturityDuration, float interestRate)  {
+	this->Account::init(accountNumber, accountHolderName, balance);
+	this->FixedAccount::init(maturityDuration, interestRate);
+
+	cout << "We are in FixedAccount(Args Constructor)" << endl;
+}
+FixedAccount::~FixedAccount() {
+	cout << "We are in FixedAccount(Destructor)" << endl;
+}
+void FixedAccount::print() {
+	Account::print();
+	cout << "+FixedAccount[" << this->interestRate << ","
+		<< this->maturityDuration << "]" << endl;
+}
+
+int main() {
+	Account uday(102030, "Uday", 7000);
+	FixedAccount anil(102031, "Anil", 50000, 36, 7.25f);
+
+
+	uday.print();
+	anil.print();
+
+	return EXIT_SUCCESS;
+}
+
+--------------------------------------------------------------------
