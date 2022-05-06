@@ -1,3 +1,11 @@
+Operator Overloading
+	• Defining Operator Overloading Function                --DONE
+	• Overloading Unary Operators                           --DONE
+	• Overloading Binary Operators                          --DONE
+	• Overloading Unary Operators using Friend Functions    --DONE
+	• Overloading Binary Operators using Friend Functions   --DONE
+	• Overloading << & >>                                   --DONE
+
 operator overloading:
 -----------------------------------------
 	Refer the cpp documentation to go with the updates

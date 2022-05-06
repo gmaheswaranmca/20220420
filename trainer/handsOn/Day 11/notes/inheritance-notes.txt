@@ -1,0 +1,252 @@
+Inheritance
+	• Class hierarchies
+	• Base classes
+	• Derived Classes
+	• Derived Class Definition
+	• The “is a” relationship
+	• Access specifier: protected
+	• Function overriding
+		o Polymorphism using overriding
+	• Types of Inheritance
+		o Single inheritance
+		o Multiple inheritance
+		o Hierarchical inheritance
+		o Multi-level inheritance
+		o Hybrid inheritance
+		o Multi-path inheritance
+	• Constructors in Derived Classes
+	• Destructors in Derived Classes
+------------------------------------------------------
+Inheritance:
+	"Generalization"
+	"is-a" relationship 
+	
+what is inheritance?
+	deriving new object from existing object 
+	In c++, deriving new class(derived class) from existing class(base class)
+	
+base class: super class, parent class 	
+derived class: sub class, child class 
+
+derived class can be inherited from only one class. Is this possible? Yes
+	-- Single Level Inheritance 
+derived class can be inherited from two or more classes. Is this possible? Yes 
+	-- Multiple Inheritance 
+	   (Hierarchical Inheritance)
+derived class can further inherited to grandchild. Is this possible? Yes 
+	-- Multi Level Inheritance 
+	
+Hybrid 		:  
+	Parent->Child. Is this hybrid? No.	but Single Level 
+	Parent->Child->GrandChild. Is this hybrid? No. but Multi Level 
+	Parent->FirstChild,Parent->SecondChild. Is this hybrid?No. but Multiple
+	Parent->FirstChild->FirstGrandChild,Parent->SecondChild. 
+		Is this hybrid? Multiple, Multilevel. Yes Hybrid.
+		---> No. Hierarchical
+		
+	GrandParent->Son,Daughter
+	Son->GrandDaughter
+	Daughter->GrandSon
+	[GrandDaughter,GrandSon]->GrandGranSon
+			Multi Level 
+			Multiple 
+			Multi Path. Yes. Hybrid.
+	
+	Daughter is "Mama/Uncle/Mama" GrandDaughte
+	GrandSon is "Bhava/Dude/Aththaan" GrandDaughter 
+		
+Multi-path 	:
+	GrandParent->Son,Daughter
+	Son->GrandDaughter
+	Daughter->GrandSon
+	[GrandDaughter,GrandSon]->GrandGranSon
+			Multi Level 
+			Multiple 
+			Multi Path. Yes. Hybrid.
+------------------------------------------------------
+class definition from cppreference
+	no inheritance syntax:
+	(1) class-key class-head-name 
+		{ 
+			member-specification 
+		}	
+		
+	inheritance syntax:
+	(2) class-key class-head-name : base-specifier-list 
+		{ 
+			member-specification 
+		}	
+		
+	: "base-clause symbol" or "inheritance symbol"
+------------------------------------------------------	
+Inheritance class syntax:
+
+class-key class-head-name : base-specifier-list 
+{ 
+	member-specification 
+}	
+
+class-key : one of class, struct, or union 
+	difference between 
+		"class" class-key		-by default member access is private 
+								-by default base class access is private 								
+								+every member is memory allocated
+								+all the member can be accessed at any time 
+								
+		"struct" class-key 		-by default member access is public 
+								-by default base class access is public 
+								+every member is memory allocated
+								+all the member can be accessed at any time 
+								
+	difference between 
+		"struct" class-key		+by default member access is public
+								+by default base class access is private 
+								-every member is memory allocated
+								-all the member can be accessed at any time 
+								
+		"union" class-key 		+by default base class access is public 
+								+by default base class access is public
+								-highest sized member is memory allocated 
+								-at a time, only one member can be accessed 
+									that also last modified/written member 
+									
+	difference between 
+		"class" class-key		-by default member access is private 
+								-by default base class access is private 								
+								-every member is memory allocated
+								-all the member can be accessed at any time 
+								
+		"union" class-key 		-by default base class access is public 
+								-by default base class access is public
+								-highest sized member is memory allocated 
+								-at a time, only one member can be accessed 
+									that also last modified/written member 										
+									
+									
+class-head-name: name of the class 
+
+ 								
+: base-specifier-list		
+		!!! list of base classes along with modifiers 
+			such as 
+				access (private,protected,public) and 
+				virtual 
+------------------------------------------------------
+Example for inheritance 
+------------------------------------------------------
+
+#include<iostream>
+#include<string>
+using namespace std;
+
+class Account;
+class Bank {
+public:
+	Account* accounts; //dynamic array
+	int accountCount;
+	Bank();
+	~Bank();
+};
+
+class Account {
+public:
+	int accountNumber;
+	string accountHolderName;
+	float balance;
+
+	Account();
+	Account(int accountNumber, string accountHolderName, float balance);
+	//void print();
+	virtual void print();
+};
+
+class FixedAccount : public Account {
+	// FixedAccount = Account members + members introduced in FixedAccount
+public:
+	int maturityDuration;
+	float interestRate;
+
+	FixedAccount();
+	FixedAccount(int accountNumber, string accountHolderName, float balance,
+		int maturityDuration, float interestRate);
+	void print();//function overriding
+};
+
+Bank::Bank() {
+	this->accounts = new Account[5]; //dynamic array
+	this->accountCount = 0;
+}
+Bank::~Bank() {
+	delete[] this->accounts;
+	this->accounts = NULL;
+}
+
+//member initializer list
+Account::Account() :accountNumber(0), accountHolderName(""), balance(0.0f) {
+	//cout << "We are in Account(Default Constructor)" << endl;
+}
+Account::Account(int accountNumber, string accountHolderName,
+	float balance) :accountNumber(accountNumber),
+	accountHolderName(accountHolderName), balance(balance)
+{
+	//cout << "We are in Account(Args Constructor)" << endl;
+}
+void Account::print() {
+	cout << this->accountNumber << "[" << this->accountHolderName << ","
+		<< this->balance << "]" << endl;
+}
+FixedAccount::FixedAccount():Account(),interestRate(0.0f),maturityDuration(0) {
+	//cout << "We are in FixedAccount(Default Constructor)" << endl;
+}
+FixedAccount::FixedAccount(int accountNumber, string accountHolderName, 
+	float balance,
+	int maturityDuration, float interestRate) : 
+	Account(accountNumber, accountHolderName, balance),
+		interestRate(interestRate), maturityDuration(maturityDuration) {
+	//cout << "We are in FixedAccount(Args Constructor)" << endl;
+}
+void FixedAccount::print() {
+	Account::print();
+	cout << "+[" << this->interestRate << "," 
+		<< this->maturityDuration << "]" << endl;
+}
+int main() {
+	Bank bank;
+	
+
+	Account uday(102030, "Uday", 7000);
+	bank.accounts[bank.accountCount] = uday;
+	bank.accountCount++;
+	uday.print();
+
+	FixedAccount anil(102031, "Anil", 50000,36,7.25f);
+	bank.accounts[bank.accountCount] = anil;
+	bank.accountCount++;
+	anil.print();
+
+	/*
+	Account* accAddr = NULL;
+	accAddr = &uday;
+	accAddr->print();
+
+	accAddr = &anil;
+	accAddr->print();
+
+	for (int I = 0; I < bank.accountCount;I++) {
+		Account* account = &bank.accounts[I];
+		account->print();
+		//bank.accounts[I].print();
+	}
+	*/
+
+	return EXIT_SUCCESS;
+}
+------------------------------------------------------
+
+
+
+
+
+
+
+
