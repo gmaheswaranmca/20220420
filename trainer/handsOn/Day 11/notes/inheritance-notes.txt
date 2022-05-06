@@ -633,3 +633,41 @@ int main() {
 }
 
 --------------------------------------------------------------------
+Task:
+--------------------------------------------------------------------
+class Rect{
+    private:
+      int length;
+      int width;
+    public:
+      Rect();
+      Rect(int length,int width);
+      void print();
+};
+
+class Box:public Rect{
+    private:
+        int height;
+    public:
+        Box();
+        Box(int length,int width, int height);
+        void print();
+};
+
+//Define Rect member functions 
+//Define Box member functions 
+
+int main(){
+    Rect rOne(3,2);
+    Box bOne(7,5,4);
+    
+    rOne.print();
+    rOne.bOne();
+    return EXIT_SUCCESS;
+}
+--------------------------------------------------------------------
+    1. Box Constructor should not have the "member initializer list"
+    2. Box Constructor must have the "member initializer list"
+    3. Box Constructor should access the Rect private members 
+--------------------------------------------------------------------
+
