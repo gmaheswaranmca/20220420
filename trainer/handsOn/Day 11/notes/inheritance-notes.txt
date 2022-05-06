@@ -662,7 +662,7 @@ int main(){
     Box bOne(7,5,4);
     
     rOne.print();
-    rOne.bOne();
+    bOne.print();
     return EXIT_SUCCESS;
 }
 --------------------------------------------------------------------
