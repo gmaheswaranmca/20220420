@@ -1,0 +1,656 @@
+--------------------------------------------------------
+Base and Derived have "print" function ie the same name function 
+How can I call
+the "print" function of "Base" class and "print" function of "Derived" class
+using "Derived" object
+--------------------------------------------------------
+#include<iostream>
+using namespace std;
+class Base{
+    public:
+        void outputBase(){
+            cout << "I am in Base." << endl;
+        }
+        void print(){
+            cout << "Base." << endl;
+        }
+};
+
+class Derived: public Base{
+    public:
+        void outputDerived(){
+            cout << "I am in Derived." << endl;
+        }
+        void print(){
+            cout << "Derived." << endl;
+        }
+};
+
+int main(){
+    Base baseObject;
+    baseObject.outputBase();    //I am in Base.
+    baseObject.print();         //Base.
+    
+    Derived derivedObject;
+    derivedObject.outputBase(); //I am in Base.
+    derivedObject.print();      //Base.?????
+    derivedObject.outputDerived(); //I am in Derived.
+    derivedObject.print();      //Derived. ????
+    
+    return EXIT_SUCCESS;
+}
+--------------------------------------------------------
+Above Solution is not solving purpose
+--------------------------------------------------------
+Base and Derived have "print" function ie the same name function 
+How can I call
+the "print" function of "Base" class and "print" function of "Derived" class
+using "Derived" object
+
+Fixed: using the classname along scope resolution operator 
+to resolve the same signature in both parent and child class 
+when we invoke both class methods from child object 
+
+For example
+"Dervied" object's(derivedObject) Base::print() will invoke the parent function
+        ie derivedObject.Base::print()
+    
+"Dervied" object's(derivedObject) Derived::print() will invoke the child function
+        ie derivedObject.Derived::print()       // highly readable
+        or 
+           derivedObject.print()
+--------------------------------------------------------
+#include<iostream>
+using namespace std;
+class Base {
+public:
+	void outputBase() {
+		cout << "I am in Base." << endl;
+	}
+	void print() {
+		cout << "Base." << endl;
+	}
+};
+
+class Derived : public Base {
+public:
+	void outputDerived() {
+		cout << "I am in Derived." << endl;
+	}
+	void print() {
+		cout << "Derived." << endl;
+	}
+};
+
+int main() {
+	Base baseObject;
+	baseObject.outputBase();    //I am in Base.
+	baseObject.print();         //Base.
+
+	Derived derivedObject;
+	derivedObject.outputBase(); //I am in Base.
+	//derivedObject.print();      //Derived.
+	derivedObject.Base::print();  //Base.
+	derivedObject.outputDerived(); //I am in Derived.
+	//derivedObject.print();      //Derived.
+	derivedObject.Derived::print();//Derived.
+
+	return EXIT_SUCCESS;
+}
+--------------------------------------------------------
+"ideas"         "events"
+interface       behaviours
+abstraction     implementations of ideas 
+--------------------------------------------------------
+ANSI    SQL DBMS
+    SQL Server to adapt the SQL DBMS of ANSI
+    Oracle to implement the ANSI for SQL DBMS 
+    MySQL to implement the ANSI for SQL DBMS 
+        connect to db 
+        read operation - SELECT query 
+        write operation - INSERT/UPDATE/DELETE statement
+        disconnect from db 
+Application to develop in C++ language
+    Library like STL / BOOST 
+    (Framework)
+    (API)      
+
+    1. connect to db 
+    2. read operation - SELECT query 
+    3. write operation - INSERT/UPDATE/DELETE statement
+    4. disconnect from db     
+class ResultTable{
+};    
+class Connection{
+    public:
+    ResultTable read(query){
+        }
+    void write(sqlStatement){
+    }
+    void Close(){
+    }
+};
+class DbBase{
+    public:
+        Connection* Open(){
+        }
+       
+        
+}; 
+
+sqlserver.dll library
+class SqlServerConnection:Connection{
+    public:
+    ResultTable read(query){
+        ResultTable resTable;
+        cout << "I am reading from the database." << endl;
+        return resTable;
+    }
+    void write(sqlStatement){
+        cout << "I have written into the database." << endl;
+    }
+    void Close(){
+        cout << "I have closed the database connection." << endl;
+    }
+};
+class SqlServerDbBase:public DbBase
+{
+    public:
+        Connection* Open(){
+            SqlServerConnection *connection = new SqlServerConnection;
+        }
+};
+
+oracle.dll library
+class OracleDbBase:public DbBase
+{
+}
+mysql.dll library
+class OracleDbBase:public DbBase
+{
+}
+--------------------------------------------------------
+Function overriding
+    the same signature of the function 
+    available in both parent(base) and child(derived)
+    class
+    
+Dynamic binding |Dyanamic polimorphism |Dynamic Function overriding
+    with parent pointer (to child object)
+    we can call the child object's overridden member function 
+    
+    with parent reference  (to child object)
+    we can call the child object's overridden member function 
+    
+    using virtualization 
+    
+    Adding the modifier "virtual" to parent overridable member function 
+    we can achieve dynamic binding
+--------------------------------------------------------
+Implementation of ideas
+--------------------------------------------------------
+#include<iostream>
+#include<string>
+using namespace std;
+//Declaration we got from SqlServer.dll inclusion 
+class SqlServerDbBase;
+
+//Abstact classes | interfaces from "my"/"our" library ideas
+
+class ResultTable {
+};
+class Connection {
+public:
+	virtual ResultTable read(string query) {
+		ResultTable table;
+		return table;
+	}
+	virtual void write(string sqlStatement) {
+	}
+	virtual void close() {
+	}
+};
+class DbBase;
+extern DbBase* dbbaseAddr ;
+
+class DbBase {
+public:
+	virtual Connection* open() {
+		DbBase& dbbase = *dbbaseAddr;
+		cout << "I am connection to the database." << endl;
+		cout << "connected to the database." << endl;
+		return dbbase.open();
+	}
+};
+
+//SqlServer Product team from the Microsoft implemented the classes
+/* MACRO CODE  */
+class SqlServerConnection :public Connection {
+public:
+	ResultTable read(string query) {
+		ResultTable resTable;
+		cout << "I am reading from the database." << endl;
+		return resTable;
+	}
+	void write(string sqlStatement) {
+		cout << "I have written into the database." << endl;
+	}
+	void close() {
+		cout << "I have closed the database connection." << endl;
+	}
+};
+class SqlServerDbBase :public DbBase
+{
+public:
+	Connection* open() {
+		
+		SqlServerConnection* connectionAddr = new SqlServerConnection;
+		return connectionAddr;
+	}
+};
+
+
+/* END MACRO CODE  */
+SqlServerDbBase sqlServerDbBase;
+DbBase* dbbaseAddr = &sqlServerDbBase;
+/*MACRO CODE*/
+
+
+int main() {
+	
+
+	DbBase base;
+	Connection* connAddr = base.open();
+
+	ResultTable table = connAddr->read("SELECT * FROM flight");
+	connAddr->write("INSERT INTO flight(airline_name,flight_number,source,destination,travel_date,departure_time,arrival_time,flight_capacity,ticket_fare) VALUES('King Fisher','KF102030','Bhopal','Chennai','2022-05-09','18:00','19:30');");
+	connAddr->close();
+
+	return 0;
+}
+--------------------------------------------------------
+No virtual
+via parent pointer to child object 
+--------------------------------------------------------
+#include<iostream>
+using namespace std;
+class Base {
+public:
+	virtual void print() {//dynamic binding
+	//void print() {//static binding
+		cout << "Base." << endl;
+	}
+};
+class Derived : public Base {
+public:
+	void print() {
+		cout << "Derived." << endl;
+	}
+};
+int main() {
+	Derived derivedObject;
+	Base* baseAddr = &derivedObject;
+	baseAddr->print(); //actually,it has to call parent. but calls child via "virtualaliazation"
+	//Suppose let us assume there no virtualization. Then this calls base/parent function.
+	baseAddr->Base::print();
+	//Though virtual/dynamic binding is on / off,
+	//we can have the full qualifier for the function to call the parent/base function 
+	//means parent class name followed by scope resolution operator followed function name
+	return EXIT_SUCCESS;
+}
+--------------------------------------------------------
+Dynamic Binding
+Purpose: to convert ideas(abstractions/interfaces) into real events(behaviours)/implementations
+who will be the author for the interfaces (nowadays we call them, the framework)?
+For example: cppreference.com - references from original cpp standardization committe 
+cpp standardization (specifications) is not the actual one 
+cpp standardization if it is implemented in the compiler then it is the actual one 
+for example, cpp standard C++23 if it is implemented in "gcc" (the market available compiler)
+                                                         or microsoft visual studio  
+                                                         
+                                                         
+--------------------------------------------------------
+//Dynamic Binding
+#include<iostream>
+using namespace std;
+class Base {
+public:
+	virtual void print() {//dynamic binding	
+		cout << "Base." << endl;
+	}
+};
+class Derived : public Base {
+public:
+	void print() {
+		cout << "Derived." << endl;
+	}
+};
+int main() {
+	Derived derivedObject;
+	Base* baseAddr = &derivedObject;
+	baseAddr->print(); 
+	
+	
+	return EXIT_SUCCESS;
+}
+-------------------------------------------------------
+Dynamic Binding via parent reference to child object 
+--------------------------------------------------------
+
+#include<iostream>
+using namespace std;
+class Base {
+public:
+	virtual void print() {//dynamic binding	
+		cout << "Base." << endl;
+	}
+};
+class Derived : public Base {
+public:
+	void print() {
+		cout << "Derived." << endl;
+	}
+};
+int main() {
+	Derived derivedObject;
+	Base& baseAlias = derivedObject;
+	baseAlias.print(); 
+	return EXIT_SUCCESS;
+}
+--------------------------------------------------------
+Realtime illustration 
+no-virtual / no dynamic binding 
+--------------------------------------------------------
+#include<iostream>
+#include<string>
+using namespace std;
+
+class Connection {
+public:
+	void write(string sqlStatement) {
+	}
+	void close() {
+	}
+};
+
+
+class SqlServerConnection :public Connection {
+public:
+	void write(string sqlStatement) {
+		cout << "I have written into the database." << endl;
+	}
+	void close() {
+		cout << "I have closed the database connection." << endl;
+	}
+};
+
+int main() {
+	SqlServerConnection sqlCon;
+	Connection* conAddr = &sqlCon;
+
+	conAddr->write("Some Query");
+	conAddr->close();
+
+	return 0;
+}
+
+--------------------------------------------------------
+Realtime illustration 
+switch on virtual / dynamic binding
+--------------------------------------------------------
+#include<iostream>
+#include<string>
+using namespace std;
+
+class Connection {
+public:
+	virtual void write(string sqlStatement) {
+	}
+	virtual void close() {
+	}
+};
+
+
+class SqlServerConnection :public Connection {
+public:
+	void write(string sqlStatement) {
+		cout << "I have written into the database." << endl;
+	}
+	void close() {
+		cout << "I have closed the database connection." << endl;
+	}
+};
+
+int main() {
+	SqlServerConnection sqlCon;
+	Connection* conAddr = &sqlCon;
+
+	conAddr->write("Some Query");
+	conAddr->close();
+
+	return 0;
+}
+--------------------------------------------------------
+Let us assume that the ideas(base library) for the database operations is coined by Avinash and Team.
+Avinash and Team talk with database vendors such as Sql Server, Oracle, and so on.
+Sql Server product's owner Microsoft agreed to implment the above-said library.
+"Avinash and Team" library classes should have include the virtualization
+or enabled with dynamic binding 
+In simple, attach the keyword "virtual" to all the functions of the classes of 
+"Avinash and Team" library.
+--------------------------------------------------------
+Achieve dynamic binding via parent reference to child object
+--------------------------------------------------------
+#include<iostream>
+#include<string>
+using namespace std;
+
+class Connection {
+public:
+	virtual void write(string sqlStatement) {
+	}
+	virtual void close() {
+	}
+};
+
+
+class SqlServerConnection :public Connection {
+public:
+	void write(string sqlStatement) {
+		cout << "I have written into the database." << endl;
+	}
+	void close() {
+		cout << "I have closed the database connection." << endl;
+	}
+};
+
+int main() {
+	SqlServerConnection sqlCon;
+	Connection& conAlias = sqlCon;
+
+	conAlias.write("Some Query");
+	conAlias.close();
+
+	return 0;
+}
+--------------------------------------------------------
+//Dynamic Binding if in depth(height)
+If the root class in the class hierarchy has the virtualzation/dynamic binding enabled,
+the vitualization is passed to leaf class in the hierarchy.
+--------------------------------------------------------
+#include<iostream>
+using namespace std;
+class Base {
+public:
+	virtual void print() {//dynamic binding	
+		cout << "Base." << endl;
+	}
+};
+class Derived : public Base {
+public:
+	void print() {
+		cout << "Derived." << endl;
+	}
+};
+class GrandChild : public Derived {
+public:
+	void print() {
+		cout << "GrandChild." << endl;
+	}
+};
+int main() {
+	GrandChild gchildObject;
+	Base* baseAddr = &gchildObject;
+	baseAddr->print(); 
+	
+	return EXIT_SUCCESS;
+}
+--------------------------------------------------------
+Pure virtual function:
+    virtual void print() = 0;//pure virtual function
+    The virtual function which has "no body" / "no definition" / "no implementation"
+    and assigned with zero "0" is called pure virtual function.
+    
+    the class which has one of pure virtual funciton is called abstract class 
+    
+    advantage of abstract class 
+        abstract class cannot allow for creating the object.
+        
+    we ensure the virtualization is applied fully 
+    
+    means abstract class is behaved as the interface(ideas) 
+--------------------------------------------------------
+#include<iostream>
+using namespace std;
+class Parent {
+public:
+	virtual void print() = 0;//pure virtual function
+};
+class DaughterFirst : public Parent {
+public:
+	void print() {
+		cout << "DaughterFirst." << endl;
+	}
+};
+class DaughterSecond : public Parent {
+public:
+	void print() {
+		cout << "DaughterSecond." << endl;
+	}
+};
+class SonFirst : public Parent {
+public:
+	void print() {
+		cout << "SonFirst." << endl;
+	}
+};
+class SonSecond : public Parent {
+public:
+	void print() {
+		cout << "SonSecond." << endl;
+	}
+};
+
+void invokeChild(Parent* parentAddr) {
+	parentAddr->print();
+}
+
+int main() {
+	int menu;
+	//Parent parent; // cannot create object for the pure vitual function class
+	DaughterFirst dautherFirst;
+	DaughterSecond dautherSecond;
+	SonFirst sonFirst;
+	SonSecond sonSecond;
+	cout << "Choice(1-First Daughter, 2-Second Daughter, 3-First Son, 4-Second Son):";
+	cin >> menu;
+	switch (menu) {
+		case 1:
+			invokeChild(&dautherFirst);
+			break;
+		case 2:
+			invokeChild(&dautherSecond);
+			break;
+		case 3:
+			invokeChild(&sonFirst);
+			break;
+		case 4:
+			invokeChild(&sonSecond);
+			break;
+	}
+
+	return EXIT_SUCCESS;
+}
+--------------------------------------------------------
+Realtime 
+    of Connection object 
+    being implemented by the vendors DBMS products 
+    Sql Server, Oracle, MySQL, SQLite 
+--------------------------------------------------------
+#include<iostream>
+#include<string>
+using namespace std;
+class Connection {
+public:
+	virtual void write(string sqlStatement) = 0;//pure virtual function
+};
+
+class SqlServerConnection : public Connection {
+public:
+	void write(string sqlStatement) {
+		cout << "Writing the SQL statement into SqlServer." << endl;
+	}
+};
+
+class OracleConnection : public Connection {
+public:
+	void write(string sqlStatement) {
+		cout << "Writing the SQL statement into Oracle." << endl;
+	}
+};
+class MysqlConnection : public Connection {
+public:
+	void write(string sqlStatement) {
+		cout << "Writing the SQL statement into Mysql." << endl;
+	}
+};
+class SqliteConnection : public Connection {
+public:
+	void write(string sqlStatement) {
+		cout << "Writing the SQL statement into Sqlite." << endl;
+	}
+};
+
+void invokeDbWriteOp(Connection* conAddr, string sql) {
+	conAddr->write(sql);
+}
+
+int main() {
+	int menu;
+
+	SqlServerConnection sqlServerCon;
+	OracleConnection oracleCon;
+	MysqlConnection mysqlCon;
+	SqliteConnection sqliteCon;
+
+	string sql = "UPDATE flight SET numberOfSeats=300 where flightId=1";
+	cout << "Choice(1-Sql Server, 2-Oracle, 3-My SQL, 4-SQLite):";
+	cin >> menu;
+	switch (menu) {
+	case 1:
+		invokeDbWriteOp(&sqlServerCon, sql);
+		break;
+	case 2:
+		invokeDbWriteOp(&oracleCon, sql);
+		break;
+	case 3:
+		invokeDbWriteOp(&mysqlCon, sql);
+		break;
+	case 4:
+		invokeDbWriteOp(&sqliteCon, sql);
+		break;
+	}
+
+	return EXIT_SUCCESS;
+}
+--------------------------------------------------------

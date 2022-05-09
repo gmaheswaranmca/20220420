@@ -1,0 +1,67 @@
+Q1:
+Read a c++ string(your name) of header <string>.
+Call "push" member function of "MyStack" class 
+to add each character of the string into stack.
+Then finally "pull" member function to print
+the "LIFO" structure on computer screen.
+
+Complete the intial code to achieve the above scenario.
+
+Initial Code:
+#define MAX_SIZE 100
+#include<iostream>
+#include<string>
+using namespace std;
+
+class MyStack{
+	private:
+		char characters[MAX_SIZE];
+		int top;
+	public:
+		MyStack();
+		void push(char ch);
+		char pop();
+		bool isEmpty();
+		bool isFull();
+};
+
+// Define constructor 
+/* Code Here */
+
+// Define push function
+/* Code Here */
+
+// Define pull function
+/* Code Here */
+
+bool MyStack::isEmpty(){
+	return this->top == -1;
+}
+
+bool MyStack::isFull(){
+	return this->top == (MAX_SIZE - 1);
+}
+
+int main(){
+	string yourname;
+	MyStack mystack;
+	cout << "Enter your name:"; cin >> yourname;
+	for(int I = 0; I < yourname.size(); I++){
+		char ch = yourname[I];
+		//CODE HERE call "push" function of "mystack" to add "ch" into "mystack"
+	}
+	cout << endl << endl << "Your name from stack (LIFO) structure:" << endl;
+	while(!mystack.isEmpty()){
+		char ch = /*CODE HERE call "pop" function to read each char from "mystack" */;
+		cout << ch;
+	}
+	return 0;
+}
+
+Test Case:
+Enter your name:Einstein
+
+
+Your name from stack (LIFO) structure:
+nietsniE
+

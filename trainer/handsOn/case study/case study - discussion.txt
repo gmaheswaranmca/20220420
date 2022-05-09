@@ -25,8 +25,12 @@ Bank: Avinash Anil Shrikant
 				widthdraw, deposit, transfer(within bank/other bank/self account)
 	emp-reports, approval
 		
-	1) Problem Statement 	
+	1) Problem Statement 	(Date Time)2
 	2) Literature Review 
+	
+	Communication:
+		1. Whatsapp Group Added
+		2. gmeet / calendar event - pending	(Date Time)1
 	
 Finance: Uday Divya Manikanta Subhash
          ---- (poc)
@@ -48,7 +52,13 @@ Finance: Uday Divya Manikanta Subhash
 				
 			
 	emp-approval		
-	1) Problem Statement 
+	1) Problem Statement (Date Time)2
 	2) Literature Review 
 	
+	Communication:
+	1. Whatsapp Group Added
+	2. gmeet / calendar event - pending (Date Time)1
+
+------------------------------------------------------------------------------	
+------------------------------------------------------------------------------
 	

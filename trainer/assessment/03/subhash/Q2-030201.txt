@@ -1,0 +1,98 @@
+Q2
+Define Rectangle class of attributes{length, width, area}.
+Read two rectangles{(2,3},{4,5}} in container class RectangleContainer.
+For each rectangle object call member function "updateArea()" of "Rectangle".
+And find sum of areas of two rectangles using member operator +.
+
+Complete the intial code to achieve the above scenario.
+
+Initial Code:
+#include<iostream>
+#include<string>
+using namespace std;
+
+class Rectangle{
+	private:
+		int length;
+		int width;
+		int area;
+	public:
+		Rectangle();
+		void updateArea();
+		/* CODE HERE Declare member operator+ function to overload for Rectangle object */
+		friend istream& operator>>(istream& input, Rectangle& first);
+		friend ostream& operator<<(ostream& output, Rectangle& first);
+};
+Rectangle::Rectangle(){
+	this->length = 0;
+	this->width = 0;
+}
+void Rectangle::updateArea(){
+    this->area = this->length * this->width;
+}
+istream& operator>>(istream& input, Rectangle& first){
+	cout << "Enter length:"; input >> first.length;
+	cout << "Enter width:"; input >> first.width;
+	first.updateArea();
+	return input;
+}
+ostream& operator<<(ostream& output, Rectangle& first){
+	output << "[" << first.length 
+				  << "," << first.width 
+				  << ",area=" << first.area 
+		   << "]" << endl;
+	return output;
+}
+
+// Define member operator+ function to overload for Rectangle object 
+/* CODE HERE */
+
+class RectangleContainer{
+	private:
+		Rectangle rectangles[2];
+		Rectangle sumRectangle;
+	public:
+		void read();
+		void findSum();
+		void print();
+};
+void RectangleContainer::read(){
+	cout << endl << endl << "Enter first rectangle(length,width):" << endl;
+	cin >> this->rectangles[0];
+	cout << endl << endl << "Enter second rectangle(length,width):" << endl;
+	cin >> this->rectangles[1];
+}
+void RectangleContainer::findSum(){
+	this->sumRectangle = this->rectangles[0] + this->rectangles[1];
+}
+void RectangleContainer::print(){
+	cout << endl << endl;
+	cout << "First Rectangle" << this->rectangles[0];
+	cout << "Second Rectangle" << this->rectangles[1];
+	cout << "Sum Rectangle" << this->sumRectangle;
+}
+
+int main(){
+	RectangleContainer rectContainer;
+	rectContainer.read();
+	rectContainer.findSum();
+	rectContainer.print();
+	return 0;
+}
+Test Case:
+
+
+Enter first rectangle(length,width):
+Enter length:2
+Enter width:3
+
+
+Enter second rectangle(length,width):
+Enter length:4
+Enter width:5
+
+
+First Rectangle[2,3,area=6]
+Second Rectangle[4,5,area=20]
+Sum Rectangle[0,0,area=26]
+

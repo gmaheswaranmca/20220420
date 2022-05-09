@@ -135,6 +135,7 @@ int main() {
 }
 ----------------------------------------------------------------------------
 Queue Implementation
+SOLVE
 ----------------------------------------------------------------------------
 #define MAX_SIZE 5
 #include<iostream>
@@ -181,3 +182,361 @@ int main() {
 	} while (1 <= menu && menu << 3);//1 <= menu <= 3   
 	return EXIT_SUCCESS;
 }
+-----------------------------------------------------
+Queue Implementation
+Solution
+-----------------------------------------------------
+#define MAX_SIZE 5
+#include<iostream>
+using namespace std;
+
+class QGQueue {
+private:
+	int numbers[MAX_SIZE];
+    bool offPrintAtOp;
+	int FRONT;
+    int REAR;
+public:
+    QGQueue(bool offPrintAtOp);
+	QGQueue();
+	
+	void init(bool offPrintAtOp);
+	
+	void enqueue(int data);
+	int dequeue();
+	void print();
+	
+	bool isFull(){return (MAX_SIZE - 1) == this->REAR;}
+	bool isEmpty(){return -1 == this->FRONT;}
+	bool hasToBeEmpty(){return this->FRONT > this->REAR;}
+};
+void QGQueue::init(bool offPrintAtOp=true){
+    this->FRONT = -1;
+    this->REAR = -1;
+    this->offPrintAtOp = offPrintAtOp;
+}
+QGQueue::QGQueue(){
+    this->init(false);
+}
+QGQueue::QGQueue(bool offPrintAtOp){
+    this->init(offPrintAtOp);
+}
+void QGQueue::enqueue(int data){
+    if(this->isFull()){
+        if(!this->offPrintAtOp){ cout << "QUEUE is full." << endl;}
+        return;
+    }
+    this->REAR ++;
+    
+    this->numbers[this->REAR] = data;
+    
+    if(this->isEmpty()){
+        this->FRONT = this->REAR;
+    }
+}
+int QGQueue::dequeue(){
+    if(this->isEmpty()){
+        if(!this->offPrintAtOp){ cout << "QUEUE is empty." << endl;}
+        return -999;
+    }
+    int data = this->numbers[this->FRONT];
+    this->FRONT++;
+    if(this->hasToBeEmpty()){
+        this->FRONT = -1;
+        this->REAR = -1;
+    }
+    return data;
+}
+void QGQueue::print(){
+    cout << endl << endl << "QUEUE is (FRONT-REAR)" << endl;
+    if(this->isEmpty()){
+        cout << "***Queue is empty." << endl;
+    }
+    if(this->isFull()){
+        cout << "***Queue is full." << endl;
+    }
+    for(int I = (this->isEmpty() ? 0 : this->FRONT); I <= this->REAR; I++){
+        cout << "\t" << numbers[I] << endl;
+    }
+}
+
+int main() {
+
+
+	QGQueue queue;
+	int menu,data;
+	do {
+		cout << "Choice(1-Add,2-Delete,3-Print):"; cin >> menu;
+		switch (menu) {
+		case 1:
+			
+			cout << "Enter data:"; cin >> data;
+			queue.enqueue(data);
+			break;
+		case 2:
+			
+			data = queue.dequeue();
+			if (data != -999) {
+				cout << "The FIFO data read is " << data << endl;
+			}
+			break;
+		case 3:
+			queue.print();
+			break;
+		}
+	} while (1 <= menu && menu << 3);//1 <= menu <= 3   
+	return EXIT_SUCCESS;
+}
+
+-----------------------------------------------------
+Implement Stack as queue
+-----------------------------------------------------
+#define MAX_SIZE 5
+#include<iostream>
+using namespace std;
+
+class QGStack {
+private:
+	int numbers[MAX_SIZE];
+	int top;
+public:
+	QGStack();
+	void push(int data);
+	int pop();
+	void print();
+	bool isEmpty(){return this->top == -1;}
+	bool isFull(){return this->top == (MAX_SIZE-1);}
+};
+QGStack::QGStack() {
+	this->top = -1;
+}
+void QGStack::push(int data) {
+	if (this->isFull()) {
+		//cout << "STACK is full." << endl;
+		return;
+	}
+
+	this->top = this->top + 1;
+	numbers[this->top] = data;
+}
+int QGStack::pop() {
+	if (this->isEmpty()) {
+		//cout << "STACK is empty." << endl;
+		return -999;
+	}
+	int data = numbers[this->top];
+	this->top = this->top - 1;
+	return data;
+}
+void QGStack::print() {
+	cout << endl << endl << "The numbers in the stack is(TOP to BOTTOM) " << endl;
+	for (int I = this->top; I >= 0; I--) {
+		cout << "\t" << this->numbers[I] << endl;
+	}
+}
+
+class StackQueue{
+    private:
+        QGStack stack;
+        QGStack Q;
+    public:
+        void enQ(int data){
+            if(stack.isFull()){
+               cout << "Queue is full" << endl;
+               return;
+            }
+            stack.push(data);
+        }
+        int deQ(){
+            int data;
+            
+            if(!Q.isEmpty()){
+                data  = Q.pop();
+                return data;
+            }
+            while(!stack.isEmpty()){
+              Q.push(stack.pop());
+            }
+            if(!Q.isEmpty()){
+                data  = Q.pop();
+                return data;
+            }else{
+                cout << "Queue is empty" << endl;
+                return -999;
+            }
+        }
+};
+
+int main() {
+
+
+	StackQueue stkQ;
+	int menu,data;
+	do {
+		cout << "Choice(1-Add,2-Delete):"; cin >> menu;//3-Print
+		switch (menu) {
+		case 1:
+			
+			cout << "Enter data:"; cin >> data;
+			stkQ.enQ(data);
+			break;
+		case 2:
+			
+			data = stkQ.deQ();
+			if (data != -999) {
+				cout << "The FIFO data read is " << data << endl;
+			}
+			break;
+		//case 3:
+			//stack.print();
+			//break;
+		}
+	} while (1 <= menu && menu << 2);//1 <= menu && menu << 3 
+	return EXIT_SUCCESS;
+}
+-----------------------------------------------------
+Implement Queue as Stack
+-----------------------------------------------------
+#define MAX_SIZE 5
+#include<iostream>
+using namespace std;
+
+class QGQueue {
+private:
+	int numbers[MAX_SIZE];
+    bool offPrintAtOp;
+	int FRONT;
+    int REAR;
+public:
+    QGQueue(bool offPrintAtOp);
+	QGQueue();
+	
+	void init(bool offPrintAtOp);
+	
+	void enqueue(int data);
+	int dequeue();
+	void print();
+	
+	bool isFull(){return (MAX_SIZE - 1) == this->REAR;}
+	bool isEmpty(){return -1 == this->FRONT;}
+	bool hasToBeEmpty(){return this->FRONT > this->REAR;}
+	bool willNextDequeEmpty(){return (!this->isEmpty()) && (this->FRONT == this->REAR);}
+};
+void QGQueue::init(bool offPrintAtOp=true){
+    this->FRONT = -1;
+    this->REAR = -1;
+    this->offPrintAtOp = offPrintAtOp;
+}
+QGQueue::QGQueue(){
+    this->init(false);
+}
+QGQueue::QGQueue(bool offPrintAtOp){
+    this->init(offPrintAtOp);
+}
+void QGQueue::enqueue(int data){
+    if(this->isFull()){
+        if(!this->offPrintAtOp){ cout << "QUEUE is full." << endl;}
+        return;
+    }
+    this->REAR ++;
+    
+    this->numbers[this->REAR] = data;
+    
+    if(this->isEmpty()){
+        this->FRONT = this->REAR;
+    }
+}
+int QGQueue::dequeue(){
+    if(this->isEmpty()){
+        if(!this->offPrintAtOp){ cout << "QUEUE is empty." << endl;}
+        return -999;
+    }
+    int data = this->numbers[this->FRONT];
+    this->FRONT++;
+    if(this->hasToBeEmpty()){
+        this->FRONT = -1;
+        this->REAR = -1;
+    }
+    return data;
+}
+void QGQueue::print(){
+    cout << endl << endl << "QUEUE is (FRONT-REAR)" << endl;
+    if(this->isEmpty()){
+        cout << "***Queue is empty." << endl;
+    }
+    if(this->isFull()){
+        cout << "***Queue is full." << endl;
+    }
+    for(int I = (this->isEmpty() ? 0 : this->FRONT); I <= this->REAR; I++){
+        cout << "\t" << numbers[I] << endl;
+    }
+}
+class QueueStack{
+    private:
+        QGQueue Q;
+        QGQueue stack;
+    public:
+        QueueStack():Q(true),stack(true){}
+        void push(int data){
+            if(Q.isFull()){
+               cout << "Stack is full" << endl;
+               return;
+            }
+            Q.enqueue(data);
+        }
+        int pop(){
+            int data;
+            
+            if(Q.willNextDequeEmpty()){//if the "next Dequeue op" empties the Queue, read immediately
+                data  = Q.dequeue();
+                return data;
+            }
+            while((!Q.isEmpty()) && (!Q.willNextDequeEmpty())){
+                //if Q is not empty AND 
+                //if Q will not empty the Q in "next Dequeue op"
+                
+                //move Q -> stack before REAR element
+                stack.enqueue(Q.dequeue());
+            }
+            if(Q.willNextDequeEmpty()){
+                data  = Q.dequeue();
+                //stack -> Q
+                while( (!stack.isEmpty()) ){
+                    Q.enqueue(stack.dequeue());      
+                }
+               
+                return data;
+            }else{
+                cout << "Stack is empty" << endl;
+                return -999;
+            }
+        }
+};
+int main() {
+
+
+QueueStack qStack;
+	int menu,data;
+	do {
+		cout << "Choice(1-Add,2-Delete):"; cin >> menu;//3-Print
+		switch (menu) {
+		case 1:
+			
+			cout << "Enter data:"; cin >> data;
+			qStack.push(data);
+			break;
+		case 2:
+			
+			data = qStack.pop();
+			if (data != -999) {
+				cout << "The LIFO data read is " << data << endl;
+			}
+			break;
+		//case 3:
+			//stack.print();
+			//break;
+		}
+	} while (1 <= menu && menu << 2);//1 <= menu && menu << 3 
+	return EXIT_SUCCESS;
+}
+-----------------------------------------------------

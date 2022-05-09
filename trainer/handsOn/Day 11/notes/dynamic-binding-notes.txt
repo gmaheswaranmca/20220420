@@ -1,0 +1,496 @@
+-----------------------------------------------------------
+Function Overriding
+Dynamic Binding via overridden function invocation of Base Pointer
+Dynamic Binding via overridden function invocation of Base Reference 
+-----------------------------------------------------------
+Step 1: object member function(overridden) Invocation of 
+	"base object" 
+	"derived object"
+	"derived object but function with parent scope"
+-----------------------------------------------------------
+//Account->FixedAccount | Single Level Inheritance
+#include<iostream>
+#include<string>
+using namespace std;
+
+
+class Account {
+public:
+	int accountNumber;
+	string accountHolderName;
+	float balance;
+
+	Account();
+	Account(int accountNumber, string accountHolderName, float balance);
+	void print();
+	//virtual void print();
+};
+
+class FixedAccount : public Account {
+	// FixedAccount = Account members + members introduced in FixedAccount
+public:
+	int maturityDuration;
+	float interestRate;
+
+	FixedAccount();
+	FixedAccount(int accountNumber, string accountHolderName, float balance,
+		int maturityDuration, float interestRate);
+	void print();//function overriding
+};
+
+
+
+//member initializer list
+Account::Account() :accountNumber(0), accountHolderName(""), balance(0.0f) {
+	//cout << "We are in Account(Default Constructor)" << endl;
+}
+Account::Account(int accountNumber, string accountHolderName,
+	float balance) :accountNumber(accountNumber),
+	accountHolderName(accountHolderName), balance(balance)
+{
+	//cout << "We are in Account(Args Constructor)" << endl;
+}
+void Account::print() {
+	cout << this->accountNumber << "-Base[" << this->accountHolderName << ","
+		<< this->balance << "]" << endl;
+}
+FixedAccount::FixedAccount():Account(),interestRate(0.0f),maturityDuration(0) {
+	//cout << "We are in FixedAccount(Default Constructor)" << endl;
+}
+FixedAccount::FixedAccount(int accountNumber, string accountHolderName, 
+	float balance,
+	int maturityDuration, float interestRate) : 
+	Account(accountNumber, accountHolderName, balance),
+		interestRate(interestRate), maturityDuration(maturityDuration) {
+	//cout << "We are in FixedAccount(Args Constructor)" << endl;
+}
+void FixedAccount::print() {
+	cout << this->accountNumber << "-Fixed[" 
+	    << this->accountHolderName << ","
+		<< this->balance << ","
+		<< this->interestRate << "," 
+		<< this->maturityDuration 
+		<< "]" 
+		<< endl;
+}
+int main() {
+    //Parent and Child
+	Account uday(102030, "Uday", 7000);
+	FixedAccount anil(102031, "Anil", 50000,36,7.25f);
+	
+	cout << "Parent and Child: " << endl;
+	cout << "\t"; uday.print();
+	cout << "\t"; anil.Account::print();
+	cout << "\t"; anil.print();
+
+
+
+	return EXIT_SUCCESS;
+}
+-----------------------------------------------------------
+Step 2: object member function(overridden) Invocation of 
+	"base pointer to base object" 
+	"base pointer to derived object"
+	Note: no qualifier "virtual" in the base overridden function
+-----------------------------------------------------------
+//Account->FixedAccount | Single Level Inheritance
+#include<iostream>
+#include<string>
+using namespace std;
+
+
+class Account {
+public:
+	int accountNumber;
+	string accountHolderName;
+	float balance;
+
+	Account();
+	Account(int accountNumber, string accountHolderName, float balance);
+	void print();
+	//virtual void print();
+};
+
+class FixedAccount : public Account {
+	// FixedAccount = Account members + members introduced in FixedAccount
+public:
+	int maturityDuration;
+	float interestRate;
+
+	FixedAccount();
+	FixedAccount(int accountNumber, string accountHolderName, float balance,
+		int maturityDuration, float interestRate);
+	void print();//function overriding
+};
+
+
+
+//member initializer list
+Account::Account() :accountNumber(0), accountHolderName(""), balance(0.0f) {
+	//cout << "We are in Account(Default Constructor)" << endl;
+}
+Account::Account(int accountNumber, string accountHolderName,
+	float balance) :accountNumber(accountNumber),
+	accountHolderName(accountHolderName), balance(balance)
+{
+	//cout << "We are in Account(Args Constructor)" << endl;
+}
+void Account::print() {
+	cout << this->accountNumber << "-Base[" << this->accountHolderName << ","
+		<< this->balance << "]" << endl;
+}
+FixedAccount::FixedAccount():Account(),interestRate(0.0f),maturityDuration(0) {
+	//cout << "We are in FixedAccount(Default Constructor)" << endl;
+}
+FixedAccount::FixedAccount(int accountNumber, string accountHolderName, 
+	float balance,
+	int maturityDuration, float interestRate) : 
+	Account(accountNumber, accountHolderName, balance),
+		interestRate(interestRate), maturityDuration(maturityDuration) {
+	//cout << "We are in FixedAccount(Args Constructor)" << endl;
+}
+void FixedAccount::print() {
+	cout << this->accountNumber << "-Fixed[" 
+	    << this->accountHolderName << ","
+		<< this->balance << ","
+		<< this->interestRate << "," 
+		<< this->maturityDuration 
+		<< "]" 
+		<< endl;
+}
+int main() {
+    //Parent and Child
+	Account uday(102030, "Uday", 7000);
+	FixedAccount anil(102031, "Anil", 50000,36,7.25f);
+	
+	cout << "Parent and Child: " << endl;
+	cout << "\t"; uday.print();
+	cout << "\t"; anil.Account::print();
+	cout << "\t"; anil.print();
+
+	//Parent and Child by basePointer
+	Account *accBaseAddr;
+	cout << "Parent and Child by base pointer: " << endl;
+	accBaseAddr = &uday; cout << "\t"; accBaseAddr->print();
+	accBaseAddr = &anil; cout << "\t"; accBaseAddr->print();
+	
+	return EXIT_SUCCESS;
+}
+-----------------------------------------------------------
+Step 3: object member function(overridden) Invocation of 
+	"base referece to base object" 
+	"base referece to derived object"
+	Note: no qualifier "virtual" in the base overridden function
+-----------------------------------------------------------
+//Account->FixedAccount | Single Level Inheritance
+#include<iostream>
+#include<string>
+using namespace std;
+
+
+class Account {
+public:
+	int accountNumber;
+	string accountHolderName;
+	float balance;
+
+	Account();
+	Account(int accountNumber, string accountHolderName, float balance);
+	void print();
+	//virtual void print();
+};
+
+class FixedAccount : public Account {
+	// FixedAccount = Account members + members introduced in FixedAccount
+public:
+	int maturityDuration;
+	float interestRate;
+
+	FixedAccount();
+	FixedAccount(int accountNumber, string accountHolderName, float balance,
+		int maturityDuration, float interestRate);
+	void print();//function overriding
+};
+
+
+
+//member initializer list
+Account::Account() :accountNumber(0), accountHolderName(""), balance(0.0f) {
+	//cout << "We are in Account(Default Constructor)" << endl;
+}
+Account::Account(int accountNumber, string accountHolderName,
+	float balance) :accountNumber(accountNumber),
+	accountHolderName(accountHolderName), balance(balance)
+{
+	//cout << "We are in Account(Args Constructor)" << endl;
+}
+void Account::print() {
+	cout << this->accountNumber << "-Base[" << this->accountHolderName << ","
+		<< this->balance << "]" << endl;
+}
+FixedAccount::FixedAccount():Account(),interestRate(0.0f),maturityDuration(0) {
+	//cout << "We are in FixedAccount(Default Constructor)" << endl;
+}
+FixedAccount::FixedAccount(int accountNumber, string accountHolderName, 
+	float balance,
+	int maturityDuration, float interestRate) : 
+	Account(accountNumber, accountHolderName, balance),
+		interestRate(interestRate), maturityDuration(maturityDuration) {
+	//cout << "We are in FixedAccount(Args Constructor)" << endl;
+}
+void FixedAccount::print() {
+	cout << this->accountNumber << "-Fixed[" 
+	    << this->accountHolderName << ","
+		<< this->balance << ","
+		<< this->interestRate << "," 
+		<< this->maturityDuration 
+		<< "]" 
+		<< endl;
+}
+int main() {
+    //Parent and Child
+	Account uday(102030, "Uday", 7000);
+	FixedAccount anil(102031, "Anil", 50000,36,7.25f);
+	
+	cout << "Parent and Child: " << endl;
+	cout << "\t"; uday.print();
+	cout << "\t"; anil.Account::print();
+	cout << "\t"; anil.print();
+
+	//Parent and Child by basePointer
+	Account *accBaseAddr;
+	cout << "Parent and Child by base pointer: " << endl;
+	accBaseAddr = &uday; cout << "\t"; accBaseAddr->print();
+	accBaseAddr = &anil; cout << "\t"; accBaseAddr->print();
+	
+	//Parent and Child by baseReference
+	
+	cout << "Parent and Child by base reference: " << endl;
+	Account& udayBaseAlias = uday; cout << "\t"; udayBaseAlias.print();
+	Account& anilBaseAlias = anil; cout << "\t"; anilBaseAlias.print();
+	
+	return EXIT_SUCCESS;
+}
+-----------------------------------------------------------
+Step 4: object member function(overridden) Invocation of 
+	"base pointer to base object" 
+	"base pointer to derived object"
+	Note: now with qualifier "virtual" in the base overridden function
+					AND
+	"base referece to base object" 
+	"base referece to derived object"
+	Note: now with qualifier "virtual" in the base overridden function	
+-----------------------------------------------------------
+//Account->FixedAccount | Single Level Inheritance
+#include<iostream>
+#include<string>
+using namespace std;
+
+
+class Account {
+public:
+	int accountNumber;
+	string accountHolderName;
+	float balance;
+
+	Account();
+	Account(int accountNumber, string accountHolderName, float balance);
+	//void print();
+	virtual void print();
+};
+
+class FixedAccount : public Account {
+	// FixedAccount = Account members + members introduced in FixedAccount
+public:
+	int maturityDuration;
+	float interestRate;
+
+	FixedAccount();
+	FixedAccount(int accountNumber, string accountHolderName, float balance,
+		int maturityDuration, float interestRate);
+	void print();//function overriding
+};
+
+
+
+//member initializer list
+Account::Account() :accountNumber(0), accountHolderName(""), balance(0.0f) {
+	//cout << "We are in Account(Default Constructor)" << endl;
+}
+Account::Account(int accountNumber, string accountHolderName,
+	float balance) :accountNumber(accountNumber),
+	accountHolderName(accountHolderName), balance(balance)
+{
+	//cout << "We are in Account(Args Constructor)" << endl;
+}
+void Account::print() {
+	cout << this->accountNumber << "-Base[" << this->accountHolderName << ","
+		<< this->balance << "]" << endl;
+}
+FixedAccount::FixedAccount():Account(),interestRate(0.0f),maturityDuration(0) {
+	//cout << "We are in FixedAccount(Default Constructor)" << endl;
+}
+FixedAccount::FixedAccount(int accountNumber, string accountHolderName, 
+	float balance,
+	int maturityDuration, float interestRate) : 
+	Account(accountNumber, accountHolderName, balance),
+		interestRate(interestRate), maturityDuration(maturityDuration) {
+	//cout << "We are in FixedAccount(Args Constructor)" << endl;
+}
+void FixedAccount::print() {
+	cout << this->accountNumber << "-Fixed[" 
+	    << this->accountHolderName << ","
+		<< this->balance << ","
+		<< this->interestRate << "," 
+		<< this->maturityDuration 
+		<< "]" 
+		<< endl;
+}
+int main() {
+    //Parent and Child
+	Account uday(102030, "Uday", 7000);
+	FixedAccount anil(102031, "Anil", 50000,36,7.25f);
+	cout << "Parent and Child: " << endl;
+	cout << "\t"; uday.print();
+	cout << "\t"; anil.Account::print();
+	cout << "\t"; anil.print();
+	
+	//Parent and Child by basePointer
+	Account *accBaseAddr;
+	cout << "Parent and Child by base pointer: " << endl;
+	accBaseAddr = &uday; cout << "\t"; accBaseAddr->print();
+	accBaseAddr = &anil; cout << "\t"; accBaseAddr->print();
+	
+	//Parent and Child by baseReference
+	
+	cout << "Parent and Child by base reference: " << endl;
+	Account& udayBaseAlias = uday; cout << "\t"; udayBaseAlias.print();
+	Account& anilBaseAlias = anil; cout << "\t"; anilBaseAlias.print();
+	
+	return EXIT_SUCCESS;
+}
+-----------------------------------------------------------
+Final Step:
+-----------------------------------------------------------
+//Account->FixedAccount | Single Level Inheritance
+#define MAX 1000
+#include<iostream>
+#include<string>
+using namespace std;
+
+class Account;
+class Bank {
+public:
+	Account* accountAddresses[MAX]; //Pointer Array
+	int accountCount;
+	Bank();
+	~Bank();
+};
+
+
+class Account {
+public:
+	int accountNumber;
+	string accountHolderName;
+	float balance;
+
+	Account();
+	Account(int accountNumber, string accountHolderName, float balance);
+	//void print();
+	virtual void print();
+};
+
+class FixedAccount : public Account {
+	// FixedAccount = Account members + members introduced in FixedAccount
+public:
+	int maturityDuration;
+	float interestRate;
+
+	FixedAccount();
+	FixedAccount(int accountNumber, string accountHolderName, float balance,
+		int maturityDuration, float interestRate);
+	void print();//function overriding
+};
+
+Bank::Bank() {
+	
+	this->accountCount = 0;
+}
+Bank::~Bank() {
+	
+}
+
+//member initializer list
+Account::Account() :accountNumber(0), accountHolderName(""), balance(0.0f) {
+	//cout << "We are in Account(Default Constructor)" << endl;
+}
+Account::Account(int accountNumber, string accountHolderName,
+	float balance) :accountNumber(accountNumber),
+	accountHolderName(accountHolderName), balance(balance)
+{
+	//cout << "We are in Account(Args Constructor)" << endl;
+}
+void Account::print() {
+	cout << this->accountNumber << "-Base[" << this->accountHolderName << ","
+		<< this->balance << "]" << endl;
+}
+FixedAccount::FixedAccount():Account(),interestRate(0.0f),maturityDuration(0) {
+	//cout << "We are in FixedAccount(Default Constructor)" << endl;
+}
+FixedAccount::FixedAccount(int accountNumber, string accountHolderName, 
+	float balance,
+	int maturityDuration, float interestRate) : 
+	Account(accountNumber, accountHolderName, balance),
+		interestRate(interestRate), maturityDuration(maturityDuration) {
+	//cout << "We are in FixedAccount(Args Constructor)" << endl;
+}
+void FixedAccount::print() {
+	cout << this->accountNumber << "-Fixed[" 
+	    << this->accountHolderName << ","
+		<< this->balance << ","
+		<< this->interestRate << "," 
+		<< this->maturityDuration 
+		<< "]" 
+		<< endl;
+}
+int main() {
+    cout << "Parent and Child: " << endl;
+	Account uday(102030, "Uday", 7000);
+	cout << "\t"; uday.print();
+
+	FixedAccount anil(102031, "Anil", 50000,36,7.25f);
+	cout << "\t"; anil.Account::print();
+	cout << "\t"; anil.print();
+
+	cout << "Parent and Child into Parent Pointer: " << endl;
+	Account* accAddr = NULL;
+	accAddr = &uday;
+	cout << "\t"; accAddr->print();
+
+	accAddr = &anil;
+	cout << "\t"; accAddr->print();
+
+    
+    //Parent and Child into Parent Pointers which is in a container
+    Bank bank;
+    
+    bank.accountAddresses[bank.accountCount] = &uday;
+	bank.accountCount++;
+	
+    bank.accountAddresses[bank.accountCount] = &anil;
+	bank.accountCount++;
+
+    cout << "Parent and Child into Parent Pointers which is in a container: " << endl;
+	for (int I = 0; I < bank.accountCount;I++) {
+		cout << "\t"; bank.accountAddresses[I]->print();
+	}
+	
+	cout << "Parent and Child into Parent Reference: " << endl;
+	for (int I = 0; I < bank.accountCount;I++) {
+	    Account &account = *bank.accountAddresses[I];
+		cout << "\t"; account.print();
+	}
+
+	return EXIT_SUCCESS;
+}
+-----------------------------------------------------------
