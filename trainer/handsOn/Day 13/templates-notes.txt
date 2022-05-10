@@ -1,0 +1,920 @@
+Templates
+	• Introduction
+	• Advantages
+	• Function Templates
+	• Over loading function template
+	• Class Templates
+	• Inheritance Class Templates
+----------------------------------------------------------------
+class : think class as "template"	
+----------------------------------------------------------------
+template:
+---------
+    a family of classes (class template)
+    Syntax:
+        template < parameter-list > class-declaration
+    a family of functions (function template)
+    syntax:
+        template < parameter-list > function-declaration
+        
+        parameter-list	-	a non-empty comma-separated list of the template parameters, 
+            each of which is either 
+                non-type parameter, 
+                a type parameter, 
+                a template parameter, 
+                or a parameter pack of any of those
+
+concept "template" is in C++.
+"generics"
+----------------------------------------------------------------
+if we have common patterns in the "overloaded functions"
+or "classes of similar type"
+
+use template to solve.
+
+I template for similar functions of same task
+	Example:
+	what is not going to be template?
+	int findSum(int,int);			//task is addition
+	int findDiff(int,int);			//task is substractions
+	int findProduct(int,int);
+	int findQuotient(int,int);
+	Reason: all the above functions are for different tasks 
+	
+	what is going to be template?
+		"same function name(has to mean same task) and almost no change in code"
+        
+        
+	int findSum(int first,int second);			//same task	
+	float findSum(float,float);
+	double findSum(double,double);
+	long findSum(long first,long second);
+	string findSum(string,string);
+    
+    
+	code:
+        {
+            return first + second;
+        }
+	alternate:
+        {
+            int sum = 0;				
+            sum = first + second;
+            return sum;
+        }
+	
+	actual definition: (first approach)
+        int findSum(int first,int second){
+            return first + second;
+        }
+        float findSum(float first,float second){
+            return first + second;
+        }
+        double findSum(double first,double second){
+            return first + second;
+        }
+        long findSum(long first,long second){
+            return first + second;
+        }
+        string findSum(string first,string second){
+            return first + second;
+        }
+	actual definition: (second approach)
+        int findSum(int first,int second){
+            int sum = 0;				
+            sum = first + second;
+            return sum;
+        }
+        float findSum(float first,float second){
+            float sum = 0.0f;				
+            sum = first + second;
+            return sum;
+        }
+        double findSum(double first,double second){
+            double sum = 0;				
+            sum = first + second;
+            return sum;
+        }
+        long findSum(long first,long second){
+            long sum = 0;				
+            sum = first + second;
+            return sum;
+        }
+        string findSum(string first,string second){
+            string sum = "";				
+            sum = first + second;
+            return sum;
+        }
+	
+	
+II template for similar classes 
+    - the class if associated with template we call it as template class
+----------------------------------------------------------------
+Points:
+1. In overloaded similar task functions, 
+   if the code is similar (same code), go for template forming 
+2. In overloaded similar task functions, 
+   if the code is little different and changes in the datatype, 
+   first "change the code towards forming template"
+   go for template forming  
+3. In overloaded similar task functions, 
+   if the code is little different and changes in the datatype and in the code with value used in expression, 
+   we cannot "change the code towards forming template"
+4. In overloaded similar task functions, 
+   if the code is little different and changes in the datatype and in the code which is not the expression 
+   we can "change the code towards forming template"   
+   go for template forming  
+   **************Thumb Rule(Standard)**************
+   If our template is not following single responsibility principle,
+   Dont go aginst the industry standard
+   ie dont go for template forming 
+----------------------------------------------------------------   
+Use Case 1
+----------------------------------------------------------------
+"findSum" overloaded functions for addition of two different data items
+----------------------------------------------------------------
+#include<iostream>
+#include<string>
+using namespace std;
+int findSum(int first, int second) {
+	return first + second;
+}
+float findSum(float first, float second) {
+	return first + second;
+}
+double findSum(double first, double second) {
+	return first + second;
+}
+long findSum(long first, long second) {   
+	return first + second;
+}
+string findSum(string first, string second) {
+	return first + second;
+}
+
+int main() {
+	cout << findSum(2, 3) << endl;
+	cout << findSum(2.0f, 3.0f) << endl;
+	cout << findSum(2.0, 3.0) << endl;
+	cout << findSum(2L, 3L) << endl;
+	cout << findSum("Subhash", "Pawar") << endl;
+	return EXIT_SUCCESS;
+}
+----------------------------------------------------------------
+migration of 
+"findSum" overloaded functions for addition of two different data items
+into template 
+----------------------------------------------------------------
+#include<iostream>
+#include<string>
+using namespace std;
+
+template<class T>
+T findSum(T first, T second) {
+	return first + second;
+}
+
+int main() {
+	cout << findSum<int>(2, 3) << endl;
+	cout << findSum<float>(2.0f, 3.0f) << endl;
+	cout << findSum<double>(2.0, 3.0) << endl;
+	cout << findSum<long>(2L, 3L) << endl;
+	cout << findSum<string>("Subhash", "Pawar") << endl;
+	return EXIT_SUCCESS;
+}
+----------------------------------------------------------------
+Use Case 2
+----------------------------------------------------------------
+Another approach (multiple datatypes)
+overloaded functions 
+----------------------------------------------------------------
+#include<iostream>
+#include<string>
+using namespace std;
+float findSum(int first, float second) {
+	return ((float)first) + second;
+}
+float findSum(float first, int second) {
+	return first + ((float)second);
+}
+double findSum(float first, double second) {
+	return ((double)first) + second;
+}
+long findSum(long first, int second) {   
+	return first + ((long)second);
+}
+string findSum(string first, string second) {   
+	return first + second;
+}
+int main() {
+	cout << findSum(2, 3.0f) << endl;
+	cout << findSum(2.0f, 3) << endl;
+	cout << findSum(2.0f, 3.0) << endl;
+	cout << findSum(2L, 3) << endl;
+	
+	return EXIT_SUCCESS;
+}
+----------------------------------------------------------------
+Migrate
+Another approach (multiple datatypes)
+overloaded functions 
+into template
+Note: Before migration, change the code towards migration 
+----------------------------------------------------------------
+#include<iostream>
+#include<string>
+using namespace std;
+float findSum(int first, float second) {//T-return type, U-type of first, V-type of second
+	return ((float)first) + ((float)second);//return type "T" is used here
+}
+float findSum(float first, int second) {
+	return ((float)first) + ((float)second);
+}
+double findSum(float first, double second) {
+	return ((double)first) + ((double)second);
+}
+long findSum(long first, int second) {
+	return ((long)first) + ((long)second);
+}
+string findSum(string first, string second) {
+	return ((string)first) + ((string)second);
+}
+int main() {
+	cout << findSum(2, 3.0f) << endl;
+	cout << findSum(2.0f, 3) << endl;
+	cout << findSum(2.0f, 3.0) << endl;
+	cout << findSum(2L, 3) << endl;
+    cout << findSum("Shubash","Pawar") << endl;
+	return EXIT_SUCCESS;
+}
+----------------------------------------------------------------
+Migrate
+Another approach (multiple datatypes)
+overloaded functions 
+into template
+----------------------------------------------------------------
+#include<iostream>
+#include<string>
+/*
+Examples: 
+cout << findSum<float, int, float>(2, 3.0f) << endl;
+cout << findSum<float, float, int>(2.0f, 3) << endl;
+cout << findSum<double, float, double>(2.0f, 3.0) << endl;
+cout << findSum<long, long, int>(2L, 3) << endl;
+cout << findSum<string, string, string>("Shubash","Pawar") << endl;
+*/
+using namespace std;
+template<class T, class U, class V>
+T findSum(U first, V second) {
+	return ((T)first) + ((T)second);
+}
+
+int main() {
+	cout << findSum<float,int,float>(2, 3.0f) << endl;
+	cout << findSum<float,float,int>(2.0f, 3) << endl;
+	cout << findSum<double,float,double>(2.0f, 3.0) << endl;
+	cout << findSum<long,long,int>(2L, 3) << endl;
+    cout << findSum<string, string, string>("Shubash","Pawar") << endl;
+	return EXIT_SUCCESS;
+}
+----------------------------------------------------------------
+Use Case 3:
+overloaded functions
+----------------------------------------------------------------
+#include<iostream>
+#include<string>
+using namespace std;
+int findSum(int first,int second){//T->"return type","first","second" 
+    int sum = 0;				//T->"sum", primitive type can be argument
+    sum = first + second;       //int N or bool K or float L
+    return sum;
+}
+float findSum(float first,float second){
+    float sum = 0.0f;				
+    sum = first + second;
+    return sum;
+}
+double findSum(double first,double second){
+    double sum = 0;				
+    sum = first + second;
+    return sum;
+}
+long findSum(long first,long second){
+    long sum = 0L;				
+    sum = first + second;
+    return sum;
+}
+string findSum(string first,string second){
+    string sum = "";				
+    sum = first + second;
+    return sum;
+}
+int main() {
+	cout << findSum(2, 3) << endl;
+	cout << findSum(2.0f, 3.0f) << endl;
+	cout << findSum(2.0, 3.0) << endl;
+	cout << findSum(2L, 3L) << endl;
+	cout << findSum("Subhash", "Pawar") << endl;
+	return EXIT_SUCCESS;
+}
+----------------------------------------------------------------
+Migrate 
+overloaded functions
+into template 
+Note: Do change in the code before forming the template
+
+Method 1
+----------------------------------------------------------------
+#include<iostream>
+#include<string>
+using namespace std;
+int findSum(int first,int second){//T->"return type","first","second" 
+    int sum;				      //T->"sum"
+    sum = first + second;       
+    return sum;
+}
+float findSum(float first,float second){
+    float sum;				
+    sum = first + second;
+    return sum;
+}
+double findSum(double first,double second){
+    double sum;				
+    sum = first + second;
+    return sum;
+}
+long findSum(long first,long second){
+    long sum;				
+    sum = first + second;
+    return sum;
+}
+string findSum(string first,string second){
+    string sum;				
+    sum = first + second;
+    return sum;
+}
+int main() {
+	cout << findSum(2, 3) << endl;
+	cout << findSum(2.0f, 3.0f) << endl;
+	cout << findSum(2.0, 3.0) << endl;
+	cout << findSum(2L, 3L) << endl;
+	cout << findSum("Subhash", "Pawar") << endl;
+	return EXIT_SUCCESS;
+}
+----------------------------------------------------------------
+Migrate 
+overloaded functions
+into template
+
+Method 1
+----------------------------------------------------------------
+#include<iostream>
+#include<string>
+using namespace std;
+/*
+Examples:
+	cout << findSum<int>(2, 3) << endl;
+	cout << findSum<float>(2.0f, 3.0f) << endl;
+	cout << findSum<double>(2.0, 3.0) << endl;
+	cout << findSum<long>(2L, 3L) << endl;
+	cout << findSum<string>("Subhash", "Pawar") << endl;
+*/
+
+template<class T>
+T findSum(T first,T second){
+    T sum;				
+    sum = first + second;       
+    return sum;
+}
+
+int main() {
+	cout << findSum<int>(2, 3) << endl;
+	cout << findSum<float>(2.0f, 3.0f) << endl;
+	cout << findSum<double>(2.0, 3.0) << endl;
+	cout << findSum<long>(2L, 3L) << endl;
+	cout << findSum<string>("Subhash", "Pawar") << endl;
+	return EXIT_SUCCESS;
+}
+----------------------------------------------------------------
+Task: Applying Use Case 3(Method 1) into Use Case 2
+---------------------------------------------
+Given template function:
+/*
+Examples:
+	cout << findSum<int>(2, 3) << endl;
+	cout << findSum<float>(2.0f, 3.0f) << endl;
+	cout << findSum<double>(2.0, 3.0) << endl;
+	cout << findSum<long>(2L, 3L) << endl;
+	cout << findSum<string>("Subhash", "Pawar") << endl;
+*/
+template<class T>
+T findSum(T first,T second){
+    T sum;				
+    sum = first + second;       
+    return sum;
+}
+
+Here, "return type" has to be "T"
+"first" -> "U", "second" -> "V"
+
+/*
+Examples:
+	cout << findSum<int,int,int>(2, 3) << endl;
+	cout << findSum<float,float,float>(2.0f, 3.0f) << endl;
+	cout << findSum<double,double,double>(2.0, 3.0) << endl;
+	cout << findSum<long,long,long>(2L, 3L) << endl;
+	cout << findSum<string,string,string>("Subhash", "Pawar") << endl;
+    
+    cout << findSum<float,int,float>(2, 3.0f) << endl;
+	cout << findSum<float,float,int>(2.0f, 3) << endl;
+	cout << findSum<double,float,double>(2.0f, 3.0) << endl;
+	cout << findSum<long,long,int>(2L, 3) << endl;
+*/
+template<class T,class U, class V>
+T findSum(U first,V second){
+    T sum;				
+    sum = ((T)first) + ((T)second);       
+    return sum;
+}
+---------------------------------------------
+Migrate 
+overloaded functions
+into template 
+Note: Do change in the code before forming the template
+
+Method 2
+----------------------------------------------------------------
+#include<iostream>
+#include<string>
+using namespace std;
+int findSum(int first, int second) {//T->return type, first,second
+	int sum;						//T->sum
+	sum = 0;						//int K		if K==1
+	sum = first + second;
+	return sum;
+}
+float findSum(float first, float second) {
+	float sum;
+	sum = 0.0f;						//int K		if K==2
+	sum = first + second;
+	return sum;
+}
+double findSum(double first, double second) {
+	double sum;
+	sum = 0.0;						//int K		if K==3
+	sum = first + second;
+	return sum;
+}
+long findSum(long first, long second) {
+	long sum;
+	sum = 0.0L;						//int K		if K==4
+	sum = first + second;
+	return sum;
+}
+string findSum(string first, string second) {
+	string sum;
+	sum = "";						//int K		if K==5
+	sum = first + second;
+	return sum;
+}
+int main() {
+	cout << findSum(2, 3) << endl;
+	cout << findSum(2.0f, 3.0f) << endl;
+	cout << findSum(2.0, 3.0) << endl;
+	cout << findSum(2L, 3L) << endl;
+	cout << findSum("Subhash", "Pawar") << endl;
+	return EXIT_SUCCESS;
+}
+---------------------------------------------
+Migrate 
+overloaded functions
+into template 
+
+Method 2
+
+Conclusion: We didnot solve 
+---------------------------------------------
+#include<iostream>
+#include<string>
+using namespace std;
+template<class T,T K>
+T findSum(T first, T second) {
+	T sum;					
+	switch(K){
+	case 1: sum = 0; break;
+	case 2: sum = 0.0f; break;
+	case 3: sum = 0.0; break;
+	case 4: sum = 0L; break;
+	case 4: sum = ""; break;
+	}
+	sum = first + second;
+	return sum;
+}
+int main() {
+	cout << findSum<int,1>(2, 3) << endl;
+	cout << findSum<float, 2>(2.0f, 3.0f) << endl;
+	cout << findSum<double, 3>(2.0, 3.0) << endl;
+	cout << findSum<long, 4>(2L, 3L) << endl;
+	cout << findSum<string, 5>("Subhash", "Pawar") << endl;
+	return EXIT_SUCCESS;
+}
+---------------------------------------------
+Another Try.
+Conclusion: Failed to solve into template
+because syntax for template is wrong
+---------------------------------------------
+#include<iostream>
+#include<string>
+using namespace std;
+template<class T,T K>
+T findSum(T first, T second) {
+	T sum;					
+	sum = K;
+	sum = first + second;
+	return sum;
+}
+int main() {
+	cout << findSum<int,0>(2, 3) << endl;
+	cout << findSum<float, 0.0f>(2.0f, 3.0f) << endl;
+	cout << findSum<double, 0.0>(2.0, 3.0) << endl;
+	cout << findSum<long, 0L>(2L, 3L) << endl;
+	cout << findSum<string, "">("Subhash", "Pawar") << endl;
+	return EXIT_SUCCESS;
+}
+---------------------------------------------
+We can solve towards template
+but there is work around
+
+"change the code" towards "template" using "work around"
+---------------------------------------------
+#include<iostream>
+#include<string>
+using namespace std;
+int findSum(int init,int first,int second){//T->"return type","first","second" 
+    int sum = init;				//T->"sum", primitive type can be argument
+    sum = first + second;       //int N or bool K or float L
+    return sum;
+}
+float findSum(float init,float first,float second){
+    float sum = init;				
+    sum = first + second;
+    return sum;
+}
+double findSum(double init,double first,double second){
+    double sum = init;				
+    sum = first + second;
+    return sum;
+}
+long findSum(long init,long first,long second){
+    long sum = init;				
+    sum = first + second;
+    return sum;
+}
+string findSum(string init,string first,string second){
+    string sum = init;				
+    sum = first + second;
+    return sum;
+}
+int main() {
+	cout << findSum(0,2, 3) << endl;
+	cout << findSum(0.0f,2.0f, 3.0f) << endl;
+	cout << findSum(0.0,2.0, 3.0) << endl;
+	cout << findSum(0L,2L, 3L) << endl;
+	cout << findSum("","Subhash", "Pawar") << endl;
+	return EXIT_SUCCESS;
+}
+---------------------------------------------
+template with work around 
+---------------------------------------------
+#include<iostream>
+#include<string>
+using namespace std;
+template<class T>
+T findSum(T init,T first,T second){
+    T sum = init;				
+    sum = first + second;       
+    return sum;
+}
+int main() {
+	cout << findSum<int>(0,2, 3) << endl;
+	cout << findSum<float>(0.0f,2.0f, 3.0f) << endl;
+	cout << findSum<double>(0.0,2.0, 3.0) << endl;
+	cout << findSum<long>(0L,2L, 3L) << endl;
+	cout << findSum<string>("","Subhash", "Pawar") << endl;
+	return EXIT_SUCCESS;
+}
+---------------------------------------------
+
+Use Case 4
+
+overloaded functions with little change in the code 
+---------------------------------------------
+#include<iostream>
+#include<string>
+using namespace std;
+int findSum(int first, int second) {//T->return type, first,second
+	int sum;						//T->sum
+	sum = first + second;		
+	sum += 10;						//int K
+	return sum;
+}
+float findSum(float first, float second) {
+	float sum;			
+	sum = first + second;
+	++sum;
+	return sum;
+}
+double findSum(double first, double second) {
+	double sum;			
+	sum = first + second;
+	sum -= 5;
+	return sum;
+}
+long findSum(long first, long second) {
+	long sum;				
+	sum = first + second;
+	sum--;
+	return sum;
+}
+int main() {
+	cout << findSum(2, 3) << endl;
+	cout << findSum(2.0f, 3.0f) << endl;
+	cout << findSum(2.0, 3.0) << endl;
+	cout << findSum(2L, 3L) << endl;
+
+	return EXIT_SUCCESS;
+}
+---------------------------------------------
+Migrate 
+overloaded functions with little change in the code 
+into template 
+
+Thumb Rule(Standard)
+Though it is working fine, our template is not following single responsibility principle.
+It is against SRP design.
+Dont go aginst the industry standard
+---------------------------------------------
+#include<iostream>
+#include<string>
+using namespace std;
+template<class T, int K>
+T findSum(T first, T second) {
+	T sum;
+	sum = first + second;
+	switch (K) {
+	case 1: sum += 10; break;
+	case 2: ++sum; break;
+	case 3: sum -= 5; break;
+	case 4: sum--; break;
+	}
+	return sum;
+}
+
+int main() {
+	cout << findSum<int, 1>(2, 3) << endl;
+	cout << findSum<float, 2>(2.0f, 3.0f) << endl;
+	cout << findSum<double, 3>(2.0, 3.0) << endl;
+	cout << findSum<long, 4>(2L, 3L) << endl;
+
+	return EXIT_SUCCESS;
+}
+---------------------------------------------
+Q1: "findNetSalary" function definition
+#include<iostream>
+#include<string>
+using namespace std;
+float findNetSalary(int bonusPercent, float salary){
+	float net = salary + ((salary / 100.0f) * (float)bonusPercent);
+    return net;
+} 
+using namespace std;
+int main() {
+	cout << findNetSalary(10,50000.0f) << endl;//55000.0
+	return EXIT_SUCCESS;
+}
+------------------------------------
+==> overloaded functions
+------------------------------------
+#include<iostream>
+#include<string>
+using namespace std;
+float findNetSalary(int bonusPercent, float salary) {
+	float net = salary + ((salary / 100) * (float)bonusPercent);
+	return net;
+}
+double findNetSalary(int bonusPercent, double salary) {
+	double net = salary + ((salary / 100) * (double)bonusPercent);
+	return net;
+}
+long double findNetSalary(int bonusPercent, long double salary) {
+	long double net = salary + ((salary / 100) * (long double)bonusPercent);
+	return net;
+}
+using namespace std;
+int main() {
+	cout << findNetSalary(10, 50000.0f) << endl;//55000.0
+	cout << findNetSalary(10, 50000.0) << endl;//55000.0
+	cout << findNetSalary(10, 50000.0L) << endl;//55000.0
+	return EXIT_SUCCESS;
+}
+------------------------------------
+migrate
+==> overloaded functions
+into template
+------------------------------------
+/*  
+    Examples:
+    cout << findNetSalary<float,int,float>(10, 50000.0f) << endl;//55000.0 
+    cout << findNetSalary<double, int, double>(10, 50000.0) << endl;//55000.0 
+    cout << findNetSalary<long, int, long>(10, 50000.0L) << endl;//55000.0     
+*/
+
+}
+template < class T,class a, typename b>
+T findNetSalary(a bonusPercent, b salary)
+{
+    T net = salary + ((salary / 100) * (b)bonusPercent);
+    return net;
+}
+------------------------------------
+/*    
+    Examples:
+    cout << findNetSalary2<float>(10, 50000.0f) << endl;//55000.0 
+    cout << findNetSalary2<double>(10, 50000.0) << endl;//55000.0 
+    cout << findNetSalary2<long>(10, 50000.0L) << endl;//55000
+*/
+template < class T>
+T findNetSalary2(int bonusPercent, T salary)
+{
+    T net = salary + ((salary / 100) * (T)bonusPercent);
+    return net;
+}
+------------------------------------
+Two classess have similar member data and member functions of same task.
+Those classess should solve one purpose.
+
+we can migrate the classes code into template class
+------------------------------------
+class MyComplex{
+    private: 
+        int real;
+        int imaginary;
+    public:
+        MyComplex(){
+            
+        }
+        MyComplex(int real, int imaginary){
+            this->real = real;
+            this->imaginary = imaginary;
+        }
+        void print(){
+            cout << "(" << real << "+i" << imaginary << ")";
+        }
+};
+
+class MyComplex{
+    private: 
+        float real;
+        float imaginary;
+    public:
+        MyComplex(){
+            
+        }
+        MyComplex(float real, float imaginary){
+           this->real = real;
+           this->imaginary = imaginary; 
+        }
+        void print(){
+            cout << "(" << real << "+i" << imaginary << ")";
+        }
+};
+
+------------------------------------
+Migrate 
+MyComplex into template 
+------------------------------------
+/*
+Migrate "MyComplex" into template
+
+Implementation Strategy: I defined the member functions inside the class.
+*/
+
+#include<iostream>
+using namespace std;
+/*
+   MyComplex<int> c1(2,3);
+   MyComplex<float> c2(2.0f,3.0f);
+   MyComplex<double> c3(2.0,3.0);
+   
+   c1.print();
+   c2.print();
+   c3.print();
+*/
+template<class T>
+class MyComplex{
+    private: 
+        T real;   
+        T imaginary; 
+    public:
+        MyComplex(){
+            
+        }
+        MyComplex(T real, T imaginary){ 
+            this->real = real;
+            this->imaginary = imaginary;
+        }
+        void print(){
+            cout << "(" << real << "+i" << imaginary << ")";
+        }
+};
+
+int main(){
+   MyComplex<int> c1(2,3);
+   MyComplex<float> c2(2.0f,3.0f);
+   MyComplex<double> c3(2.0,3.0);
+   
+   c1.print();
+   c2.print();
+   c3.print();
+    return EXIT_SUCCESS;
+}
+------------------------------------
+
+------------------------------------
+Migrate 
+MyComplex into template 
+Define the member functions outside the class
+------------------------------------
+/*
+Migrate "MyComplex" into template 
+
+Implementation Strategy: 
+    I defined the member functions outside the class.
+*/
+#include<iostream>
+using namespace std;
+/*
+   MyComplex<int> c1(2,3);
+   MyComplex<float> c2(2.0f,3.0f);
+   MyComplex<double> c3(2.0,3.0);
+
+   c1.print();
+   c2.print();
+   c3.print();
+*/
+template<class T>
+class MyComplex {
+private:
+	T real;
+	T imaginary;
+public:
+	MyComplex();
+	MyComplex(T real, T imaginary);
+	void print();
+};
+
+template<class T>
+MyComplex<T>::MyComplex() {
+
+}
+
+template<class T>
+MyComplex<T>::MyComplex(T real, T imaginary) {
+	this->real = real;
+	this->imaginary = imaginary;
+}
+
+template<class T>
+void MyComplex<T>::print() {
+	cout << "(" << real << "+i" << imaginary << ")";
+}
+
+int main() {
+	MyComplex<int> c1(2, 3);
+	MyComplex<float> c2(2.0f, 3.0f);
+	MyComplex<double> c3(2.0, 3.0);
+
+	c1.print();
+	c2.print();
+	c3.print();
+	return EXIT_SUCCESS;
+}
+------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

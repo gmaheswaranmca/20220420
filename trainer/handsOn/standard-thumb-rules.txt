@@ -1,0 +1,7 @@
+Thumb rule:(Standard) Use "this" pointer for attributes(/member function) call inside the member functions
+	the members of the calling object
+	inside the (encapsulated) member functions
+	qualify with this pointer example "this->gcd();" or "this->length=10;" or "this->length=length;"
+	
+Thumb rule:(Standard) In one assignment statement with expression, 
+	we should ensure there should not two (memory) writes operations.  	

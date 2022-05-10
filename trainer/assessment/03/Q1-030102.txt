@@ -1,0 +1,85 @@
+Q1:
+Read "N" c++ strings(names of peoples) of header <string>.
+Call "push" member function of "MyStack" class 
+to add each name into stack.
+Then finally "pull" member function to print
+the "LIFO" structure on computer screen.
+
+Complete the intial code to achieve the above scenario.
+
+Initial Code:
+#define MAX_SIZE 100
+#include<iostream>
+#include<string>
+using namespace std;
+
+class MyStack{
+	private:
+		string names[MAX_SIZE];
+		int top;
+	public:
+		MyStack();
+		void push(string name);
+		string pop();
+		bool isEmpty();
+		bool isFull();
+};
+
+// Define constructor 
+/* Code Here */
+
+// Define push function
+/* Code Here */
+
+// Define pull function
+/* Code Here */
+
+bool MyStack::isEmpty(){
+	return this->top == -1;
+}
+
+bool MyStack::isFull(){
+	return this->top == (MAX_SIZE - 1);
+}
+
+int main(){
+	int N;
+	string names[MAX_SIZE];
+	MyStack mystack;
+	
+	cout << "Enter number of names:"; cin >> N;
+	
+	for(int I = 0; I < N; I++){
+		cout << "Enter name:"; cin >> names[I];
+	}
+	
+	for(int I = 0; I < N; I++){
+		//call "push" function of "mystack" to add each name of "names" array into "mystack"
+	}
+	cout << endl << endl << "Names from stack (LIFO) structure:" << endl;
+	while(!mystack.isEmpty()){
+		string name = /* call "pop" function to read each char from "mystack" */;
+		cout << name << endl;
+	}
+	return 0;
+}
+
+Test Case:
+Enter number of names:7
+Enter name:Uday
+Enter name:Manikanta
+Enter name:Anil
+Enter name:Divya
+Enter name:Shrikant
+Enter name:Subhash
+Enter name:Avinash
+
+
+Names from stack (LIFO) structure:
+Avinash
+Subhash
+Shrikant
+Divya
+Anil
+Manikanta
+Uday
