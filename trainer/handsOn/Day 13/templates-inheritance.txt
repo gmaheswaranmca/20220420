@@ -1,0 +1,80 @@
+#include<iostream>
+using namespace std;
+class Rect {
+protected:
+	int length;
+	int width;
+public:
+	Rect(int length, int width) {
+		this->length = length;
+		this->width = width;
+	}
+	void print() {
+		cout << "(" << this->length << "," << this->width << ")";
+	}
+};
+
+class Box :public Rect {
+protected:
+	int height;
+public:
+	Box(int length, int width, int height) :Rect(length, width) {
+		this->height = height;
+	}
+	void print() {
+		cout << "(" << this->length << "," << this->width << "," << this->height << ")";
+	}
+};
+
+int main() {
+	Box b(2, 3, 4);
+	b.print();
+	return EXIT_SUCCESS;
+}
+
+------------------------------------------------------
+===>template
+------------------------------------------------------
+#include<iostream>
+using namespace std;
+template<class T>
+class Rect {
+protected:
+	T length;
+	T width;
+public:
+	Rect(T length, T width) {
+		this->length = length;
+		this->width = width;
+	}
+	void print() {
+		cout << "(" << this->length << "," << this->width << ")";
+	}
+};
+
+
+template<class T>
+class Box :public Rect<T> {
+protected:
+	T height;
+public:
+	Box(T length, T width, T height) :Rect<T>(length, width) {
+		this->height = height;
+	}
+	void print() {
+		cout << "(" << this->length << "," << this->width << "," << this->height << ")";
+	}
+};
+
+int main() {
+	Box<int> b(2, 3, 4);
+	b.print();
+
+	Box<long> b2(2L, 3L, 4L);
+	b2.print();
+
+	Box<float> bTwo(2.0f, 3.0f, 4.1f);
+	bTwo.print();
+	return EXIT_SUCCESS;
+}
+------------------------------------------------------

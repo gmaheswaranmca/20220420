@@ -1,10 +1,10 @@
 Templates
-	• Introduction
-	• Advantages
-	• Function Templates
-	• Over loading function template
-	• Class Templates
-	• Inheritance Class Templates
+	• Introduction                              DONE
+	• Advantages                                DONE 
+	• Function Templates                        DONE
+	• Over loading function template            DONE
+	• Class Templates                           DONE
+	• Inheritance Class Templates               DONE
 ----------------------------------------------------------------
 class : think class as "template"	
 ----------------------------------------------------------------
