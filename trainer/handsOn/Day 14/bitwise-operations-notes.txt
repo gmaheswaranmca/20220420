@@ -1,0 +1,100 @@
+#include <cstdio>
+#include <cstdint>
+int main(void)
+{								
+	uint32_t a    = 0x12345678;		
+	uint16_t mask =     0x00f0;		
+	// a | mask		0x123456f8												 "Setting"	
+	// a & mask     0x00000070		extraction of bits we use & operation -> "Selecting"
+	//	  ~mask     0xffffff0f
+	// a &~mask     0x12345608												 "Clearing"
+	printf("Value: %#x mask: %#x\n"
+		"Setting bits:   %#x\n"
+		"Clearing bits:  %#x\n"
+		"Selecting bits: %#x\n",
+		a, mask, (a | mask), (a & ~mask), (a & mask));
+}
+
+------------------------------------------------------------
+/*
+a  b   a & b  a | b	 ~a		a^b			digit | 0 -> digit	"bit  or  bit 0 -> bit"
+0  0	0		0	 1		 0			digit | f -> f		"bit  or  bit 1 -> 1"
+0  1	0		1            1			digit &	0 -> 0	    "bit  and bit 0 -> 0"
+1  0	0		1	 0       1			digit & f -> digit	"bit  and bit 1 -> bit"
+1  1	1		1			 0
+
+		0000 1001  << 1		-> 0001 0010
+		0001 0010  << 1		-> 0010 0100
+		0010 0100  << 1		-> 0100 1000
+
+
+		0011 1011  >> 1		-> 0001 1101
+		0001 1101  >> 1     -> 0000 1110
+		0000 1110  >> 1		-> 0000 0111
+
+
+		101		odd		(101%2)  0 or 1			101  & "bit 1"  -> 101 & 1 -> 0x65  & 0x01 ->  0x01 -> 1
+		203     odd
+		304     even
+		789     odd
+		900     even
+		566     even
+		788     even 
+		1021    odd
+
+*/
+------------------------------------------------------------
+uint32_t a    = 0x12345678;		
+uint16_t mask =     0x00f0;		
+// a | mask		0x123456f8												 "Setting"	
+// a & mask     0x00000070		extraction of bits we use & operation -> "Selecting"
+//	  ~mask     0xffffff0f
+// a &~mask     0x12345608												 "Clearing"
+------------------------------------------------------------
+	1		2**0
+	2		2**1
+	4		2**2		
+	8
+	16
+	32
+------------------------------------------------------------	
+	
+
+	Account Details - Edit 
+	Pick the attributes to edit
+	------------------------------------------
+		Phone Number		1
+		email ID			2
+		Address				4
+		PAN Number 			8
+		Aaadhaar Number		16
+	
+		Note:for the combination, add the numbers associated and give as the option 
+	------------------------------------------	
+		Your Option: 10  #To edit email id and pan number 
+		Your Option: 8  #To edit pan number 
+		Your Option: 25  #To edit phone,pan,aadhaar
+	------------------------------------------	
+		
+		if(option & 1 == 1){	
+			allow to edit phone number 
+		}
+	
+		if(option & 2 == 2){	
+			allow to edit email id 								
+		}
+		
+		if(option & 4 == 4){	
+			allow to edit email id 
+		}
+		
+		if(option & 8 == 8){	
+			allow to edit email id 
+		}
+		
+		if(option & 16 == 16){
+			allow to edit email id 
+		}
+		
+		
+------------------------------------------------------------

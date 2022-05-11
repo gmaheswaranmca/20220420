@@ -1,0 +1,146 @@
+files are of two types:						anil 1010 5000 \n subhash 1011 4000
+	1. text file 		customer object 	15 1 17
+	2. binary file 		customer object 	256				  256		
+	
+	1.sequential access
+	2.random access
+
+	1.read 	in
+	2.write out  	
+		trunc
+		app
+----------------------------------------------------------------------------------
+1. text file 
+----------------------------------------------------------------------------------
+	stream objects 
+	ifstream	read from file 		>>
+	ofstream 	write into file 	<<
+----------------------------------------------------------------------------------
+Writing customer object into the text file 
+----------------------------------------------------------------------------------
+#include<iostream>
+#include<fstream>
+#include<sstream>
+#include<string>
+using namespace std;
+
+string fileLoc = "E:/work/jobs/20220420/day_wise/filedb";
+string fileName = "/customerTwo.txt";
+
+class Customer {
+	public:
+		static void readFromFile(ifstream &input, Customer& cust);
+	public:
+		char username[256];
+		int id;
+		float bankBalance;	//264
+
+		void writeToFile();
+		void print();
+};
+void  Customer::writeToFile() {
+	ofstream output;
+	//output.open(fileLoc + fileName, ios::out | ios::trunc);
+	output.open(fileLoc + fileName, ios::out | ios::app);
+	if(output.is_open()){
+		output << this->id << " " << this->username << " " << this->bankBalance << endl;
+	}
+	output.close();
+}
+
+void Customer::readFromFile(ifstream& input, Customer& cust) {
+	if (input.is_open()) {
+		string line;
+		getline(input, line);//reads data tille end of the line
+		if (line == "") {
+			return;
+		}
+		stringstream inputSS(line);//input stringstream for "line"
+		inputSS >> cust.id >> cust.username >> cust.bankBalance;//read into attributes
+	}
+}
+void Customer::print() {
+	cout << "[" << this->id << "," << this->username << "," << this->bankBalance << "]" << endl;
+}
+int main(void)
+{	
+	Customer custOne; = { "anil",1010,5000 };
+	Customer custTwo; = { "subhash",1011,4000 };
+	Customer custThree; = { "avinash",1012,4200 };
+
+	
+	custOne.writeToFile();
+	custTwo.writeToFile();
+	custThree.writeToFile();
+
+	cout << "customers are saved into file db." << endl;
+
+	return 0;
+}
+----------------------------------------------------------------------------------
+Reading customer object from the text file 
+----------------------------------------------------------------------------------
+#include<iostream>
+#include<fstream>
+#include<sstream>
+#include<string>
+using namespace std;
+
+string fileLoc = "E:/work/jobs/20220420/day_wise/filedb";
+string fileName = "/customerTwo.txt";
+
+class Customer {
+	public:
+		static void readFromFile(ifstream &input, Customer& cust);
+	public:
+		char username[256];
+		int id;
+		float bankBalance;	//264
+
+		void writeToFile();
+		void print();
+};
+void  Customer::writeToFile() {
+	ofstream output;
+	//output.open(fileLoc + fileName, ios::out | ios::trunc);
+	output.open(fileLoc + fileName, ios::out | ios::app);
+	if(output.is_open()){
+		output << this->id << " " << this->username << " " << this->bankBalance << endl;
+	}
+	output.close();
+}
+
+void Customer::readFromFile(ifstream& input, Customer& cust) {
+	if (input.is_open()) {
+		string line;
+		getline(input, line);//reads data tille end of the line
+		if (line == "") {
+			return;
+		}
+		stringstream inputSS(line);//input stringstream for "line"
+		inputSS >> cust.id >> cust.username >> cust.bankBalance;//read into attributes
+	}
+}
+void Customer::print() {
+	cout << "[" << this->id << "," << this->username << "," << this->bankBalance << "]" << endl;
+}
+int main(void)
+{	
+	Customer custOne; 
+	Customer custTwo; 
+	Customer custThree;
+
+	ifstream input;
+	input.open(fileLoc + fileName, ios::in);
+	Customer::readFromFile(input, custOne);
+	Customer::readFromFile(input, custTwo);
+	Customer::readFromFile(input, custThree);
+	input.close();
+
+	custOne.print();
+	custTwo.print();
+	custThree.print();
+
+	return 0;
+}
+----------------------------------------------------------------------------------	
