@@ -13,8 +13,8 @@ files are of two types:						anil 1010 5000 \n subhash 1011 4000
 1. text file 
 ----------------------------------------------------------------------------------
 	stream objects 
-	ifstream	read from file 		>>
-	ofstream 	write into file 	<<
+	ifstream/fstream	read from file 		>>  
+	ofstream/fstream 	write into file 	<<
 ----------------------------------------------------------------------------------
 Writing customer object into the text file 
 ----------------------------------------------------------------------------------
