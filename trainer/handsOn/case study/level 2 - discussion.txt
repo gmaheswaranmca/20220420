@@ -1,0 +1,111 @@
+Date : 10-May-2022, With Teams
+	Banking Team, Finance Team 
+	With all the seven members from both team.
+	
+Bank:
+Problem Statement:
+	Digital Bank Management System aims to automate the bank operations in simple and easy way 
+	for both the customer and bank employees. 
+	In this App we will provide two log-in systems one is for customer and 
+	another one for Employees. 
+	In customer login customer will get options 
+		to create new user account 
+			with respect to saving or current account 
+			with minimum initial deposits. 
+		Bank also provides the Fixed Deposit (FD) and Recurrence Deposit Facility 
+		for customer with flexible Interest rates. 
+	Customer can also make transactions like deposit and withdraw of amount 
+	from their account and they can check the balance amount, 
+	they will get transaction successful details for every transaction. 
+	
+	In the Employee login they can view new user details and transactions of customer 
+	and they can have authority to approve the new account and delete the requested account.	
+------------------------------------------------------------------------------------------
+	Customer Application
+		Customer Registration
+			Name:
+			Date of Birth:
+			Phone Number:
+			email ID:			Login Name 
+			Aadhaar Number:
+			PAN :
+			Password:
+		Customer Login 
+			Open Account 
+				<<Account in approval>>
+				Type of Account : Savings | Current | FD | RD
+					!!!FD RD options are available if they have Savings Account 
+				Address for Communication:
+				Initial Deposit:	
+					
+				Your account opening has accepted for approval!!!
+				Thank you for being a ....
+				
+			View Account (Approved Account)
+				10203040 Savings 
+					View Details | Check Balance 
+					Deposit			Amount [		] !!!waiting for approval 
+					Withdraw		Amount [        ] !!!waiting for approval 
+					Transfer	
+						Within Bank  
+							Account Number [		]	!!!automatic
+							Amount [		]
+						Other Bank
+							Bank Name [		]
+							IFSC Code [		]
+							Account Number [			]	
+							Amount [		]		!!!waiting for approval 
+						Self Account 
+							Account [55555544 RD ]V Amount[   ] !!!automatic 
+					
+					Mini Statement 
+				20304050 Current 
+					View Details 
+					--Same 
+				43434343 FD
+					NO TRAN
+					View Details
+						Close FD 
+				55555544 RD 
+					Deposit for the month 
+						Amount [			]   !!!waiting for approval 
+					View Details 
+						Close FD 
+				
+				
+				
+	Employee Application 
+		Manager Portal
+			Approval Items
+		View Total Asset 
+		View Customer Balances 
+		Customer wise View Account 
+		Reports 
+		Analytics 
+	
+------------------------------------------------------------------------------------------
+Finance:
+	1. Loan Request 
+		Type of Loan: Education / Personal / Housing 
+		Amount [			]
+	2. Document Submission 
+		[ ] First Level Verification Done 
+		[ ] Background Verfication Done  
+	3. Loan Approval	
+		Approved Amount [		]
+		Interest Rate	[ 		]
+		Duration for the loan payment [			]
+		----------------
+		EMI calculation and display the EMI 
+		
+	Preference to define the rule for repayment and EMI calculation 
+	Penalty for delay in repayment (EMI)
+	
+	
+	Bank(Finance Limited) Employees
+		They can view the loans approved for last one month
+		They can view the loans approved for a day 
+		They can view the loans approved for a year
+------------------------------------------------------------------------------------------		
+
+

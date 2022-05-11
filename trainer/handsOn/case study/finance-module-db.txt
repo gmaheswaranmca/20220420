@@ -1,0 +1,8 @@
+users:id,username,firstname,surname,phone,email,email_verified_at,password
+password_resets: email,token,created_at
+schemes:id,name,duration,interest,details
+clients:id,firsname,surname,email,phone,details
+loans:id,client_id,scheme_id,amount,date,due,interest,repaid,client_id,scheme_id
+write_offs:id,loan_id,reason
+repayments:id,load_id,amount,details
+	
