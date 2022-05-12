@@ -3,7 +3,8 @@ Finance:
 	Employee:employee_id,username,password
 	Scheme: scheme_id,scheme_name,loan_max_amount,duration_in_years,interest_rate,is_emi
 	LoanApplication:application_id,application_date,customer_id,scheme_id,
-		required_loan_amount,document_details,notes,process_id,loan_id
+		required_loan_amount,document_details,notes,process_id,loan_id,
+		referred_by
 	LoanProcessing: process_id, entry_date,application_id, customer_id, scheme_id, 
 		document_is_checked, document_checked_date,
 		document_is_verified, document_verfied_date,
@@ -14,4 +15,23 @@ Finance:
 		
 	????Collection:collection_id,customer_id,proces_id,collection_amount,collection_date
 	????
+		
+Bank:
+	Customer:
+	Employee:
+	Account: account_id, account_number, customer_id,
+		aadhaar_number, pan, phone_number, email_id, communication_address,
+		initial_deposit_amount, balance,
+		interest_rate, account_type,
+		maturity_duration, rd_monthly_deposit_amount,
+		rd_fd_savings_account_number, documents_details, is_approved
+	Transaction: tran_id,tran_date,account_id,amount,tran_type(1-deposit,2-withdrawal),
+		is_approved
+	Preference:
+			savings_interest_rate, savings_minimum_balance,
+			current_interest_rate, current_minimum_balance,
+			fd_interest_rate, fd_maturity_druation,
+			rd_interest_rate, rd_maturity_ruation
+	
+		
 		
