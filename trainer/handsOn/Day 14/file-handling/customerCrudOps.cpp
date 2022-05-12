@@ -1,6 +1,6 @@
 #define _CRT_SECURE_NO_WARNINGS
-//CRUD operations - Create Read Update Delete
-//Binary File
+//CRUD operations - Create			Read			Update				Delete
+//Binary File		Add Customer	Get Customer	Modify Customer		Purge/Remove the Customer
 #include<iostream>
 #include<fstream>
 #include<sstream>
@@ -10,7 +10,7 @@ using namespace std;
 
 
 class Customer {
-	private:
+	public:
 		char username[256];
 		int id;
 		float bankBalance;	//264
@@ -46,13 +46,31 @@ private:
 public:
 	int findIndex(char username[]);
 	void create(Customer& cust);
-	void update(Customer& cust, char username[]);
+	void update(char username[], float amount);
+	void update_v2(char username[], float amount);
 	void remove(Customer& cust, char username[]);
 	void read(Customer& cust, char username[]);
 	void readAll(Customer cust[], int& count);
 };
 int CustomerDao::findIndex(char username[]) {
-	return -1;
+	int index = -1;
+	int I = 0;
+
+	fstream input;
+	input.open(this->fileLoc + this->fileName, ios::in | ios::binary);
+	if (input.is_open()) {
+		Customer temp;
+		while (input.read((char*)&temp, sizeof(Customer))) {			
+			if (strcmp(temp.username, username)==0) {
+				index = I;
+				break;
+			}
+			I++;
+		}
+	}
+	input.close();
+
+	return index;
 }
 void CustomerDao::create(Customer& cust) {
 	fstream output;
@@ -62,8 +80,50 @@ void CustomerDao::create(Customer& cust) {
 	}
 	output.close();
 }
-void CustomerDao::update(Customer& cust, char username[]) {
+void CustomerDao::update(char username[], float amount) {
+	int index = this->findIndex(username);//object index
+	int byteIndex = index * sizeof(Customer); //0*264 | 1*264 | 2*264
+											  //0	  |  264  |  528
+	
+	fstream inout;
+	inout.open(this->fileLoc + this->fileName, ios::in | ios::out | ios::binary);
+	if (inout.is_open()) {
+		inout.seekg(byteIndex, ios::beg);
+		Customer temp;
+		inout.read((char*)&temp, sizeof(Customer));
+		//Before Update
+		temp.bankBalance += amount;
+		inout.seekg(byteIndex, ios::beg);
+		inout.write((char*)&temp, sizeof(Customer));
+		//After Update 
+	}
+	inout.close();
+}
 
+void CustomerDao::update_v2(char username[], float amount) {
+	int index = -1;
+	int I = 0;
+	int byteIndex = 0;
+
+	fstream inout;
+	inout.open(this->fileLoc + this->fileName, ios::in | ios::out | ios::binary);
+	Customer temp;
+	if (inout.is_open()) {
+		while (inout.read((char*)&temp, sizeof(Customer))) {
+			if (strcmp(temp.username, username) == 0) {
+				index = I;
+				break;
+			}
+			I++;
+		}
+		byteIndex = index * sizeof(Customer);
+		//Before Update
+		temp.bankBalance += amount;
+		inout.seekg(byteIndex, ios::beg);
+		inout.write((char*)&temp, sizeof(Customer));
+		//After Update 
+	}
+	inout.close();
 }
 void CustomerDao::remove(Customer& cust, char username[]) {
 
@@ -72,17 +132,20 @@ void CustomerDao::read(Customer& cust, char username[]) {
 
 }
 void CustomerDao::readAll(Customer cust[], int& count) {
+	int I = 0;
+
 	fstream input;
-	input.open(this->fileLoc + this->fileName, ios::in || ios::binary);
+	input.open(this->fileLoc + this->fileName, ios::in | ios::binary);
 	if (input.is_open()) {
-		count = 0;
 		Customer temp;
 		while (input.read((char*)&temp, sizeof(Customer))) {
-			cust[count] = temp;
-			count++;
+			cust[I] = temp;
+			I++;
 		}
 	}
 	input.close();
+
+	count = I;
 }
 
 
@@ -96,7 +159,10 @@ int main()
 	int menu;
 	do {
 		cout << "1: Write" << endl;
-		cout << "2: Read All" << endl;
+		cout << "2: Read All" << endl;	
+		cout << "3: Find Index" << endl;
+		cout << "4: Deposit Amount" << endl;
+		cout << "5: Withdraw Amount" << endl;
 		cout << "0: Exit" << endl;
 		cout << "Your Option:"; cin >> menu;
 
@@ -112,6 +178,35 @@ int main()
 				customers[I].print();
 			}
 		}
+		else if (3 == menu) {
+			char search_username[256];
+			cout << "Enter Username to search:"; cin >> search_username;
+			int index = dao.findIndex(search_username);
+			cout << endl << "The customer is at index " << index << endl;
+		}
+		else if (4 == menu || 5 == menu) {
+			char search_username[256];
+			cout << "Enter Username to search:"; cin >> search_username;
+			int amount;
+			switch (menu) {
+			case 4:
+				cout << "Deposit amount:"; cin >> amount;
+				dao.update(search_username, amount);
+				break;
+			case 5:
+				cout << "Withdrawal amount:"; cin >> amount;
+				dao.update(search_username, -amount);
+				break;
+			}
+			
+			
+			cout << "Transaction has done successfully." << endl;
+			cout << "Press Enter to continue..."; cin.ignore(80, '\n');
+			cout << endl;
+		}
+		
+		
 	} while (menu != 0);
 	return 0;
 }
+
