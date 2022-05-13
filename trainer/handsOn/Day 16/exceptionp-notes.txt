@@ -1,3 +1,15 @@
+Exception has to throw for the vector at() function 
+it should not trhow for the vector [] operator 
+but visual studio overridded the behavious agains the C++ standard *********
+
+
+syntax:
+try{
+	//code may throw the exception
+}catch(out_of_range& ex){
+	//code to handle the exception 
+}
+----------------------------------------------------------
 #define _CRT_SECURE_NO_WARNINGS
 #include<iostream>
 #include<vector>
@@ -25,18 +37,19 @@ using namespace std;
 
 int main()
 {
-	//int ages[] = { 12,13,22,37,43 };
-	//cout << ages[2] << endl;
-	//cout << ages[5] << endl;
-
-	vector<int> ages = { 12, 13, 22, 37, 43 };
+    vector<int> ages = { 12, 13, 22, 37, 43 };
 	int index,count=0;
-	while(count<5){
+	while(count<2){
 	    cout << "Enter the index of the age:"; cin >> index;
-	    //cout << ages[index] << endl;
-	    cout << ages.at(index) << endl;
+	    try{
+	        cout << ages.at(index) << endl;
+	    }catch(out_of_range& ex){
+	        cout << "Give the right index. Index is not at all there." << endl;
+	    }
+	    count++;
 	}
 
+    cout << "Continuing...." << endl;
 	return 0;
 }
 ----------------------------------------------------------
