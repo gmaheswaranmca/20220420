@@ -41,14 +41,17 @@ void Customer::print() {
 
 class CustomerDao {
 private:
-	const string fileLoc = "E:/work/jobs/20220420/day_wise/filedb";
-	const string fileName = "/customerdb.dat";
+	//const string fileLoc = "E:/work/jobs/20220420/day_wise/filedb";
+	//const string fileName = "/customerdb.dat";
+	const string fileLoc = "";
+	const string fileName = "customerdb.dat";
+	const string tempfileName = "customerdb02.dat";
 public:
 	int findIndex(char username[]);
 	void create(Customer& cust);
 	void update(char username[], float amount);
 	void update_v2(char username[], float amount);
-	void remove(Customer& cust, char username[]);
+	void purge(char username[]);
 	void read(Customer& cust, char username[]);
 	void readAll(Customer cust[], int& count);
 };
@@ -125,8 +128,25 @@ void CustomerDao::update_v2(char username[], float amount) {
 	}
 	inout.close();
 }
-void CustomerDao::remove(Customer& cust, char username[]) {
-
+void CustomerDao::purge( char username[]) {
+    ifstream input; ofstream output;
+	input.open(this->fileLoc + this->fileName, ios::in  | ios::binary);
+	output.open(this->fileLoc + this->tempfileName,  ios::out | ios::binary);
+	Customer temp;
+	int I = 0;
+	if (input.is_open() && output.is_open()) {
+		while (input.read((char*)&temp, sizeof(Customer))) {
+			if (strcmp(temp.username, username) != 0) {
+                output.write((char*)&temp, sizeof(Customer));				
+			}
+			I++;
+		}
+	}
+	output.close();
+	input.close();
+	remove((this->fileLoc + this->fileName).c_str());
+	rename((this->fileLoc + this->tempfileName).c_str(),
+	    (this->fileLoc + this->fileName).c_str());
 }
 void CustomerDao::read(Customer& cust, char username[]) {
 
@@ -163,6 +183,7 @@ int main()
 		cout << "3: Find Index" << endl;
 		cout << "4: Deposit Amount" << endl;
 		cout << "5: Withdraw Amount" << endl;
+		cout << "6: Delete customer" << endl;
 		cout << "0: Exit" << endl;
 		cout << "Your Option:"; cin >> menu;
 
@@ -203,10 +224,13 @@ int main()
 			cout << "Transaction has done successfully." << endl;
 			cout << "Press Enter to continue..."; cin.ignore(80, '\n');
 			cout << endl;
+		}else if (6 == menu) {
+			char search_username[256];
+			cout << "Enter Username to remove:"; cin >> search_username;
+			dao.purge(search_username);
+			cout << "Deletion has done successfully." << endl;
 		}
-		
 		
 	} while (menu != 0);
 	return 0;
 }
-
