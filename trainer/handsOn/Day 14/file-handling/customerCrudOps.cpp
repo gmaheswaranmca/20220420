@@ -130,6 +130,8 @@ void CustomerDao::update_v2(char username[], float amount) {
 }
 void CustomerDao::purge( char username[]) {
     ifstream input; ofstream output;
+    //copy from "customerdb.dat" to "customerdb02.dat"
+    //where the object of given username (arg) is not copied
 	input.open(this->fileLoc + this->fileName, ios::in  | ios::binary);
 	output.open(this->fileLoc + this->tempfileName,  ios::out | ios::binary);
 	Customer temp;
@@ -144,9 +146,10 @@ void CustomerDao::purge( char username[]) {
 	}
 	output.close();
 	input.close();
-	remove((this->fileLoc + this->fileName).c_str());
+    //
+	remove((this->fileLoc + this->fileName).c_str()); //source file "customerdb.dat" removed
 	rename((this->fileLoc + this->tempfileName).c_str(),
-	    (this->fileLoc + this->fileName).c_str());
+	    (this->fileLoc + this->fileName).c_str());//rename "customerdb02.dat" as "customerdb.dat"
 }
 void CustomerDao::read(Customer& cust, char username[]) {
 
