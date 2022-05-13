@@ -53,3 +53,48 @@ int main()
 	return 0;
 }
 ----------------------------------------------------------
+throw example
+----------------------------------------------------------
+#define _CRT_SECURE_NO_WARNINGS
+#include<iostream>
+#include<vector>
+using namespace std;
+class Division {
+private:
+	int firstNumber;
+	int secondNumber;
+public:
+	Division(int firstNumber, int secondNumber) :firstNumber(firstNumber), secondNumber(secondNumber) {
+
+	}
+	int findQuotient() {
+		if (secondNumber == 0) {
+			throw "Error";
+		}
+		int quotient = firstNumber / secondNumber;
+		return quotient;
+	}
+};
+int main()
+{
+	int count = 0;
+	while (count < 2) {
+		int firstNumber;
+		int secondNumber;
+		int quotient = 0;
+		cout << "First Number:"; cin >> firstNumber;
+		cout << "Second Number:"; cin >> secondNumber;
+		Division division(firstNumber, secondNumber);
+		try {
+			quotient = division.findQuotient();
+		}
+		catch (const char* ex) {
+			cout << "Error in Division. Division by Zero" << endl;
+		}
+		cout << "Quotient is " << quotient << endl;
+		count++;
+	}
+	cout << "Continuing...." << endl;
+	return 0;
+}
+----------------------------------------------------------
