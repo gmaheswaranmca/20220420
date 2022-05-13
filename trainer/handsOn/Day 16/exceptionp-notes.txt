@@ -184,3 +184,31 @@ int main()
 	return 0;
 }
 ----------------------------------------------------------
+Test Case:
+----------------------------------------------------------
+First Number:11
+Second Number:0
+(all other)Division by Zero
+Quotient is 0
+First Number:2
+Second Number:0
+(int)Division by Zero
+Quotient is 0
+First Number:2
+Second Number:0
+(int)Division by Zero
+Quotient is 0
+First Number:5
+Second Number:0
+(const char*)Division by Zero
+Quotient is 0
+First Number:7
+Second Number:0
+(float)Division by Zero
+Quotient is 0
+First Number:101
+Second Number:0
+(all other)Division by Zero
+Quotient is 0
+Continuing....
+----------------------------------------------------------
