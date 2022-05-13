@@ -109,6 +109,8 @@ int main()
 	return 0;
 }
 ----------------------------------------------------------
+multiple exceptions
+----------------------------------------------------------
 #define _CRT_SECURE_NO_WARNINGS
 #include<iostream>
 #include<vector>
@@ -128,7 +130,12 @@ private:
 	int secondNumber;
 public:
 	Division(int firstNumber, int secondNumber) :firstNumber(firstNumber), secondNumber(secondNumber) {
-
+        if (secondNumber == 0) {
+			if (firstNumber % 11 == 0){
+                DivisionException divideException;
+				throw divideException;
+            }
+        }
 	}
 	int findQuotient() {
 		if (secondNumber == 0) {
@@ -158,25 +165,30 @@ int main()
 		int quotient = 0;
 		cout << "First Number:"; cin >> firstNumber;
 		cout << "Second Number:"; cin >> secondNumber;
-		Division division(firstNumber, secondNumber);
-		try {
-			quotient = division.findQuotient();
-		}
-		catch (const char* ex) {
-			cout << "(const char*)Division by Zero" << endl;
-		}
-		catch (int ex) {
-			cout << "(int)Division by Zero" << endl;
-		}
-		catch (float ex) {
-			cout << "(float)Division by Zero" << endl;
-		}
-		catch (DivisionException & ex) {
-			cout << "(DivisionException)Division by Zero" << endl;
-		}
-		catch (...) {//default exception handler
-			cout << "(all other)Division by Zero" << endl;
-		}
+        try{
+            Division division(firstNumber, secondNumber);
+            try {
+                quotient = division.findQuotient();
+            }
+            catch (const char* ex) {
+                cout << "(const char*)Division by Zero" << endl;
+            }
+            catch (int ex) {
+                cout << "(int)Division by Zero" << endl;
+            }
+            catch (float ex) {
+                cout << "(float)Division by Zero" << endl;
+            }
+            catch (DivisionException & ex) {
+                cout << "(DivisionException)Division by Zero" << endl;
+            }
+            catch (...) {//default exception handler
+                cout << "(all other)Division by Zero" << endl;
+            }
+        }catch(DivisionException & ex) {
+                cout << "(DivisionException by constructor)Division by Zero" << endl;
+        }
+        
 		cout << "Quotient is " << quotient << endl;
 		count++;
 	}
@@ -186,17 +198,13 @@ int main()
 ----------------------------------------------------------
 Test Case:
 ----------------------------------------------------------
-First Number:11
-Second Number:0
-(all other)Division by Zero
-Quotient is 0
 First Number:2
 Second Number:0
 (int)Division by Zero
 Quotient is 0
-First Number:2
+First Number:3
 Second Number:0
-(int)Division by Zero
+(DivisionException)Division by Zero
 Quotient is 0
 First Number:5
 Second Number:0
@@ -206,7 +214,11 @@ First Number:7
 Second Number:0
 (float)Division by Zero
 Quotient is 0
-First Number:101
+First Number:11
+Second Number:0
+(DivisionException by constructor)Division by Zero
+Quotient is 0
+First Number:13
 Second Number:0
 (all other)Division by Zero
 Quotient is 0
