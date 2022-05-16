@@ -1,0 +1,138 @@
+Q 1. 
+Duration: 1 hour 
+Marks: 40 marks
+
+Make the QGQueue as class template to work for char, int, float, double 
+and change the main code to implement the double queue from QGQueue 
+and apply all the necessary exception handling code in enqueue and dequeue functions 
+for throwing exception of "queue full" and "queue empty" respectively
+and catch in the main in the place enqueue and dequeue function call.
+
+
+
+Code for "int" queue:
+
+
+#define MAX_SIZE 5
+#include<iostream>
+using namespace std;
+
+class QGQueue {
+private:
+	int numbers[MAX_SIZE];
+	bool offPrintAtOp;
+	int FRONT;
+	int REAR;
+public:
+	QGQueue(bool offPrintAtOp);
+	QGQueue();
+
+	void init(bool offPrintAtOp);
+
+	void enqueue(int data);
+	int dequeue();
+	void print();
+
+	bool isFull() { return (MAX_SIZE - 1) == this->REAR; }
+	bool isEmpty() { return -1 == this->FRONT; }
+	bool hasToBeEmpty() { return this->FRONT > this->REAR; }
+};
+void QGQueue::init(bool offPrintAtOp = true) {
+	this->FRONT = -1;
+	this->REAR = -1;
+	this->offPrintAtOp = offPrintAtOp;
+}
+QGQueue::QGQueue() {
+	this->init(false);
+}
+QGQueue::QGQueue(bool offPrintAtOp) {
+	this->init(offPrintAtOp);
+}
+void QGQueue::enqueue(int data) {
+	if (this->isFull()) {
+		if (!this->offPrintAtOp) { cout << "QUEUE is full." << endl; }
+		return;
+	}
+	this->REAR++;
+
+	this->numbers[this->REAR] = data;
+
+	if (this->isEmpty()) {
+		this->FRONT = this->REAR;
+	}
+}
+int QGQueue::dequeue() {
+	if (this->isEmpty()) {
+		if (!this->offPrintAtOp) { cout << "QUEUE is empty." << endl; }
+		return -999;
+	}
+	int data = this->numbers[this->FRONT];
+	this->FRONT++;
+	if (this->hasToBeEmpty()) {
+		this->FRONT = -1;
+		this->REAR = -1;
+	}
+	return data;
+}
+void QGQueue::print() {
+	cout << endl << endl << "QUEUE is (FRONT-REAR)" << endl;
+	if (this->isEmpty()) {
+		cout << "***Queue is empty." << endl;
+	}
+	if (this->isFull()) {
+		cout << "***Queue is full." << endl;
+	}
+	for (int I = (this->isEmpty() ? 0 : this->FRONT); I <= this->REAR; I++) {
+		cout << "\t" << numbers[I] << endl;
+	}
+}
+
+int main() {
+
+
+	QGQueue queue;
+	int menu, data;
+	do {
+		cout << "Choice(1-Add,2-Delete,3-Print):"; cin >> menu;
+		switch (menu) {
+		case 1:
+
+			cout << "Enter data:"; cin >> data;
+			queue.enqueue(data);
+			break;
+		case 2:
+
+			data = queue.dequeue();
+			if (data != -999) {
+				cout << "The FIFO data read is " << data << endl;
+			}
+			break;
+		case 3:
+			queue.print();
+			break;
+		}
+	} while (1 <= menu && menu << 3);//1 <= menu <= 3   
+	return EXIT_SUCCESS;
+}
+
+
+Test Case:
+Choice(1-Add,2-Delete,3-Print):1
+Enter data:10
+Choice(1-Add,2-Delete,3-Print):1
+Enter data:20
+Choice(1-Add,2-Delete,3-Print):1
+Enter data:30
+Choice(1-Add,2-Delete,3-Print):1
+Enter data:40
+Choice(1-Add,2-Delete,3-Print):2
+The FIFO data read is 10
+Choice(1-Add,2-Delete,3-Print):2
+The FIFO data read is 20
+Choice(1-Add,2-Delete,3-Print):3
+
+
+QUEUE is (FRONT-REAR)
+        30
+        40
+Choice(1-Add,2-Delete,3-Print):0
