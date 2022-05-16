@@ -940,3 +940,37 @@ int main()
 	return 0;
 }
 -------------------------------------------------------
+-------------------------------------------------------
+
+
+
+dequeue
+Simple Example:1
+Add element from c++ array into dequeue
+use range loop to print the elements of dequeue
+-------------------------------------------------------
+#include <iostream>
+#include <deque>
+using namespace std;
+
+int main()
+{
+	int N = 13;
+	int ages[] = { 7,11,36,12,43,8,7,36,12,42,43,3,6 }; //13 elements
+
+	deque<int> ageList;
+
+	for (int age : ages) {
+		ageList.push_back(age);
+	}
+
+	cout << "Ages are from deque :";
+	for (int I = 0; I < ageList.size(); I++) {
+		int& age = ageList[I];
+		cout << age << " ";
+	}
+	cout << endl;
+
+	return 0;
+}
+-------------------------------------------------------
