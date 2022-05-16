@@ -852,3 +852,82 @@ int main()
 	return 0;
 }
 -------------------------------------------------------
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+int main()
+{
+	int N = 13;
+	int ages[] = { 7,11,36,12,43,8,7,36,12,42,43,3,6 }; //13 elements
+
+	vector<int> ageList;
+
+	for (auto age : ages) {
+		ageList.push_back(age);
+	}
+
+	auto maxREF = max_element(ageList.begin(), ageList.end());
+	auto minREF = min_element(ageList.begin(), ageList.end());
+
+	cout << "Max age is " << (*maxREF) << endl;
+	cout << "Min age is " << (*minREF) << endl;
+
+	auto REF = find(ageList.begin(), ageList.end(), 36);
+	cout << "Find :" << (*REF) << endl;
+
+	sort(ageList.begin(), ageList.end());//sort asc                 //    I
+	//sort(ageList.begin(), ageList.end(),greater<int>());//sort desc   II
+	//reverse(ageList.begin(), ageList.end());			  // III		
+
+	cout << "Ages are from vector:";
+	for_each(ageList.begin(), ageList.end(), [](int e) {cout << e << " ";});
+	cout << endl;
+
+	cout << "Binary Search :" << binary_search(ageList.begin(), ageList.end(), 36) << endl;
+	cout << "Binary Search :" << binary_search(ageList.begin(), ageList.end(), 37) << endl;
+
+	return 0;
+}
+-------------------------------------------------------
+Application of algorithm functions for the vector 
+via the connector "iterator of the vector"
+
+for the sub list of the vector 
+-------------------------------------------------------
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+int main()
+{
+	int N = 13;
+	int ages[] = { 7,11,36,12,43,8,7,36,12,42,43,3,6 }; //13 elements
+
+	vector<int> ageList;
+
+	for (auto age : ages) {
+		ageList.push_back(age);
+	}
+
+	auto maxREF = max_element(ageList.begin(), ageList.begin() + 4);
+	auto minREF = min_element(ageList.begin(), ageList.begin() + 4);
+
+	cout << "Max age is " << (*maxREF) << endl;
+	cout << "Min age is " << (*minREF) << endl;
+
+	sort(ageList.begin(), ageList.begin() + 4);//sort asc                 //    I
+	//sort(ageList.begin(), ageList.begin() + 4,greater<int>());//sort desc   II
+	//reverse(ageList.begin(), ageList.begin() + 4);			  // III		
+
+	cout << "Ages are from vector:";
+	for_each(ageList.begin(), ageList.end(), [](int e) {cout << e << " ";});
+	cout << endl;
+
+	
+
+	return 0;
+}
+-------------------------------------------------------
