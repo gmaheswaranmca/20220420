@@ -669,3 +669,62 @@ int main()
 
 	return 0;
 }
+
+---------------------------------------------
+Example:3
+    with type deduction
+    use of "auto" in the place data type
+---------------------------------------------
+
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int main()
+{
+	int N = 13;
+	int ages[] = { 7,11,36,12,43,8,7,36,12,42,43,3,6 }; //13 elements
+
+	vector<int> ageList;
+
+	for (auto age : ages) {
+		ageList.push_back(age);
+	}
+
+	cout << "Ages are from vector :";
+	for (int I = 0; I < ageList.size(); I++) {
+		auto& age = ageList.at(I);
+		cout << age << " ";
+	}
+	cout << endl;
+
+	return 0;
+}
+-------------------------------------------------------
+
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int main()
+{
+	int N = 13;
+	int ages[] = { 7,11,36,12,43,8,7,36,12,42,43,3,6 }; //13 elements
+
+	vector<int> ageList;
+
+	for (auto age : ages) {
+		ageList.push_back(age);
+	}
+
+	cout << "Ages are from vector :";
+	vector<int>::iterator refOne = ageList.begin();
+	vector<int>::iterator refTwo = ageList.begin() + 1;
+
+	cout << (*refOne) << " " << (*refTwo);
+	
+	cout << endl;
+
+	return 0;
+}
+-------------------------------------------------------
