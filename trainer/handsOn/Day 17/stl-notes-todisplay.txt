@@ -473,6 +473,32 @@ int main()
    cout << endl;
    return 0;
 }
+
+
+priority queue example:
+---------------------------------------------
+#include <iostream>
+#include <queue>
+using namespace std;
+
+int main()
+{
+	priority_queue<double> salaries;//strict FIFO structure primitive / user types
+	//container adapter			vector "deque" list
+	//"push" at "back" 
+	//"pop" at "front"
+	salaries.push(1000.0);	//3000.0 2000 1500.0 1000
+	salaries.push(2000.0); 
+	salaries.push(1500.0);
+	salaries.push(3000.0);
+	cout << "Priority Queue is:";
+	while (!salaries.empty()) {
+		cout << salaries.top() << " ";
+		salaries.pop();
+	}
+	cout << endl;
+	return 0;
+}
 ---------------------------------------------
    vector<int> ages {7,37,43};
    cout << ages[ages.size()-1] << " " << ages[ages.size()-3] << endl;
