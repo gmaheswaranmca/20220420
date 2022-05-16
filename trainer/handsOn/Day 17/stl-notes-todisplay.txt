@@ -947,6 +947,36 @@ int main()
 dequeue
 Simple Example:1
 Add element from c++ array into dequeue
+use c++ loop to print the elements of dequeue
+-------------------------------------------------------
+#include <iostream>
+#include <dequeue>
+using namespace std;
+
+int main()
+{
+	int N = 13;
+	int ages[] = { 7,11,36,12,43,8,7,36,12,42,43,3,6 }; //13 elements
+
+	deque<int> ageList;
+
+	for (int age : ages) {
+		ageList.push_back(age);
+	}
+
+	cout << "Ages are from deque :";
+	for (int I = 0; I < ageList.size(); I++) {
+		int& age = ageList[I];
+		cout << age << " ";
+	}
+	cout << endl;
+
+	return 0;
+}
+-------------------------------------------------------
+dequeue
+Simple Example:1
+Add element from c++ array into dequeue
 use range loop to print the elements of dequeue
 -------------------------------------------------------
 #include <iostream>
@@ -965,9 +995,136 @@ int main()
 	}
 
 	cout << "Ages are from deque :";
-	for (int I = 0; I < ageList.size(); I++) {
-		int& age = ageList[I];
+	for (auto age: ageList) {
 		cout << age << " ";
+	}
+	cout << endl;
+
+	return 0;
+}
+-------------------------------------------------------
+
+-------------------------------------------------------
+list
+Simple Example:1
+Add element from c++ array into list
+use range loop to print the elements of list
+
+
+
+-------------------------------------------------------
+#include <iostream>
+#include <list>
+using namespace std;
+
+int main()    //  {prev,data,next}   [7]<->[11]->[36]<->.....
+{
+	int N = 13;
+	int ages[] = { 7,11,36,12,43,8,7,36,12,42,43,3,6 }; //13 elements
+
+	list<int> ageList;
+
+	for (int age : ages) {
+		ageList.push_back(age);
+	}
+
+	cout << "Ages are from doubly-linked-list :";
+	for (auto age: ageList) {	
+		cout << age << " ";
+	}
+	cout << endl;
+
+	return 0;
+}
+-------------------------------------------------------
+
+
+-------------------------------------------------------
+forward_list
+Simple Example:1
+Add element from c++ array into forward_list
+use range loop to print the elements of forward_list 
+-------------------------------------------------------
+#include <iostream>
+#include <forward_list>
+using namespace std;
+
+int main()    
+{
+	int N = 13;
+	int ages[] = { 7,11,36,12,43,8,7,36,12,42,43,3,6 }; //13 elements
+
+	forward_list<int> ageList;
+
+	for (int age : ages) {
+		ageList.push_front(age);
+	}
+
+	cout << "Ages are from singly linked list :";
+	
+	for (auto age: ageList) {	
+		cout << age << " ";
+	}
+	cout << endl;
+
+	return 0;
+}
+-------------------------------------------------------
+
+Difference between list and forward_list 
+
+Code will insert at the beginning 
+The source order is reversed in the list 
+
+list 
+-------------------------------------------------------
+
+#include <iostream>
+#include <list>
+using namespace std;
+
+int main()    
+{
+	int N = 13;
+	int ages[] = { 7,11,36,12,43,8,7,36,12,42,43,3,6 }; //13 elements
+
+	list<int> ageList;
+
+	for (int age : ages) {
+		ageList.push_front(age);
+	}
+
+	cout << "Ages are from list :";
+	
+	for (auto REF = ageList.rbegin();REF != ageList.rend(); REF++) {
+		cout << (*REF) << " ";
+	}
+	cout << endl;
+
+	return 0;
+}
+
+forward_list 
+-------------------------------------------------------
+#include <iostream>
+#include <forward_list>
+using namespace std;
+
+int main()    
+{
+	int N = 13;
+	int ages[] = { 7,11,36,12,43,8,7,36,12,42,43,3,6 }; //13 elements
+
+	forward_list<int> ageList;
+
+	for (int age : ages) {
+		ageList.push_front(age);
+	}
+
+	cout << "Ages are from list :";
+	
+	for (auto REF = ageList.rbegin();REF != ageList.rend(); REF++) {//COMPILE TIME ERR
+		cout << (*REF) << " ";
 	}
 	cout << endl;
 
