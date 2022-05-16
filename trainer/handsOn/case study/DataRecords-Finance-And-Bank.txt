@@ -1,37 +1,86 @@
 Finance:
-	Customer:customer_id,username,password,phone_number,email_id,pan,aadhaar_number,communication_address
-	Employee:employee_id,username,password
-	Scheme: scheme_id,scheme_name,loan_max_amount,duration_in_years,interest_rate,is_emi
-	LoanApplication:application_id,application_date,customer_id,scheme_id,
-		required_loan_amount,document_details,notes,process_id,loan_id,
+	Customer:			!!!Registration | Login !!! uday
+		customer_id,
+		username,password,
+		phone_number,email_id,pan,aadhaar_number,communication_address
+	Employee:		!!!Login - uday 
+		employee_id,
+		username,password
+	Scheme: scheme_id,								!!!	manikanta
+		scheme_name,loan_max_amount,
+		duration_in_years,interest_rate,is_emi,number_of_loan_release_stages:1,
+		repayment_starts_on:1-immediate,2-after 6 months,3-one month after
+	LoanApplication:application_id,application_date,customer_id,scheme_id,  !!! divya
+		required_loan_amount,document_details,notes,process_id:defult:-1,loan_id:defult:-1,
 		referred_by
-	LoanProcessing: process_id, entry_date,application_id, customer_id, scheme_id, 
+	LoanProcessing: 			!!! subhash
+		process_id, entry_date,application_id, customer_id, scheme_id, 
 		document_is_checked, document_checked_date,
 		document_is_verified, document_verfied_date,
 		loan_is_approved, loan_approved_date
-	Loan:loan_id,approved_loan_amount, loan_amount_is_deposited,loan_amount_deposited_date,
+	Loan:loan_id,
+		approved_loan_amount, loan_amount_is_deposited,loan_amount_deposited_date,
 		emi_calculation_start_date, duration_in_years,interest_rate,
-		emi_value,customer_id,proces_id
+		emi_value,customer_id,proces_id,stage_number
 		
 	????Collection:collection_id,customer_id,proces_id,collection_amount,collection_date
 	????
+	
+	Users:
+	Customer
+		Register Me(uday), Login as Customer(uday),
+		Apply for the Loan(divya), View Application(divya), 
+		View Loan Details(divya)
+	Employee
+		Login as Employee(uday), View Applications(divya),
+		Add Scheme, Edit Scheme, View Scheme,(manikanta)
+		Loan Processing,(subhash)
+		Release Loan (subhash)
 		
 Bank:
-	Customer:
-	Employee:
-	Account: account_id, account_number, customer_id,
+	Customer:customer_id,	!!!Registration | Login !!!
+		username,password,
+		phone_number,email_id,pan,aadhaar_number,communication_address
+	Employee:employee_id,	!!!Login
+		username,password
+	Account: account_id, account_number, customer_id,  !!!Open Account |   View Account 
 		aadhaar_number, pan, phone_number, email_id, communication_address,
 		initial_deposit_amount, balance,
 		interest_rate, account_type,
 		maturity_duration, rd_monthly_deposit_amount,
 		rd_fd_savings_account_number, documents_details, is_approved
 	Transaction: tran_id,tran_date,account_id,amount,tran_type(1-deposit,2-withdrawal),
-		is_approved
-	Preference:
+		is_approved			!!!Deposit | Withdraw | View Balance | Generate Mini Statement | Transfer 
+	Preference:	!!!Update Savings/Current Minimum Balance 
+				!!!Update Interest Rate and Maturity Duration
 			savings_interest_rate, savings_minimum_balance,
 			current_interest_rate, current_minimum_balance,
 			fd_interest_rate, fd_maturity_druation,
 			rd_interest_rate, rd_maturity_ruation
 	
 		
+	Customer: Registration, Login,  avinash
+	Open Account(Open Savings Account/....),		shrikant
+		View Account, 								shrikant
+		Do Transsaction(Deposit, Withdraw, Transfer) anil
+		View Balance 						anil
+		Generate Mini Statement 			anil
+	Employee: Login 				avinash
+		Update Savings/Current Minimum Balance 		anil
+		Update Interest Rate and Maturity Duration
+		Do approval 				avinash
+			List of New Accounts
+				2323232  Approve 
+				43434343 Approve 
+			List of Transactions 
+				2323232 Deposit 4000 Approve 
+				2323232 Withdraw 4000 Approve 
+				....
+		View Customer Details 		avinash	
+		View Total Asset 			shrikanth
+			Sum of all the balances 
+		View Total Deposits/Withdrawal for given date range shrikanth
 		
+		
+		
+				

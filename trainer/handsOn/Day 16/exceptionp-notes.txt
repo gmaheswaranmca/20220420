@@ -1,3 +1,21 @@
+1. to define user-defined exception ie user defined exception class 
+    class UserDefinedExceptionName : public exception {
+        public :
+            virtual const char* what() const throw(){
+                return "Text for Exception";
+            }
+    };
+2. how to use the exception object 
+    throw exception_object;
+3. how to handle the exception 
+    try{
+        //CODE may throw the exception "UserDefinedExceptionName"
+    }catch(UserDefinedExceptionName& ex){
+        //EXCEPTION HANDLING CODE 
+        cout << "our own messages." << ex.what() << endl;
+        //EXCEPTION HANDLING CODE 
+    }
+
 Exception has to throw for the vector at() function 
 it should not trhow for the vector [] operator 
 but visual studio overridded the behavious agains the C++ standard *********
@@ -224,3 +242,126 @@ Second Number:0
 Quotient is 0
 Continuing....
 ----------------------------------------------------------
+#define MAX_SIZE 3
+#include<iostream>
+#include<string>
+#include<exception>
+using namespace std;
+
+class StackIsFullException :public exception {
+public:
+	virtual const char* what() const throw() {
+		return "Stack Is Full.";
+	}
+};
+class StackIsEmptyException :public exception {
+public:
+	virtual const char* what() const throw() {
+		return "Stack Is Empty.";
+	}
+};
+
+class MyStack {
+private:
+	string names[MAX_SIZE];
+	int top;
+public:
+	MyStack();
+	void push(string name);
+	string pop();
+	bool isEmpty();
+	bool isFull();
+};
+
+// Define constructor 
+MyStack::MyStack() {
+	this->top = -1;
+}
+
+// Define push function
+void MyStack::push(string name) {
+	if (this->isFull()) {
+		//cout << "STACK is full." << endl;
+		StackIsFullException stkex;
+		throw stkex;
+		return;
+	}
+
+	this->top = this->top + 1;
+	names[this->top] = name;
+}
+
+// Define pull function
+string MyStack::pop() {
+	if (this->isEmpty()) {
+		StackIsEmptyException stkex;
+		//cout << "STACK is empty." << endl;
+		throw stkex;
+		return "";//no-space empty string
+	}
+	string name = names[this->top];
+	this->top = this->top - 1;
+	return name;
+}
+
+bool MyStack::isEmpty() {
+	return this->top == -1;
+}
+
+bool MyStack::isFull() {
+	return this->top == (MAX_SIZE - 1);
+}
+
+int main() {
+	int N;
+	string names[MAX_SIZE];
+	MyStack mystack;
+
+	cout << "Enter number of names:"; cin >> N;
+
+	for (int I = 0; I < N; I++) {
+		cout << "Enter name:"; cin >> names[I];
+	}
+
+	for (int I = 0; I < N; I++) {
+		//call "push" function of "mystack" to add each name of "names" array into "mystack"
+		mystack.push(names[I]);
+	}
+	try {
+		mystack.push(names[N - 1]);
+	}
+	catch (StackIsFullException & ex) {
+		cout << "I got stack full error." << ex.what() << endl;
+	}
+
+
+	cout << endl << endl << "Names from stack (LIFO) structure:" << endl;
+	while (!mystack.isEmpty()) {
+		string name = mystack.pop();/* call "pop" function to read each char from "mystack" */
+		cout << name << endl;
+	}
+	try{
+		mystack.pop();
+	}
+	catch (StackIsEmptyException & ex) {
+		cout << "I got stack empty error." << ex.what() << endl;
+	}
+	return 0;
+}
+----------------------------------------------------------
+Test Case:
+----------------------------------------------------------
+Enter number of names:3
+Enter name:dhoni
+Enter name:virat
+Enter name:rohit
+I got stack full error.Stack Is Full.
+
+
+Names from stack (LIFO) structure:
+rohit
+virat
+dhoni
+I got stack empty error.Stack Is Empty.
+----------------------------------------------------------
+
