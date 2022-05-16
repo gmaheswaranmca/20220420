@@ -674,8 +674,8 @@ int main()
 Example:3
     with type deduction
     use of "auto" in the place data type
----------------------------------------------
 
+---------------------------------------------    
 #include <iostream>
 #include <vector>
 using namespace std;
@@ -700,6 +700,13 @@ int main()
 
 	return 0;
 }
+---------------------------------------------
+vector
+Simple Example:4
+Add element from c++ array into vector 
+use C++ loop to print the elements of vector 
+    with iterator 
+    only first two ages 
 -------------------------------------------------------
 
 #include <iostream>
