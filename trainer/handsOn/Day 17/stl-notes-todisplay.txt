@@ -735,3 +735,41 @@ int main()
 	return 0;
 }
 -------------------------------------------------------
+vector
+Simple Example:5
+Add element from c++ array into vector 
+use C++ loop to print all the elements of vector 
+    with iterator 
+-------------------------------------------------------
+
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int main()
+{
+	int N = 13;
+	int ages[] = { 7,11,36,12,43,8,7,36,12,42,43,3,6 }; //13 elements
+
+	vector<int> ageList;
+
+	for (auto age : ages) {
+		ageList.push_back(age);
+	}
+
+	cout << "Ages are from vector :";
+	for (vector<int>::iterator REF = ageList.begin(); REF != ageList.end(); REF++) {//DONT USE: REF < ageList.end()
+		cout << (*REF) << " ";
+	}
+	cout << endl;
+
+	cout << "[auto]Ages are from vector :";
+	for (auto REF = ageList.begin(); REF != ageList.end(); REF++) {//DONT USE: REF < ageList.end()
+		cout << (*REF) << " ";
+	}
+	cout << endl;
+
+
+	return 0;
+}
+-------------------------------------------------------
