@@ -1230,12 +1230,30 @@ int main()
 --------------------------------------------------------------------
 
 
+Find distinct ages 
+--------------------------------------------------------------------
+#include <iostream>
+#include<set>
+#include<algorithm>
+using namespace std;
 
+int main()
+{
+	int N = 13;
+	int K = 3;
+	int ages[] = { 7,11,36,12,43,8,7,36,12,42,43,3,6 };
 
+	set<int> ageList;
+	for (auto age : ages) {
+		ageList.insert(age);
+	}
 
+	cout << "Distinct ages:";
+	for_each(ageList.begin(), ageList.end(), [](int e) {cout << e << " ";});
+	cout << endl;
 
-
-
+	return 0;
+}
 
 
 
