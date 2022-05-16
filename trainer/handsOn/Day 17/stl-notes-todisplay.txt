@@ -1104,7 +1104,7 @@ int main()
 	return 0;
 }
 
-forward_list 
+forward_list (ERROR in trying to use reverse iterator)
 -------------------------------------------------------
 #include <iostream>
 #include <forward_list>
@@ -1189,3 +1189,54 @@ int main()
 	return 0;
 }
 -------------------------------------------------------
+
+
+
+
+Rotate the given N numbers either left or right K positions
+--------------------------------------------------------------------
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int main()
+{
+	int N = 13; // number of elements 
+	int K = 3;  // rotate k positions 
+	int ages[] = { 7,11,36,12,43,8,7,36,12,42,43,3,6 }; //N=13 elements
+				//LEFT ROTATE K=3 times:12,43,8,7,36,12,42,43,3,6,     7,11,36
+				//RIGHT ROTATE K=3 times: 43,3,6    7,11,36,12,43,8,7,36,12,42
+	vector<int> ageList(ages, ages + N);
+
+	vector<int> leftRotatedList(ageList.begin() + K, ageList.end());//LEFT ROTATE K TIMES 
+	leftRotatedList.insert(leftRotatedList.end(),ageList.begin(), ageList.begin() + K);
+
+	vector<int> rightRotatedList(ageList.end() - K, ageList.end());//RIGHT ROTATE K TIMES 
+	rightRotatedList.insert(rightRotatedList.end(), ageList.begin(), ageList.end() - K);
+
+	cout << "Ages are from left rotated list :";
+	for (auto age : leftRotatedList) {
+		cout << age << " ";
+	}
+	cout << endl;
+
+	cout << "Ages are from right rotated list :";
+	for (auto age : rightRotatedList) {
+		cout << age << " ";
+	}
+	cout << endl;
+	return 0;
+}
+--------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
