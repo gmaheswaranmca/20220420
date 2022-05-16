@@ -1254,7 +1254,203 @@ int main()
 
 	return 0;
 }
+--------------------------------------------------------------------
+
+
+what is map?
+--------------------------------------------------------------------
+#include <iostream>
+#include<map>
+using namespace std;
+
+int main()
+{
+	int N = 13;
+	int K = 3;
+	int ages[] = { 7,11,36,12,43,8,7,36,12,42,43,3,6,43 };
+
+	map<int, int> ageFreqs;
+	
+	cout << "empty:" << ageFreqs.empty() << ",size:" << ageFreqs.size() << endl;
+	cout << " at 7:" << ageFreqs[7] << ",at 11:" << ageFreqs[11] << endl;
+	cout << "empty:" << ageFreqs.empty() << ",size:" << ageFreqs.size() << endl;
+	ageFreqs[7] = ageFreqs[7] + 1;
+	ageFreqs[11] = ageFreqs[11] + 1;
+	cout << "empty:" << ageFreqs.empty() << ",size:" << ageFreqs.size() << endl;
+	cout << " at 7:" << ageFreqs[7] << ",at 11:" << ageFreqs[11] << endl;
+	ageFreqs[7] = ageFreqs[7] + 1;
+	cout << "empty:" << ageFreqs.empty() << ",size:" << ageFreqs.size() << endl;
+	cout << " at 7:" << ageFreqs[7] << ",at 11:" << ageFreqs[11] << endl;
+	
+}
+--------------------------------------------------------------------
+Find frequency of occurance of the ages
+--------------------------------------------------------------------
+
+#include <iostream>
+#include<map>
+using namespace std;
+
+int main()
+{
+	int N = 13;
+	int K = 3;
+	int ages[] = { 7,11,36,12,43,8,7,36,12,42,43,3,6,43 };
+
+	map<int, int> ageFreqs;
+
+	for (auto age : ages) {
+		ageFreqs[age] = ageFreqs[age] + 1;
+	}
+
+	cout << "Age Freq:" << endl;
+	for (auto e : ageFreqs) {//pair -> {first, second}
+		cout << "The age " << e.first << " occurs " << e.second << " times." << endl;
+	}
+	return 0;
+}
+
+
+--------------------------------------------------------------------
+Find frequency of occurance of the ages
+and sort by frequency desc and then by age asc 
+--------------------------------------------------------------------
+
+
+#include <iostream>
+#include<map>
+using namespace std;
+
+int main()
+{
+	int N = 13;
+	int K = 3;
+	int ages[] = { 7,11,36,12,43,8,7,36,12,42,43,3,6,43 };
+
+	map<int, int> ageFreqs;//age-freq map
+	//a collection of key-value pairs, keys are sorted and unique
+	//multimap : a collection of key-value pairs, keys are sorted and allows duplicates keys
+	
+	for (auto age : ages) {
+		ageFreqs[age] = ageFreqs[age] + 1;
+	}
+
+	cout << "Age Freq:" << endl;
+	for (auto e : ageFreqs) {
+		cout << "The age " << e.first << " occurs " << e.second << " times." << endl;
+	}
+	cout << endl;
+	
+	multimap<int, int, greater<int>> freqAge;
+	for (auto e : ageFreqs) {//pair -> {first, second} first is the age , second is the freq
+		freqAge.insert(make_pair(e.second,e.first));//freq-age map
+	}
+
+	cout << "Age Freq:" << endl;
+	for (auto e : freqAge) {
+		cout << "The age " << e.second << " occurs " << e.first << " times." << endl;
+	}
+	cout << endl;
+	return 0;
+}
+
+--------------------------------------------------------------------
 
 
 
+Find frequency of occurance of the letter in the name "hello world hi how"
+and sort by freq desc and then by letter asc 
+--------------------------------------------------------------------
+#include <iostream>
+#include<cstring>
+#include<map>
+using namespace std;
 
+int main()
+{
+	char name[] = "hello world hi how";
+
+	map<char, int> charFreqs;
+
+	for (auto ch : name) {
+		if(ch!='\0')
+			charFreqs[ch] = charFreqs[ch] + 1;
+	}
+
+	cout << "Letter Freq:" << endl;
+	for (auto e : charFreqs) {
+		cout << "The letter " << e.first << " occurs " << e.second << " times." << endl;
+	}
+	cout << endl;
+
+	multimap<int, char, greater<int>> freqChar;
+	for (auto e : charFreqs) {//pair -> {first, second} first is the age , second is the freq
+		freqChar.insert(make_pair(e.second, e.first));//freq-age map
+	}
+
+	cout << "Letter Freq:" << endl;
+	for (auto e : freqChar) {
+		cout << "The letter " << e.second << " occurs " << e.first << " times." << endl;
+	}
+	cout << endl;
+	return 0;
+}
+--------------------------------------------------------------------
+
+
+--------------------------------------------------------------------
+Find frequency of occurance of the ages
+and sort by frequency desc and then by age asc
+using unordered_map, unordered_multimap 
+--------------------------------------------------------------------
+#include <iostream>
+#include<unordered_map>
+#include<algorithm>
+#include<utility>
+using namespace std;
+
+bool compare_freqage(pair<int,int> one, pair<int, int> two) {
+	if (one.first > two.first) { // first -> freq
+		return true;
+	}
+	if (one.first == two.first &&
+		one.second < two.second) {//second -> age
+		return true;
+	}
+	return false;
+}	
+
+int main()
+{
+	int N = 13;
+	int K = 3;
+	int ages[] = { 7,11,36,12,43,8,7,36,12,42,43,3,6,43 };
+
+	unordered_map<int, int> ageFreqs;//age-freq map
+	
+
+	for (auto age : ages) {
+		ageFreqs[age] = ageFreqs[age] + 1;
+	}
+
+	cout << "Age Freq:" << endl;
+	for (auto e : ageFreqs) {
+		cout << "The age " << e.first << " occurs " << e.second << " times." << endl;
+	}
+	cout << endl;
+
+	unordered_multimap<int, int> freqAge;
+	for (auto e : ageFreqs) {//pair -> {first, second} first is the age , second is the freq
+		freqAge.insert(make_pair(e.second, e.first));//freq-age map
+	}
+	vector<pair<int, int>> freqAgeList(freqAge.begin(),freqAge.end());
+
+	sort(freqAgeList.begin(), freqAgeList.end(), compare_freqage);
+
+	cout << "Age Freq:" << endl;
+	for (auto e : freqAgeList) {
+		cout << "The age " << e.second << " occurs " << e.first << " times." << endl;
+	}
+	cout << endl;
+	return 0;
+}
