@@ -1,3 +1,12 @@
+References
+    1) https://cs.smu.ca/~porter/csc/ref/stl/               --Learning
+    2) https://hackingcpp.com/cpp/cheat_sheets.html#hfold3a
+            cheat sheet 
+                gives maximum insight for learning
+    3) cppreference.com
+    4) cplusplus.com
+
+
 Standard Template Libraries (STL)
 Topics:
 	1.	Containers
