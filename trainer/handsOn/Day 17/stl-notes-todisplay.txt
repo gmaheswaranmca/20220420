@@ -635,3 +635,37 @@ int main()
     
     return 0;
 }
+
+---------------------------------------------
+vector
+Simple Example:3
+Add element from c++ array into vector 
+use C++ loop to print the elements of vector 
+    with size() function of vector
+    and "at(I)" function of vector
+---------------------------------------------
+
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int main()
+{
+	int N = 13;
+	int ages[] = { 7,11,36,12,43,8,7,36,12,42,43,3,6 }; //13 elements
+
+	vector<int> ageList;
+
+	for (int age : ages) {
+		ageList.push_back(age);
+	}
+
+	cout << "Ages are from vector :";
+	for (int I = 0; I < ageList.size(); I++) {
+		int& age = ageList.at(I);
+		cout << age << " ";
+	}
+	cout << endl;
+
+	return 0;
+}
