@@ -1160,3 +1160,32 @@ int main()
 
 	return 0;
 }
+-------------------------------------------------------
+
+multiset example using range loop
+-------------------------------------------------------
+#include <iostream>
+#include <set>
+using namespace std;
+
+int main()    
+{
+	int N = 13;
+	int ages[] = { 7,11,36,12,43,8,7,36,12,42,43,3,6 }; //13 elements
+
+	multiset<int> ageList;
+
+	for (int age : ages) {
+		ageList.insert(age);
+	}
+
+	cout << "Ages are from set :";
+	
+	for (auto age: ageList) {
+		cout << age << " ";
+	}
+	cout << endl;
+
+	return 0;
+}
+-------------------------------------------------------
