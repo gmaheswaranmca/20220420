@@ -843,7 +843,7 @@ int main()
 
 	sort(ageList.begin(), ageList.end());//sort asc                 //    I
 	//sort(ageList.begin(), ageList.end(),greater<int>());//sort desc   II
-	reverse(ageList.begin(), ageList.end());			  // III		
+	reverse(ageList.begin(), ageList.end());			  // III , I & III, II & III		
 
 	cout << "Ages are from vector:";
 	for_each(ageList.begin(), ageList.end(), [](int e) {cout << e << " ";});
