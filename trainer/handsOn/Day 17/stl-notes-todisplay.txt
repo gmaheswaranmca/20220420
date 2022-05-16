@@ -841,7 +841,10 @@ int main()
 	cout << "Max age is " << (*maxREF) << endl;
 	cout << "Min age is " << (*minREF) << endl;
 
-	sort(ageList.begin(), ageList.end());
+	sort(ageList.begin(), ageList.end());//sort asc                 //    I
+	//sort(ageList.begin(), ageList.end(),greater<int>());//sort desc   II
+	reverse(ageList.begin(), ageList.end());			  // III		
+
 	cout << "Ages are from vector:";
 	for_each(ageList.begin(), ageList.end(), [](int e) {cout << e << " ";});
 	cout << endl;
