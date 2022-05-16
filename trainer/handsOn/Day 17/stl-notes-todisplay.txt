@@ -773,3 +773,79 @@ int main()
 	return 0;
 }
 -------------------------------------------------------
+vector
+Simple Example:5
+Add element from c++ array into vector 
+use C++ loop to print all the elements of vector 
+    after sorted the vector using "sort" algorithm function 
+    using "for_each" algorithm function to print the elements
+Note: 
+1. "sort" algorithm function works with iterator 
+2. "for_each" algorithm function works with iterator 
+-------------------------------------------------------    
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+int main()
+{
+	int N = 13;
+	int ages[] = { 7,11,36,12,43,8,7,36,12,42,43,3,6 }; //13 elements
+
+	vector<int> ageList;
+
+	for (auto age : ages) {
+		ageList.push_back(age);
+	}
+
+	cout << "(for_each algorithm)Ages are from vector Before Sort:";
+	for_each(ageList.begin(), ageList.end(), [](int e) {cout << e << " ";});
+	cout << endl;
+
+	sort(ageList.begin(), ageList.end());
+	
+	cout << "(for_each algorithm)Ages are from vector After Sort:";
+	for_each(ageList.begin(), ageList.end(), [](int e) {cout << e << " ";});
+	cout << endl;
+
+	cout << "(range loop)Ages are from vector After Sort:";
+	for (auto age : ageList) {
+		cout << age << " ";
+	}
+	return 0;
+}
+-------------------------------------------------------
+Application of algorithm functions for the vector 
+via the connector "iterator of the vector"
+-------------------------------------------------------
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+int main()
+{
+	int N = 13;
+	int ages[] = { 7,11,36,12,43,8,7,36,12,42,43,3,6 }; //13 elements
+
+	vector<int> ageList;
+
+	for (auto age : ages) {
+		ageList.push_back(age);
+	}
+
+	auto maxREF = max_element(ageList.begin(), ageList.end());
+	auto minREF = min_element(ageList.begin(), ageList.end());
+
+	cout << "Max age is " << (*maxREF) << endl;
+	cout << "Min age is " << (*minREF) << endl;
+
+	sort(ageList.begin(), ageList.end());
+	cout << "Ages are from vector:";
+	for_each(ageList.begin(), ageList.end(), [](int e) {cout << e << " ";});
+	cout << endl;
+
+	return 0;
+}
+-------------------------------------------------------
