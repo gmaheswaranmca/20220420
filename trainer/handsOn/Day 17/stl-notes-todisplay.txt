@@ -1484,6 +1484,7 @@ int main()
 
 container 
 sequence        vector          deque       list        forward_list    array
+                -----------------------------------------------------------------
                 dynamic array   double      doubly      singly          fixed 
                                 ended       linked      linked          array 
                                 queue       list        list 
@@ -1495,21 +1496,25 @@ associative     set (sorted,unique)                         map (sorted,unique)
                 multiset (sorted,duplicate)                 multimap (sorted,duplicate)
                 unordered_set (unsorted,unique)             unordered_map(unsorted,unique)
                 unordered_multiset(unsorted,duplicate)      unordered_multimap(unsorted,duplicate)
-
-                element                                     key-value pairs 
+                -----------------------------------------------------------------
+                element                                     key-value pairs  association
                 
                 
 container adapter stack         queue
                                 priority_queue   (based on the element value, takes the priority)
+                  -----------------------------------------------------------------
                   LIFO          FIFO   
                   
                   they will have the sequence container inside to implement their structure 
                   ie adapater -> adapst the container 
                 
 ------------------------------------------------------------
-
-
-
+algorithms 
+    sort 
+    find 
+    binary_search 
+    reverse 
+    for_each 
 ------------------------------------------------------------
 
 

@@ -1,0 +1,15 @@
+Q 2. 
+Duration: 30 minutes
+Marks: 20 marks
+
+Write a program to have 
+class Rectangle of protected attributes{length,width} along with pure virtual function
+"int findCalc()"
+Inherit Rectangle to Circumference and Area child classes 
+Override int findCalc() to find circuference and area inside the above child classes respectively.
+
+In the driver program 
+a. Construct the Rectangle and Circumference using their parameterized constructors.
+b. Have the parent pointer to hold Circumference object to call findCalc and print it.
+c. Have the parent pointer to hold Area object to call findCalc and print it.
+
