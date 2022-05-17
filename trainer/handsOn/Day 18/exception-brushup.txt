@@ -219,12 +219,13 @@ int main() {
 }	
 ----------------------------------------------------------
 Thumb rule: "virtual function class" have the virtual destructor 
-    for abstract class or class having abstract / virtual function 
+
+o    for abstract class or class having abstract / virtual function 
     have the virtual destructor 
     
-    why?
+o    why?
     if child object is dynamic memory 
-    to invoke the destructor of the child object 
+    to invoke the destructor of the child object by the parent pointer 
     we have to make the parent destructor as abstract/virtual 
 ----------------------------------------------------------
 #include<iostream>
