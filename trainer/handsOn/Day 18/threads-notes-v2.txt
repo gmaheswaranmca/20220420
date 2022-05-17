@@ -352,6 +352,46 @@ void countByParentForBig() {
 	return 0;
 }
 -------------------------------------------
+-------------------------------------------
+//countByParentForBig, countByChildForBig threaded 
+//NO RACE, lock_guard introduced  ---> For scoped auto lock
+//TIME DELAYED 
+#include<iostream>
+#include<thread>
+#include<mutex>
+#include<cstdint>
+
+using namespace std;
+#define BIG 1000000UL //10 lack, 1 million
+int counter = 0;
+mutex MUT;
+
+//int counter = 0;
+void countByParentForBig() {
+	for (uint64_t I = 1; I <= BIG;I++) {
+		lock_guard<mutex> GUARD(MUT);		
+		counter++;		
+	}
+}void countByChildForBig() {
+	for (uint64_t I = 1; I <= BIG;I++) {
+		lock_guard<mutex> GUARD(MUT);
+		counter++;		
+	}
+}int mainOne() {
+	thread childThread(countByChildForBig);
+	countByParentForBig();
+	childThread.join();
+	cout << "counter is " << counter << endl;
+	return 0;
+}int main() {
+	for (int i = 0;i < 10;i++) {
+		counter = 0;
+		cout << endl << "Test Case " << i << endl;
+		mainOne();
+	}
+	return 0;
+}
+-------------------------------------------
 //countByParentForBig, countByChildForBig threaded 
 //NO RACE, mutex lock introduced
 //NO TIME DELAYED 
