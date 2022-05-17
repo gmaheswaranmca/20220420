@@ -218,5 +218,94 @@ int main() {
 	return 0;
 }	
 ----------------------------------------------------------
+Thumb rule:
+    for abstract class or class having abstract / virtual function 
+    have the virtual destructor 
+    
+    why?
+    if child object is dynamic memory 
+    to invoke the destructor of the child object 
+    we have to make the parent destructor as abstract/virtual 
+----------------------------------------------------------
+#include<iostream>
+using namespace std;
+
+class Emp {
+protected:
+	int id;
+	float* salAddr;
+public:
+	Emp(int id, float sal) {
+		this->salAddr = new float;
+		this->id = id;
+		*(this->salAddr) = sal;
+		cout << "Emp Constructor"; this->print();
+	}
+	virtual ~Emp() {
+		cout << "Emp Destructor"; this->print();
+		delete this->salAddr;
+		this->salAddr = NULL;
+	}
+	void print() {
+		cout << this->id << " " << (*this->salAddr) << endl;
+	}
+	virtual float findNetSal() = 0;
+};
+class Salaried :public Emp {
+protected:
+	float* netSalAddr;
+public:
+	Salaried(int id, float sal) :Emp(id, sal) {
+		cout << "Salaried Constructor"; this->print();
+		this->netSalAddr = new float;
+	}
+	~Salaried() {
+		cout << "Salaried Destructor"; this->print();
+		delete this->netSalAddr;
+	}
+	float findNetSal() {
+		(*this->netSalAddr) = (*this->salAddr) + ((*this->salAddr) * 10.0f / 100.0f);
+		return (*this->netSalAddr);
+	}
+};
+
+class Wage :public Emp {
+protected:
+	float* netSalAddr;
+public:
+	Wage(int id, float sal) :Emp(id, sal) {
+		this->netSalAddr = new float;
+		cout << "Wage Constructor"; this->print();
+		
+	}
+	~Wage() {
+		cout << "Wage Destructor"; this->print();
+		delete this->netSalAddr;
+	}
+	float findNetSal() {
+		(*(this->netSalAddr)) = (*this->salAddr) + 2000;
+		return (*this->netSalAddr);
+	}
+};
+
+int main() {
+	int menu;
+	Emp* baseAddr = NULL;
+	cout << "Choice(1-Salaired, 2-Wage):"; cin >> menu;
+	if (1 == menu) {
+		Salaried* salariedAddr = new Salaried(101, 2000);
+		baseAddr = salariedAddr;
+	}
+	else if (2 == menu) {
+		Wage* wageAddr =new Wage(101, 2000);
+		baseAddr = wageAddr;
+	}
+	baseAddr->print();
+	cout << "Net Salary is " << baseAddr->findNetSal() << endl;
+
+	delete baseAddr;
+	return 0;
+}
+----------------------------------------------------------
 	
 	
