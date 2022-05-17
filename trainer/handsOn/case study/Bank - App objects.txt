@@ -1,0 +1,62 @@
+Bank:
+	Customer:customer_id,	!!!Registration | Login !!!
+		email_id,password,phone_number,aadhaar_number
+	Employee:employee_id,	!!!Login
+		username,password
+	Account: account_id, account_number, customer_id,  !!!Open Account |   View Account 
+		aadhaar_number, pan, phone_number, email_id, communication_address,
+		initial_deposit_amount, balance,
+		interest_rate, account_type,
+		maturity_duration, rd_monthly_deposit_amount,
+		rd_fd_savings_account_number, documents_details, is_approved
+	Transaction: tran_id,tran_date,account_id,amount,tran_type(1-deposit,2-withdrawal),
+		is_approved			!!!Deposit | Withdraw | View Balance | Generate Mini Statement | Transfer 
+	Preference:	!!!Update Savings/Current Minimum Balance 
+				!!!Update Interest Rate and Maturity Duration
+			savings_interest_rate, savings_minimum_balance,
+			current_interest_rate, current_minimum_balance,
+			fd_interest_rate, fd_maturity_druation,
+			rd_interest_rate, rd_maturity_ruation
+	
+	Customer: add, 				read	
+			  registration 		login 
+							    customer page 
+	Employee: read 
+			  login 
+			  employeee page 
+	Account: add 			read by customer id 		read all 								update 				
+			 customer 		customer 		
+							employee (for approval)     to find total balance (total asset)		balance 
+	Tran:	add 		read 
+						date range based reports 
+    Preference:		updateBalances			updateRateDuration 		
+							
+							
+							
+							
+		
+	Customer: Registration, Login,  avinash
+	Open Account(Open Savings Account/....),		shrikant
+		View Account, 								shrikant
+		Do Transsaction(Deposit, Withdraw, Transfer) anil
+		View Balance 						anil
+		Generate Mini Statement 			anil
+	Employee: Login 				avinash
+		Update Savings/Current Minimum Balance 		anil
+		Update Interest Rate and Maturity Duration
+		Do approval 				avinash
+			List of New Accounts
+				2323232  Approve 
+				43434343 Approve 
+			List of Transactions 
+				2323232 Deposit 4000 Approve 
+				2323232 Withdraw 4000 Approve 
+				....
+		View Customer Details 		avinash	
+		View Total Asset 			shrikanth
+			Sum of all the balances 
+		View Total Deposits/Withdrawal for given date range shrikanth
+		
+		
+		
+				
