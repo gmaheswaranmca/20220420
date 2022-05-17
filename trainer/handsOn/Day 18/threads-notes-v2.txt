@@ -1,3 +1,13 @@
+Online Resources:
+	https://hpc-tutorials.llnl.gov/posix/designing_threaded_programs/
+	
+	https://hpc.llnl.gov/documentation/tutorials/introduction-parallel-computing-tutorial
+	
+	
+	References:
+		cppreference.com
+		cplusplus.com
+
 **********Example for thread concurrency:*************
 	
 Some multithreaded applications would be:
@@ -98,6 +108,42 @@ void parentSayHi() {
 	parentSayHi();
 	childThr.join();
 
+	return 0;
+}
+-------------------------------------------
+5 times testing multithreading of two threads (parent and child)
+-------------------------------------------
+#include<iostream>
+#include<chrono>
+#include<thread>
+using namespace std;
+
+void parentSayHi() {
+	for (int I = 1; I <= 10;I++) {
+		cout << "Parent : 'Hi'" << endl;
+		std::this_thread::sleep_for(std::chrono::seconds(1));//milliseconds
+	}
+}
+void childSayHello() {
+	for (int I = 1; I <= 10;I++) {
+		cout << "Child : 'Hello'" << endl;
+		std::this_thread::sleep_for(std::chrono::seconds(1));
+	}
+}
+
+int mainOne() {
+	thread childThread(childSayHello);
+	parentSayHi();
+	childThread.join();
+	return 0;
+}
+
+int main() {
+	for(int J=1;J<=5;J++){
+		cout << endl << endl << "Test Case " << J << endl ;
+		mainOne();
+	}
+	cout << "Shutting Down App...." << endl;
 	return 0;
 }
 -------------------------------------------
