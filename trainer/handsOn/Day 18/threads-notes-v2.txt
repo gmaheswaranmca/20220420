@@ -1,3 +1,6 @@
+
+
+
 Online Resources:
 	https://hpc-tutorials.llnl.gov/posix/designing_threaded_programs/
 	
@@ -7,6 +10,18 @@ Online Resources:
 	References:
 		cppreference.com
 		cplusplus.com
+		
+1.	Introduction to Threads
+2.	Debugging with Visual Studio
+3.	Creation of Threads
+4.	Managing Thread Lifetime
+5.	Thread Lifetime Management: Warnings and Tips
+6.	Passing Arguments to Threads
+7.	Arguments of Threads: Undefined behaviour
+8.	Arguments of Threads - Race Conditions and Locks
+9.	Methods of Threads
+10.	Methods of Threads in Practice
+11.	Threads – Deadlocks		
 
 **********Example for thread concurrency:*************
 	
@@ -657,7 +672,48 @@ int mainOne() {
 	return 0;
 }
 -------------------------------------------
-a basic producer/consumer
+a producer/consumer problem:
+the producer is one will produce continuously products till the target (for example 1 lack products)
+the consumer may consume all the produced products 
+
+we can think these entities as threads 
+
+consumer thread has to wait till the producer produces or produced products are avaialble 
+if the products are available the consumer can get started to consume / use it till using/consuming
+all the products.
+
+
+Example 1:
+	producer: adding 10 items into queue 
+	consumer: reading and removing 10 items from queue 
+
+Example 2:
+	producer: to count till 10 
+	consumer: once reacher the producer to count as 10, start to uncount(decrement) to zero 
+
+Example 3: 
+	producer: add 10 account objects into list(doubly linked list) of stl named "production_list"
+		production_counter++
+		once added to production_list the producer can signal back to consumer (WAKE UP)
+	consumer: remove from the account objects list and print 
+		add into consumer_list 
+		if consumer_list.size() == 10 we can stop to consume 
+		if consumer_list.size() != 10 and there is no account object in the production_list
+			consumer has to wait 
+	
+Example 4:
+	producer: uday is going to (direct) release his 10 movies 
+		deque 
+	consumer:
+		will go to theatre and watch all the 10 movies 
+
+Example 5:  
+	producer: start 10 chain software companies in indian cities
+	consumer: to access the software services from all the 10 software companies 
+
+Example 6: 
+
+
 ---------------------------------------------------
 #include <iostream>
 #include <queue>
@@ -727,3 +783,80 @@ int main()
 }
 -------------------------------------------
 ===========================================
+
+
+
+===========================================
+Defining thread objects different ways:
+===========================================
+
+#include <iostream>
+#include <utility>
+#include <thread>
+#include <chrono>
+ 
+void f1(int n)
+{
+    for (int i = 0; i < 5; ++i) {
+        std::cout << "Thread 1 executing\n";
+        ++n;
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    }
+}
+ 
+void f2(int& n)
+{
+    for (int i = 0; i < 5; ++i) {
+        std::cout << "Thread 2 executing\n";
+        ++n;
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    }
+}
+ 
+class foo
+{
+public:
+    void bar()
+    {
+        for (int i = 0; i < 5; ++i) {
+            std::cout << "Thread 3 executing\n";
+            ++n;
+            std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        }
+    }
+    int n = 0;
+};
+ 
+class baz
+{
+public:
+    void operator()()
+    {
+        for (int i = 0; i < 5; ++i) {
+            std::cout << "Thread 4 executing\n";
+            ++n;
+            std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        }
+    }
+    int n = 0;
+};
+ 
+int main()
+{
+    int n = 0;
+    foo f;
+    baz b;
+    std::thread t1; // t1 is not a thread
+    std::thread t2(f1, n + 1); // pass by value
+    std::thread t3(f2, std::ref(n)); // pass by reference
+    std::thread t4(std::move(t3)); // t4 is now running f2(). t3 is no longer a thread
+    std::thread t5(&foo::bar, &f); // t5 runs foo::bar() on object f
+    std::thread t6(b); // t6 runs baz::operator() on a copy of object b
+    t2.join();
+    t4.join();
+    t5.join();
+    t6.join();
+    std::cout << "Final value of n is " << n << '\n';
+    std::cout << "Final value of f.n (foo::n) is " << f.n << '\n';
+    std::cout << "Final value of b.n (baz::n) is " << b.n << '\n';
+}
