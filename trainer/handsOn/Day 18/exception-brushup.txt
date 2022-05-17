@@ -218,7 +218,7 @@ int main() {
 	return 0;
 }	
 ----------------------------------------------------------
-Thumb rule:
+Thumb rule: "virtual function class" have the virtual destructor 
     for abstract class or class having abstract / virtual function 
     have the virtual destructor 
     
