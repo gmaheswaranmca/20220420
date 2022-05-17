@@ -147,6 +147,51 @@ int main() {
 	return 0;
 }
 -------------------------------------------
+Two workers threads and one manager thread to involve for "peer" processes
+
+models for multi-threading 
+1. manger/workers 
+2. peer 
+-------------------------------------------
+#include<iostream>
+#include<chrono>
+#include<thread>
+using namespace std;
+
+void parentSayHi() {
+	for (int I = 1; I <= 10;I++) {
+		cout << "Parent : 'Hi'" << endl;
+		std::this_thread::sleep_for(std::chrono::milliseconds(100));//milliseconds
+	}
+}
+void childSayHello(int childId) {
+	for (int I = 1; I <= 10;I++) {
+		cout << childId << ".Child : 'Hello'" << endl;
+		std::this_thread::sleep_for(std::chrono::milliseconds(100));
+	}
+}
+
+int mainOne() {
+	
+	thread childThread(childSayHello,101);
+	thread childTwoThread(childSayHello,102);
+	parentSayHi();
+	childThread.join();//synchronous of parent and child
+	childTwoThread.join();
+	
+	return 0;
+}
+
+int main() {
+	//for(int J=1;J<=5;J++){
+		//cout << endl << endl << "Test Case " << J << endl ;
+		mainOne();
+	//}
+	//cout << "Shutting Down App...." << endl;
+	return 0;
+}
+-------------------------------------------
+
 //countByParentForBig, countByChildForBig threaded 
 //RACE
 #include<iostream>
@@ -179,6 +224,49 @@ void countByParentForBig() {
 	}
 	return 0;
 }
+------------------------------------------
+Program to print 1-10 in sequence using two threads.
+------------------------------------------
+#include<iostream>
+#include<chrono>
+#include<thread>
+using namespace std;
+
+void parentSayHi() {
+	for (int I = 1; I <= 10;I++) {
+		cout << "Parent : 'Hi'" << I << endl;
+		std::this_thread::sleep_for(std::chrono::milliseconds(100));//milliseconds
+	}
+}
+void childSayHello(int childId) {
+	for (int I = 1; I <= 10;I++) {
+		cout << childId << ".Child : 'Hello'" << I << endl;
+		std::this_thread::sleep_for(std::chrono::milliseconds(100));
+	}
+}
+
+int mainOne() {
+	
+	thread childThread(childSayHello,101);
+	//cout << "childThread id " << childThread.get_id() << endl;  //Switch this
+	//cout << "childThread Joinable " << childThread.joinable() << endl;//Switch this 
+	//thread childTwoThread(childSayHello,102);
+	parentSayHi();
+	childThread.join();//childThread.detach();//synchronous of parent and child
+	//childTwoThread.join();
+	
+	return 0;
+}
+
+int main() {
+	for(int J=1;J<=5;J++){
+		cout << endl << endl << "Test Case " << J << endl ;
+		mainOne();
+	}
+	cout << "Shutting Down App...." << endl;
+	return 0;
+}
+------------------------------------------
 ------------------------------------------
 //countByParentForBig, countByChildForBig threaded 
 //two variables I will use, so, NO RACE
