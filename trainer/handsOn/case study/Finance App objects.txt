@@ -1,0 +1,37 @@
+Finance:
+	Customer:			!!!Registration | Login !!! uday
+		customer_id,
+		username,password,
+		phone_number,email_id,pan,aadhaar_number,communication_address
+	Employee:		!!!Login - uday 
+		employee_id,
+		username,password
+	Scheme: scheme_id,								!!!	manikanta
+		scheme_name,loan_max_amount,
+		duration_in_years,interest_rate,is_emi
+	LoanApplication:application_id,application_date,customer_id,scheme_id, 
+		required_loan_amount,document_details,notes,
+		referred_by
+	LoanProcessing: 			!!! subhash
+		process_id, entry_date,application_id, customer_id, scheme_id, 
+		document_is_checked, document_checked_date,
+		document_is_verified, document_verfied_date,
+		loan_is_approved, loan_approved_date
+	Loan:loan_id,
+		approved_loan_amount, loan_amount_is_deposited,loan_amount_deposited_date,
+		emi_start_date, duration_in_years,interest_rate,
+		emi_value,customer_id,proces_id
+		
+	Customer:	add 				read 
+				registration		login 
+									customer page 
+									
+    Employee: 	read 
+			    login 
+				employee page 
+				
+	Scheme		add		readOne    readAll			
+	LoanApplication		add  read 
+	LoanProcessing 		add  updateFirstVerification  updateSecondVerification approveLoan  read 
+	Loan 				add  updateLoanAmountRelease			read 
+							 (loan_amount_deposited_date)	
