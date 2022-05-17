@@ -1,0 +1,497 @@
+**********Example for thread concurrency:*************
+	
+Some multithreaded applications would be:
+o Web Browsers - 
+	Consider your internet browser. 
+	At any given time, you may have numerous tabs open, 
+	each one displaying various types of content. 
+	Multiple threads of execution are used to load content, 
+	display animations, play a video, and so on.
+o a word processor. 
+	While you are typing, 
+	multiple threads are used to display your document, 
+	asynchronously check the spelling and grammar of your document, 
+	generate a PDF version of the document. These are all happening concurrently, 
+	with independent threads performing these tasks internally.	
+o A web server will utilize multiple threads 
+  to simultaneous process requests for data at the same time.
+o An image analysis algorithm will spawn multiple threads at a time 
+  and segment an image into quadrants to apply filtering to the image.
+o A ray-tracing application will launch multiple threads to compute 
+  the visual effects while the main GUI thread draws the final results.
+===========================================
+non-threaded
+-------------------------------------------
+#include <iostream>
+#include <windows.h>
+using namespace std;
+void parentSayHi() {
+	for (int I = 1; I <= 10;I++) {
+		cout << "Hi from parent\n";
+		Sleep(1);
+	}
+}void childSayHello() {
+	for (int I = 1; I <= 10;I++) {
+		cout << "Hello from child\n";
+		Sleep(1);
+	}
+}int main() {
+	childSayHello();
+	parentSayHi();
+
+	return 0;
+}
+-------------------------------------------
+//countByParentForBig, countByChildForBig non-threaded 
+#include<iostream>
+#include<cstdint>
+
+using namespace std;
+#define BIG 1000000UL //10 lack, 1 million
+int counter = 0;
+void countByParentForBig() {
+	for (uint64_t I = 1; I <= BIG;I++) {
+		counter++;
+	}
+}void countByChildForBig() {
+	for (uint64_t I = 1; I <= BIG;I++) {
+		counter++;
+	}
+}int mainOne() {
+	countByParentForBig();
+	countByChildForBig();
+	cout << "counter is " << counter << endl;
+	return 0;
+}int main() {
+	for (int i = 0;i < 10;i++) {
+		counter = 0;
+		cout << endl << "Test Case " << i << endl ;
+		mainOne();
+	}
+	return 0;
+}
+
+===========================================
+
+===========================================
+threaded
+-------------------------------------------
+Example:
+-------------------------------------------
+#include <iostream>
+#include <chrono>
+#include <thread>
+using namespace std;
+void parentSayHi() {
+	for (int I = 1; I <= 10;I++) {
+		cout << "Hi from parent\n";
+		std::this_thread::sleep_for(std::chrono::seconds(1));
+	}
+}void childSayHello() {
+	for (int I = 1; I <= 10;I++) {
+		cout << "Hello from child\n";
+		std::this_thread::sleep_for(std::chrono::seconds(1));
+	}
+}int main() {
+
+	thread childThr(childSayHello);
+	parentSayHi();
+	childThr.join();
+
+	return 0;
+}
+-------------------------------------------
+//countByParentForBig, countByChildForBig threaded 
+//RACE
+#include<iostream>
+#include<thread>
+#include<cstdint>
+
+using namespace std;
+#define BIG 1000000UL //10 lack, 1 million
+int counter = 0;
+void countByParentForBig() {
+	for (uint64_t I = 1; I <= BIG;I++) {
+		counter++;
+	}
+}void countByChildForBig() {
+	for (uint64_t I = 1; I <= BIG;I++) {
+		counter++;
+	}
+}int mainOne() {
+	
+	thread childThr(countByChildForBig);
+	countByParentForBig();
+	childThr.join();
+	cout << "counter is " << counter << endl;
+	return 0;
+}int main() {
+	for (int i = 0;i < 10;i++) {
+		counter = 0;
+		cout << endl << "Test Case " << i << endl ;
+		mainOne();
+	}
+	return 0;
+}
+------------------------------------------
+//countByParentForBig, countByChildForBig threaded 
+//two variables I will use, so, NO RACE
+//NO TIME DELAYED -> Advantage of multithreading
+#include<iostream>
+#include<thread>
+#include<atomic>
+#include<cstdint>
+
+using namespace std;
+#define BIG 1000000UL //10 lack, 1 million
+int counter1(0);
+int counter2(0);
+int counter(0);
+void countByParentForBig() {
+	for (uint64_t I = 1; I <= BIG;I++) {
+		counter1++;
+	}
+}void countByChildForBig() {
+	for (uint64_t I = 1; I <= BIG;I++) {
+		counter2++;
+	}
+}int mainOne() {
+
+	thread childThr(countByChildForBig);
+	countByParentForBig();
+	childThr.join();
+	counter = counter1 + counter2;
+	cout << "counter is " << counter << endl;
+	return 0;
+}int main() {
+	for (int i = 0;i < 10;i++) {
+		counter = 0;
+		counter1 = 0; counter2 = 0;
+		cout << endl << "Test Case " << i << endl;
+		mainOne();
+	}
+	return 0;
+}
+-------------------------------------------
+===========================================
+
+===========================================
+mutex
+-------------------------------------------
+//countByParentForBig, countByChildForBig threaded 
+//NO RACE, mutex lock introduced
+//TIME DELAYED 
+#include<iostream>
+#include<thread>
+#include <mutex> 
+#include<cstdint>
+
+using namespace std;
+#define BIG 1000000UL //10 lack, 1 million
+int counter(0);
+mutex MUTX;
+void countByParentForBig() {
+	for (uint64_t I = 1; I <= BIG;I++) {
+		MUTX.lock();
+		counter++;
+		MUTX.unlock();
+	}
+}void countByChildForBig() {
+	for (uint64_t I = 1; I <= BIG;I++) {
+		MUTX.lock();
+		counter++;
+		MUTX.unlock();
+	}
+}int mainOne() {
+
+	thread childThr(countByChildForBig);
+	countByParentForBig();
+	childThr.join();
+	cout << "counter is " << counter << endl;
+	return 0;
+}int main() {
+	for (int i = 0;i < 10;i++) {
+		counter = 0;
+		cout << endl << "Test Case " << i << endl;
+		mainOne();
+	}
+	return 0;
+}
+-------------------------------------------
+//countByParentForBig, countByChildForBig threaded 
+//NO RACE, mutex lock introduced
+//NO TIME DELAYED 
+//use LOCAL var
+#include<iostream>
+#include<thread>
+#include <mutex> 
+#include<cstdint>
+
+using namespace std;
+#define BIG 1000000UL //10 lack, 1 million
+int counter(0);
+mutex MUTX;
+void countByParentForBig() {
+	int c=0;
+	for (uint64_t I = 1; I <= BIG;I++) {
+		c++;
+	}
+	MUTX.lock();
+	counter+=c;
+	MUTX.unlock();
+}void countByChildForBig() {
+	int c=0;
+	for (uint64_t I = 1; I <= BIG;I++) {
+		c++;
+	}
+	MUTX.lock();
+	counter+=c;
+	MUTX.unlock();
+}int mainOne() {
+
+	thread childThr(countByChildForBig);
+	countByParentForBig();
+	childThr.join();
+	cout << "counter is " << counter << endl;
+	return 0;
+}int main() {
+	for (int i = 0;i < 10;i++) {
+		counter = 0;
+		cout << endl << "Test Case " << i << endl;
+		mainOne();
+	}
+	return 0;
+}
+-------------------------------------------
+===========================================
+
+===========================================
+atomic operations
+-------------------------------------------
+//countByParentForBig, countByChildForBig threaded 
+//RACE fixed by atomic operation
+//TIME DELAYED so MUTLI THREADED for time saving - NOT DONE
+#include<iostream>
+#include<thread>
+#include<atomic>
+#include<cstdint>
+
+using namespace std;
+#define BIG 1000000UL //10 lack, 1 million
+atomic<int> counter(0);
+void countByParentForBig() {
+	for (uint64_t I = 1; I <= BIG;I++) {
+		counter++;
+	}
+}void countByChildForBig() {
+	for (uint64_t I = 1; I <= BIG;I++) {
+		counter++;
+	}
+}int mainOne() {
+
+	thread childThr(countByChildForBig);
+	countByParentForBig();
+	childThr.join();
+	cout << "counter is " << counter << endl;
+	return 0;
+}int main() {
+	for (int i = 0;i < 10;i++) {
+		counter = 0;
+		cout << endl << "Test Case " << i << endl;
+		mainOne();
+	}
+	return 0;
+}
+-------------------------------------------
+//countByParentForBig, countByChildForBig threaded 
+//RACE fixed by atomic operation
+//NO TIME DELAYED
+//LOCAL variables used to solve partial problem
+#include<iostream>
+#include<thread>
+#include<atomic>
+#include<cstdint>
+
+using namespace std;
+#define BIG 1000000UL //10 lack, 1 million
+atomic<int> counter(0);
+void countByParentForBig() {
+	int c = 0;
+	for (uint64_t I = 1; I <= BIG;I++) {
+		c++;
+	}
+	
+	counter+=c;
+}void countByChildForBig() {
+	int c = 0;
+	for (uint64_t I = 1; I <= BIG;I++) {
+		c++;
+	}
+	counter+=c;
+}int mainOne() {
+
+	thread childThr(countByChildForBig);
+	countByParentForBig();
+	childThr.join();
+	cout << "counter is " << counter << endl;
+	return 0;
+}int main() {
+	for (int i = 0;i < 10;i++) {
+		counter = 0;
+		cout << endl << "Test Case " << i << endl;
+		mainOne();
+	}
+	return 0;
+}
+-------------------------------------------
+===========================================
+
+
+===========================================
+promise (future)
+-------------------------------------------
+-------------------------------------------
+-------------------------------------------
+===========================================
+
+===========================================
+condition variable
+
+Spurious wakeup describes a complication in the use of condition variables.
+
+Even after a condition variable appears 
+to have been signaled from a waiting thread’s point of view, 
+the condition that was awaited may still be false.
+-------------------------------------------
+//countByParentForBig, countByChildForBig threaded 
+//NO RACE, COND VAR to make the main thread to WAIT and WORKERS THREADS to do job and after DONE then WAKE UP
+//TIME DELAYED 
+#include<iostream>
+#include<thread>
+#include <mutex> 
+#include <condition_variable>
+#include<cstdint>
+
+using namespace std;
+#define BIG 1000000UL //10 lack, 1 million
+#define BIGLIMIT 2UL*BIG
+int counter(0);
+mutex MUTX;
+
+
+std::condition_variable COND_VAR;
+void countByParentForBig() {
+	for (uint64_t I = 1; I <= BIG;I++) {
+		lock_guard<std::mutex> guard(MUTX);
+		counter++;
+		if (counter >= BIGLIMIT) {
+			cout << "parent(before signal to wakeup):counter=" << counter << endl;
+			COND_VAR.notify_one();	//WAKE UP
+		}
+	}
+}void countByChildForBig() {
+	for (uint64_t I = 1; I <= BIG;I++) {
+		lock_guard<std::mutex> guard(MUTX);
+		counter++;
+		if (counter >= BIGLIMIT) {
+			cout << "child(before signal to wakeup):counter=" << counter << endl;
+			COND_VAR.notify_one();	//WAKE UP
+		}		
+	}
+}
+void monitorAndContinue() {
+	unique_lock<mutex> UNQ_LOC(MUTX);
+	while (counter < BIGLIMIT) { //predicate an while loop - protection from spurious wakeups
+		cout << "monitorAndContinue-1:counter=" <<  counter << endl;
+		COND_VAR.wait(UNQ_LOC);
+		cout << "monitorAndContinue-2:after wait is over/ signalled. counter=" << counter << endl;
+	}	
+	cout << "monitorAndContinue-3:counter=" << counter << endl;
+}
+int mainOne() {
+	thread monitorThr(monitorAndContinue);
+	thread childThr(countByChildForBig);
+	countByParentForBig();
+	childThr.join();
+	monitorThr.join();
+	cout << "counter is " << counter << endl;
+	return 0;
+}int main() {
+	for (int i = 0;i < 10;i++) {
+		counter = 0;
+		cout << endl << "Test Case " << i << endl;
+		mainOne();
+	}
+	return 0;
+}
+-------------------------------------------
+a basic producer/consumer
+---------------------------------------------------
+#include <iostream>
+#include <queue>
+#include <mutex>
+#include <thread>
+#include <condition_variable>
+#include <atomic>
+
+class App {
+private:
+    std::queue<int> m_data;
+    std::atomic_bool m_bFinished;
+    std::mutex m_Mutex;
+    std::condition_variable m_cv;
+    int m_QueueSize;
+public:
+    App(int MaxQueue) 
+        : m_bFinished(false)
+        , m_QueueSize(MaxQueue) 
+    {}
+
+    void Producer()
+    {
+        for (int i = 0; i < m_QueueSize; ++i) 
+        {
+            {
+                std::unique_lock<std::mutex> lock(m_Mutex);
+                m_data.push(i); 
+            }
+            m_cv.notify_one();
+            std::cout << "Producer Thread, queue size: " << m_data.size() << std::endl;
+        }
+        m_bFinished = true;
+    }
+
+    void Consumer() 
+    {
+        do
+        {
+            std::unique_lock<std::mutex> lock(m_Mutex);
+            while (m_data.empty())
+            {
+                m_cv.wait(lock, [&](){ return !m_data.empty(); }); // predicate an while loop - protection from spurious wakeups
+            }
+            while(!m_data.empty()) // consume all elements from queue
+            {
+                std::cout << "Consumer Thread, queue element: " << m_data.front() << " size: " << m_data.size() << std::endl;
+                m_data.pop();
+            }
+        } while(!m_bFinished);
+    }
+};
+
+
+int main()
+{
+    int QueueElements = 10;
+    App app(QueueElements);
+    std::thread consumer_thread(&App::Consumer, &app);
+    std::thread producer_thread(&App::Producer, &app);
+
+    producer_thread.join();
+    consumer_thread.join();
+
+    std::cout << "loop exited" << std::endl;
+    return 0;
+}
+-------------------------------------------
+===========================================
