@@ -537,6 +537,64 @@ Even after a condition variable appears
 to have been signaled from a waiting thread’s point of view, 
 the condition that was awaited may still be false.
 -------------------------------------------
+COND_VAR is used for communication between threads in synchronization
+
+In the below program 
+There are two threads 
+countByChildOneForBig (childThread)
+monitorChild (monitorThread)
+
+The monitorThread will go to the BLOCKED (NON-WAKE UP) state by 
+COND_VAR.wait function 
+
+Once childThread meets the condition of achieving the counter exactly to BIG
+then COND_WAR.notify_one will wake up the monitorThread
+
+-------------------------------------------
+#include<iostream>
+#include<thread>
+#include<mutex>
+#include<condition_variable>
+#include<cstdint>
+
+using namespace std;
+#define BIG 1000000UL //10 lack, 1 million
+int counter = 0;
+mutex MUT;
+condition_variable COND_VAR;
+
+void countByChildOneForBig() {
+	for (uint64_t I = 1; I <= BIG;I++) {
+		lock_guard<mutex> GUARD(MUT);		
+		counter++;		
+		if (counter == BIG) {
+			cout << "Child:" << counter << endl;
+			COND_VAR.notify_one();//WAKE UP the monitorThread
+		}
+	}
+}void monitorChild() {
+	unique_lock<mutex> UNI_LOC(MUT);
+	while (counter < BIG) {//SPURIOUS WAKE UP should not happen
+		cout << "Monitor-1:" << counter << endl;
+		COND_VAR.wait(UNI_LOC);//BLOCKED
+	}
+	cout << "Monitor-2:" << counter << endl;
+}int mainOne() {
+	thread childThread(countByChildOneForBig);
+	thread monitorThread(monitorChild);
+	childThread.join();
+	monitorThread.join();
+	cout << "counter is " << counter << endl;
+	return 0;
+}int main() {
+	for (int i = 0;i < 10;i++) {
+		counter = 0;
+		cout << endl << "Test Case " << i << endl;
+		mainOne();
+	}
+	return 0;
+}
+-------------------------------------------
 //countByParentForBig, countByChildForBig threaded 
 //NO RACE, COND VAR to make the main thread to WAIT and WORKERS THREADS to do job and after DONE then WAKE UP
 //TIME DELAYED 
