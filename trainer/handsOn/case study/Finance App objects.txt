@@ -8,7 +8,7 @@ Finance:
 		username,password
 	Scheme: scheme_id,								!!!	manikanta
 		scheme_name,loan_max_amount,
-		duration_in_years,interest_rate,is_emi
+		duration_in_years,interest_rate,is_emi,required_documents
 	LoanApplication:application_id,application_date,customer_id,scheme_id, 
 		required_loan_amount,document_details,notes,
 		referred_by
