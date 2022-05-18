@@ -1,0 +1,35 @@
+subhash 
+	dynamic memory allocation 
+    heap memory 
+-----------------------------------------------    
+
+#include<iostream>
+#include<cstdlib>
+using namespace std;
+int main() {
+	int* firstNum = new int;
+	int* numbers = new int[10];
+
+	int i = 10;
+	for (int j = 0; j < 10; j++) {
+		numbers[j] = i;
+		i += 10;
+	}
+	for (int j = 0; j < 10; j++) {
+		cout << numbers[j] << " ";
+	}
+
+	int* numbersTemp = new int[15];
+	memcpy(numbersTemp, numbers, sizeof(int) * 10);
+	memset(numbersTemp+10, 0, sizeof(int) * 5);
+	delete[] numbers;
+
+	numbers = numbersTemp;
+	for (int j = 0; j < 15; j++) {
+		cout << numbers[j] << " ";
+	}
+
+	delete[] numbers;
+	delete firstNum;
+}
+-----------------------------------------------

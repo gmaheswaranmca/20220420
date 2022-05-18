@@ -14,7 +14,7 @@ Finance:
 		referred_by
 	LoanProcessing: 			!!! subhash
 		process_id, entry_date,application_id, customer_id, scheme_id, 
-		document_is_checked, document_checked_date,
+		document_has_received,document_is_checked, document_checked_date,
 		document_is_verified, document_verfied_date,
 		loan_is_approved, loan_approved_date
 	Loan:loan_id,
