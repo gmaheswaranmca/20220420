@@ -63,7 +63,7 @@ Bank:
 	Open Account(Open Savings Account/....),		shrikant
 		View Account, 								shrikant
 		Do Transsaction(Deposit, Withdraw, Transfer) anil
-		View Balance 						anil
+		View Balance 						shrikant
 		Generate Mini Statement 			anil
 	Employee: Login 				avinash
 		Update Savings/Current Minimum Balance 		anil
