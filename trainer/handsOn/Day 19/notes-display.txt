@@ -1,0 +1,122 @@
+Windows Socket Programming
+	
+	o Windows Sockets 2
+		https://docs.microsoft.com/en-us/windows/win32/winsock/windows-sockets-start-page-2
+		
+		
+		
+
+
+-------------------------------------------------------------------------------
+server: program running - process / service 
+	    on a computer listening the computer's "ip address" and 
+		on a unique "port" of the computer 
+		
+		for example, in wamp server (php server) 
+			apache server (PHP web server) is running in the port 80 (by default)
+			mysql (Database server) is running in the port 3306 (by default)
+-------------------------------------------------------------------------------
+client 
+-------------------------------------------------------------------------------
+iResult = WSAStartup(MAKEWORD(2, 2), &wsaData);
+iResult = getaddrinfo(cliser_01::ipAddr, DEFAULT_PORT, &hints, &result);
+ConnectSocket = socket(ptr->ai_family, ptr->ai_socktype,
+				ptr->ai_protocol);
+iResult = connect(ConnectSocket, ptr->ai_addr, (int)ptr->ai_addrlen);
+freeaddrinfo(result);
+
+			send(ConnectSocket, sendbuf, (int)strlen(sendbuf), 0); // comm bt client (this) and remote server 
+			iResult = recv(ConnectSocket, recvbuf, recvbuflen, 0);	
+iResult = shutdown(ConnectSocket, SD_SEND);
+WSACleanup();
+-------------------------------------------------------------------------------
+server
+-------------------------------------------------------------------------------
+iResult = WSAStartup(MAKEWORD(2, 2), &wsaData);
+iResult = getaddrinfo(NULL, DEFAULT_PORT, &hints, &result);
+ListenSocket = socket(result->ai_family, result->ai_socktype, result->ai_protocol);
+iResult = bind(ListenSocket, result->ai_addr, (int)result->ai_addrlen);
+freeaddrinfo(result);
+
+	iResult = listen(ListenSocket, SOMAXCONN);			//LOOP 1
+		ClientSocket = accept(ListenSocket, NULL, NULL); //LOOP 1
+			//DELEGATE WORKER THREAD:					//LOOP 1
+					iResult = recv(ClientSocket, recvbuf, recvbuflen, 0);	//WORKER 	LOOP 2
+					iSendResult = send(ClientSocket, recvbuf, iResult, 0);	//WORKER 	LOOP 2
+			
+				iResult = shutdown(ClientSocket, SD_SEND);
+				closesocket(ClientSocket);
+		closesocket(ListenSocket);	
+
+WSACleanup();
+-------------------------------------------------------------------------------
+
+
+
+				
+
+
+
+
+
+
+
+
+
+
+
+
+https://www.geeksforgeeks.org/layers-of-osi-model/
+https://www.geeksforgeeks.org/tcp-ip-model/
+http://www.tcpipguide.com/free/t_HTTPOperationalModelandClientServerCommunication.htm
+https://www.geeksforgeeks.org/tcp-server-client-implementation-in-c/
+---------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---------------------------------------------------------------------------------
+Basic HTTP Client/Server Communication
+	In its simplest form, the operation of HTTP involves only an HTTP client, 
+	usually a Web browser on a client machine, and an HTTP server, 
+	more commonly known as a Web server. After a TCP connection is created, 
+	the two steps in communication are as follows:
+
+Client Request: 
+	The HTTP client sends a request message formatted according to the rules of the
+	HTTP standard—an HTTP Request. 
+	This message specifies the resource that the client wishes to retrieve, 
+	or includes information to be provided to the server.
+
+Server Response: 
+	The server reads and interprets the request. 
+	It takes action relevant to the request and creates an HTTP Response message, 
+	which it sends back to the client. 
+	The response message indicates whether the request was successful, 
+	and may also contain the content of the resource that the client requested,
+	if appropriate.
+---------------------------------------------------------------------------------	
