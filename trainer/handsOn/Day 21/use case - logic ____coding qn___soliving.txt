@@ -1,0 +1,482 @@
+input:8 9 7 3 5 6 10 1 2 4
+output:1 10 2 9 3 8 4 7 5 6
+-----------------------------------------------------------
+input:8 9 7 3 5 6 10 1 2 4				I		sort asc                !!!DONE
+output:1 2 3 4 5 6 7 8 9 10
+
+input:1 2 3 4 5 6 7 8 9 10				II		from sorted, half asc, half desc
+output:1 2 3 4 5 10 9 8 7 6
+
+input:8 9 7 3 5 6 10 1 2 4				III		sort, half asc, half desc 
+output:1 2 3 4 5 10 9 8 7 6
+
+input:1 2 3 4 5 6 7 8 9 10				IV		sorted, odd half(1st sub list) asc, 
+												even (2nd sub half) desc 
+output:1 10 2 9 3 8 4 7 5 6
+-----------------------------------------------------------
+I
+input:8 9 7 3 5 6 10 1 2 4				I		sort asc                !!!DONE
+output:1 2 3 4 5 6 7 8 9 10
+-----------------------------------------------------------
+#include<iostream>
+using namespace std;
+int main()
+{
+	int a[10] = { 8, 9, 7, 3, 5, 6, 10, 1, 2, 4 };
+	int b[10];
+	/*cout << "Enter the Array elements randomly";
+
+	for (i = 0;i < 10;i++)
+	{
+		cin >> a[i];
+	}
+	*/
+
+	for (int j = 0;j < 10;j++)								//0	1   2
+	{														//swap
+		// bool isSwapped = false;//II
+		for (int i = 0;i < (10 - j - 1);i++) //bubble sort  9   8  
+		{
+			if (a[i] > a[i + 1])//"element" compare "nextElement"
+			{
+				int temp;
+				temp = a[i];
+				a[i] = a[i + 1];
+				a[i + 1] = temp;
+				//isSwapped = true;//II
+			}
+			//if(!isSwapped){break;}//II
+		}
+	}
+	cout << "sorted array:";
+	for (int i = 0;i < 10;i++)
+	{
+		cout << a[i] << " ";
+	}
+	return 0;
+}
+
+                         -
+8, 9, 7, 3, 5, 6, 10, 1, 2, 4
+   -  -
+8, 7, 9, 3, 5, 6, 10, 1, 2, 4
+      -  -
+8, 7, 3, 9, 5, 6, 10, 1, 2, 4
+         -  -
+8, 7, 3, 5, 9, 6, 10, 1, 2, 4         
+            -  -
+8, 7, 3, 5, 6, 9, 10, 1, 2, 4         
+                  -   -
+8, 7, 3, 5, 6, 9, 1, 10, 2, 4                           
+                     -   -
+8, 7, 3, 5, 6, 9, 1, 2, 10, 4                       
+                        -   - 
+8, 7, 3, 5, 6, 9, 1, 2, 4, 10
+                        
+-----------------------------------------------------------
+input:1 2 3 4 5 6 7 8 9 10				II		from sorted, half asc, half desc
+output:1 2 3 4 5 10 9 8 7 6
+-----------------------------------------------------------
+Initial Code:
+-----------------------------------------------------------
+#include<iostream>
+using namespace std;
+void doSort(int nums[],int N){
+	for (int j = 0;j < N;j++)
+	{														
+		bool isSwapped = false;//II
+		for (int i = 0;i < (N - j - 1);i++) 
+		{
+			if (nums[i] > nums[i + 1])//"element" compare "nextElement"
+			{
+				int temp;
+				temp = nums[i];
+				nums[i] = nums[i + 1];
+				nums[i + 1] = temp;
+				isSwapped = true;//II
+			}
+		}
+
+		//After all swaps 
+		if (!isSwapped) { break; }//II
+	}
+}
+void printNums(int nums[], int N) {
+	cout << "sorted array:";
+	for (int i = 0;i < N;i++)
+	{
+		cout << nums[i] << " ";
+	}
+}
+void inputNums(int nums[], int N) {
+	cout << "Enter the Array elements randomly";
+
+	for (int i = 0;i < N;i++)
+	{
+		cin >> nums[i];
+	}
+}
+void printInFormat(int nums[], int N) {
+	//assumption:nums has the sorted element
+	//output:1 2 3 4 5 10 9 8 7 6
+	cout << endl << "the numbers in the given format:" << endl;
+	for (int i = 0;i < N / 2;i++)//at index 0 1 2 3 4 //first half list -> forward traversal
+	{
+		cout << nums[i] << " ";
+	}
+	for (int i = N - 1;i >= N / 2;i--)//at index 9 8 7 6 5//second half list->backward traversal
+	{
+		cout << nums[i] << " ";
+	}
+}
+
+int main()
+{
+	int a[10] = { 8, 9, 7, 3, 5, 6, 10, 1, 2, 4 };
+	int b[10];
+	/*
+	inputNums(a, 10);
+	*/
+	doSort(a, 10);
+	printNums(a, 10);
+	printInFormat(a, 10);
+	return 0;
+}
+
+-----------------------------------------------------------
+input:1 2 3 4 5 6 7 8 9 10				IV		sorted, odd half(1st sub list) asc, 
+												even (2nd sub half) desc 
+output:1 10 2 9 3 8 4 7 5 6
+-----------------------------------------------------------
+#include<iostream>
+using namespace std;
+void doSort(int nums[], int N) {
+	for (int j = 0;j < N;j++)
+	{
+		bool isSwapped = false;//II
+		for (int i = 0;i < (N - j - 1);i++)
+		{
+			if (nums[i] > nums[i + 1])//"element" compare "nextElement"
+			{
+				int temp;
+				temp = nums[i];
+				nums[i] = nums[i + 1];
+				nums[i + 1] = temp;
+				isSwapped = true;//II
+			}
+		}
+
+		//After all swaps 
+		if (!isSwapped) { break; }//II
+	}
+}
+void printNums(int nums[], int N) {
+	cout << "sorted array:";
+	for (int i = 0;i < N;i++)
+	{
+		cout << nums[i] << " ";
+	}
+}
+void inputNums(int nums[], int N) {
+	cout << "Enter the Array elements randomly";
+
+	for (int i = 0;i < N;i++)
+	{
+		cin >> nums[i];
+	}
+}
+void printInFormat(int nums[], int N) {
+	//assumption:nums has the sorted element
+	//II output:1 2 3 4 5 10 9 8 7 6
+	cout << endl << "the numbers in the given format:" << endl;
+	for (int i = 0;i < N / 2;i++)//at index 0 1 2 3 4 //first half list -> forward traversal
+	{
+		cout << nums[i] << " ";
+	}
+	for (int i = N - 1;i >= N / 2;i--)//at index 9 8 7 6 5//second half list->backward traversal
+	{
+		cout << nums[i] << " ";
+	}
+}
+void printInFormatFour(int nums[], int N) {
+	//assumption:nums has the sorted element
+	//input:1 2 3 4 5 6 7 8 9 10				IV		
+	//sorted, 
+	//odd position: half(1st sub list) asc,
+	//even positionL (2nd sub half) desc
+	//IV output : 1 10 2 9 3 8 4 7 5 6
+	cout << endl << "the numbers in the given format(four):" << endl;
+	/*for (int i = 0;i < N ;i=i+2)
+	{
+		cout << nums[i] << " ";
+		cout << nums[i+1] << " ";
+	}*/	
+	int fIndex = 0;     //first index of the actual list 
+	int bIndex = N - 1; //last index of the actual list 
+	int fStop = N / 2; // half of the list
+	if (N % 2 == 1) {  //if remainer when we find half 
+		fStop = fStop + 1; //stop index for the first half list
+	}
+	int bStop = fStop + 1; //"next index" of the "last index" of the "first half list"
+	for (int i = 0;i < N; i++)
+	{	
+		if(fIndex <= fStop) //run the first half list (forward)
+		{
+			cout << nums[fIndex] << " ";
+		}
+		if(bIndex >= bStop){ //run the second half list (backward)
+			cout << nums[bIndex] << " ";
+		}
+		fIndex++;
+		bIndex--;
+		if ((!(fIndex <= fStop)) && (!(bIndex >= bStop))) {
+			//if both first half list and second half list are printed 
+			//we have to stop
+			break;
+		}
+	}
+}
+int main()
+{
+	int a[10] = { 8, 9, 7, 3, 5, 6, 10, 1, 2, 4 };
+	int b[10];
+	/*
+	inputNums(a, 10);
+	*/
+	doSort(a, 9);
+	printNums(a, 9);
+	printInFormat(a, 9);
+	printInFormatFour(a, 9);
+	return 0;
+}
+-----------------------------------------------------------
+//In place, arranging the numbers  in the given format 
+-----------------------------------------------------------
+#include<iostream>
+#include<cstring>
+using namespace std;
+void doSort(int nums[], int N) {
+	for (int j = 0;j < N;j++)
+	{
+		bool isSwapped = false;//II
+		for (int i = 0;i < (N - j - 1);i++)
+		{
+			if (nums[i] > nums[i + 1])//"element" compare "nextElement"
+			{
+				int temp;
+				temp = nums[i];
+				nums[i] = nums[i + 1];
+				nums[i + 1] = temp;
+				isSwapped = true;//II
+			}
+		}
+
+		//After all swaps 
+		if (!isSwapped) { break; }//II
+	}
+}
+void printNums(int nums[], int N) {
+	cout << "sorted array:";
+	for (int i = 0;i < N;i++)
+	{
+		cout << nums[i] << " ";
+	}
+}
+void inputNums(int nums[], int N) {
+	cout << "Enter the Array elements randomly";
+
+	for (int i = 0;i < N;i++)
+	{
+		cin >> nums[i];
+	}
+}
+void printInFormat(int nums[], int N) {
+	//assumption:nums has the sorted element
+	//II output:1 2 3 4 5 10 9 8 7 6
+	cout << endl << "the numbers in the given format:" << endl;
+	for (int i = 0;i < N / 2;i++)//at index 0 1 2 3 4 //first half list -> forward traversal
+	{
+		cout << nums[i] << " ";
+	}
+	for (int i = N - 1;i >= N / 2;i--)//at index 9 8 7 6 5//second half list->backward traversal
+	{
+		cout << nums[i] << " ";
+	}
+}
+void printInFormatFour(int nums[], int N) {
+	int* temp = new int[N];
+	//input:1 2 3 4 5 6 7 8 9 10(sorted)
+	//IV output : 1 10 2 9 3 8 4 7 5 6
+	cout << endl << "the numbers in the given format(four):" << endl;
+	int fIndex = 0;     //first index of the actual list 
+	int bIndex = N - 1; //last index of the actual list 
+	int fStop = N / 2; // half of the list
+	if (N % 2 == 1) {  //if remainer when we find half 
+		fStop = fStop + 1; //stop index for the first half list
+	}
+	int bStop = fStop + 1; //"next index" of the "last index" of the "first half list"
+
+	int newI = 0;
+	for (int i = 0;i < N; i++)
+	{	
+		if(fIndex <= fStop) //run the first half list (forward)
+		{
+			//cout << nums[fIndex] << " ";
+			temp[newI++] = nums[fIndex];
+		}
+		if(bIndex >= bStop){ //run the second half list (backward)
+			//cout << nums[bIndex] << " ";
+			temp[newI++] = nums[bIndex];
+		}
+		fIndex++;
+		bIndex--;
+		if ((!(fIndex <= fStop)) && (!(bIndex >= bStop))) {
+			//if both first half list and second half list are printed 
+			//we have to stop
+			break;
+		}
+	}
+	memcpy(nums, temp, N * sizeof(int));
+	delete[] temp;
+}
+int main()
+{
+	int a[10] = { 8, 9, 7, 3, 5, 6, 10, 1, 2, 4 };
+	int b[10];
+	/*
+	inputNums(a, 10);
+	*/
+	doSort(a, 9);
+	printNums(a, 9);
+	printInFormat(a, 9);
+	printInFormatFour(a, 9);
+	printNums(a,9);
+	return 0;
+}
+-----------------------------------------------------------
+Using vector and sort alogorithm
+-----------------------------------------------------------
+
+#include<iostream>
+#include<algorithm>
+#include<vector>
+using namespace std;
+
+#define SIZE 10
+int main()
+{
+	int N = SIZE;
+	vector<int> input{ 8, 9, 7, 3, 5, 6, 10, 1, 2, 4 };
+
+	sort(input.begin(), input.end());
+	cout << "Sorted" << endl;
+	for_each(input.begin(), input.end(), [](int e) { cout << e << " ";});
+	cout << endl;
+	
+	vector<int> output(N);
+	auto inREFone = input.begin();
+	auto inREFtwo = input.rbegin();
+	int I = 0;
+	for (auto REF = output.begin(); REF != output.end(); REF++) {
+		if(I %2 ==0){
+			(*REF) = (*inREFone);
+			inREFone++;
+		}
+		else {
+			(*REF) = (*inREFtwo);
+			inREFtwo++;
+		}
+		I++;
+	}
+	cout << "Output list" << endl;
+	for_each(output.begin(), output.end(), [](int e) { cout << e << " ";});
+	cout << endl;
+
+	return 0;
+}
+
+
+-----------------------------------------------------------
+Using dynamic array 
+-----------------------------------------------------------
+#include<iostream>
+#include<algorithm>
+#include<vector>
+using namespace std;
+
+#define SIZE 10
+int main()
+{
+	int N = SIZE;
+	int* input = new int[N] { 8, 9, 7, 3, 5, 6, 10, 1, 2, 4 };
+	int* output = new int[N] {};
+
+	sort(input, input + N);
+	cout << "Sorted" << endl;
+	for_each(input, input + N, [](int e) { cout << e << " ";});
+	cout << endl;
+
+	auto inREFone = input;
+	auto inREFtwo = input + N - 1;
+	int I = 0;
+	for (auto REF = output; I < N; REF++) {
+		if (I % 2 == 0) {
+			(*REF) = (*inREFone);
+			inREFone++;
+		}
+		else {
+			(*REF) = (*inREFtwo);
+			inREFtwo--;
+		}
+		I++;
+	}
+	cout << "Output list" << endl;
+	for_each(output, output + N, [](int e) { cout << e << " ";});
+	cout << endl;
+
+	delete[] input;
+	delete[] output;
+	return 0;
+}
+-----------------------------------------------------------
+Using dynamic array indices
+-----------------------------------------------------------
+#include<iostream>
+#include<algorithm>
+#include<vector>
+using namespace std;
+
+#define SIZE 10
+int main()
+{
+	int N = SIZE;
+	int* input = new int[N] { 8, 9, 7, 3, 5, 6, 10, 1, 2, 4 };
+	int* output = new int[N] {};
+
+	sort(input, input + N);
+	cout << "Sorted" << endl;
+	for_each(input, input + N, [](int e) { cout << e << " ";});
+	cout << endl;
+
+	int fIndex = 0;
+	int bIndex = N-1;
+	
+	for (int I = 0; I < N; I++) {
+		if (I % 2 == 0) {
+			output[I]= input[fIndex];
+			fIndex++;
+		}
+		else {
+			output[I] = input[bIndex];
+			bIndex--;
+		}
+	}
+	cout << "Output list" << endl;
+	for_each(output, output + N, [](int e) { cout << e << " ";});
+	cout << endl;
+
+	delete[] input;
+	delete[] output;
+	return 0;
+}
+-----------------------------------------------------------

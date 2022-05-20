@@ -50,18 +50,114 @@ freeaddrinfo(result);
 
 WSACleanup();
 -------------------------------------------------------------------------------
+**************WSAStartup function**************
+****************addrinfo structure**************
+*****************************getaddrinfo function*****************************
+***************************socket***************************
+***************************connect***************************
+***************************freeaddrinfo**********************
+***************************shutdown*******************
+***************************bind***************************
+***************************listen***************************
+***************************accept***************************
+***************************closesocket***************************
+***************************WSACleanup**********************
 
+**************WSAStartup function**************
+o The WSAStartup function initiates use of the Winsock DLL by a process.
 
+Syntax:
+	int WSAStartup(
+			WORD      wVersionRequired,
+	  [out] LPWSADATA lpWSAData
+	);
+	o A pointer to the WSADATA data structure that is 
+	  to receive details of the Windows Sockets implementation.
+	
+	If successful, the WSAStartup function returns zero. 
+	Otherwise, it returns one of the error codes.
 
+****************addrinfo structure**************
+
+typedef struct addrinfo {
+  int             ai_flags;
+  int             ai_family;
+  int             ai_socktype;
+  int             ai_protocol;
+  size_t          ai_addrlen;
+  char            *ai_canonname;
+  struct sockaddr *ai_addr;
+  struct addrinfo *ai_next;
+} ADDRINFOA, *PADDRINFOA;
 				
+*****************************getaddrinfo function*****************************
+o The getaddrinfo function provides protocol-independent translation 
+  from an ANSI host name to an address.
+
+Syntax:
+
+INT WSAAPI getaddrinfo(
+  [in, optional] PCSTR           pNodeName,
+  [in, optional] PCSTR           pServiceName,
+  [in, optional] const ADDRINFOA *pHints,
+  [out]          PADDRINFOA      *ppResult
+);
+
+Parameters:
+
+[in, optional] pNodeName
+
+	A pointer to a NULL-terminated ANSI string 
+	that contains a host (node) name or a numeric host address string. 
+	For the Internet protocol, 
+	the numeric host address string is a dotted-decimal IPv4 address or an IPv6 hex address.
+
+[in, optional] pServiceName
+
+	A pointer to a NULL-terminated ANSI string that contains either a service name or port number 
+	represented as a string.
+
+	A service name is a string alias for a port number. 
+	For example, “http” is an alias for port 80 
+	defined by the Internet Engineering Task Force (IETF) 
+	as the default port used by web servers for the HTTP protocol. 
+	Possible values for the pServiceName parameter 
+	when a port number is not specified are in the following file:
+
+	%WINDIR%\system32\drivers\etc\services
+
+[in, optional] pHints
+
+	A pointer to an addrinfo structure that provides hints 
+	about the type of socket the caller supports.
+
+	The ai_addrlen, ai_canonname, ai_addr, and ai_next members of 
+	the addrinfo structure pointed to by the pHints parameter must be zero or NULL. 
+	Otherwise the GetAddrInfoEx function will fail with WSANO_RECOVERY.
 
 
 
+[out] ppResult
+
+	A pointer to a linked list of one or more addrinfo structures 
+	that contains response information about the host.
+
+	Return value
+	Success returns zero. Failure returns a nonzero Windows Sockets error code, 
+	as found in the Windows Sockets Error Codes.
 
 
+***************************socket***************************
+***************************connect***************************
+***************************freeaddrinfo**********************
+***************************shutdown*******************
 
+***************************bind***************************
+***************************listen***************************
+***************************accept***************************
+***************************closesocket***************************
 
-
+***************************WSACleanup**********************
 
 
 
@@ -120,3 +216,82 @@ Server Response:
 	and may also contain the content of the resource that the client requested,
 	if appropriate.
 ---------------------------------------------------------------------------------	
+
+
+
+
+
+
+
+
+int N=5;
+double salaries[2000] = {2000.0,3000.0,1500.0,4000.0,2500.0};
+
+int 4 bytes
+double 8 bytes 
+
+4			5 x 8		=44
+N,			salaries
+single		blocks 
+data 		data 
+
+4           20 x 8      =164	
+
+			2000 x 8   = 16004
+			
+first N value only once 
+next loop to send 
+	numberOfTimes =>
+	(sizeof(double)*N)/DEFAULT_BUFLEN +	 
+	((sizeof(double)*N)%DEFAULT_BUFLEN) > 0 ? 1 + 0)
+	
+client 	
+	int N=5;
+	double salaries[2000];
+	jobStep1
+		cout << "Enter number of salaries:"; cin >> N;
+		for(int I=0; I<N; I++){
+			cout << "Enter salary at :"; cin >> salaries[I];
+		}
+		/*err_code = send(jobSocket, (char*)&N, sizeof(int), 0);//JOB LINE
+		int quotient = (sizeof(double)*N)/DEFAULT_BUFLEN;
+		int remainder = (sizeof(double)*N)%DEFAULT_BUFLEN);
+		int blocksPerBuf = DEFAULT_BUFLEN / sizeof(double);
+		int numberOfTimes = quotient +	(remainder>0 ? 1 + 0);
+		*/
+		//for(int I=0; I<numberOfTimes; I++){ //516  1->512bytes,2-4bytes
+		for(int I=0; I<N; I++){
+			/int sendSize = DEFAULT_BUFLEN;
+			if(remainder > 0){
+				sendSize = remainder*sizeof(double);
+			}
+			err_code = send(jobSocket, (char*)(salaries+blocksPerBuf), sendSize, 0);//JOB LINE
+			*/
+			err_code = send(jobSocket, (char*)&salaries[I], sizeof(double), 0);//JOB LINE
+		}
+		
+	jobStep2
+	jobStep3
+
+server 
+	jobStep1
+	jobStep2
+	jobStep3
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

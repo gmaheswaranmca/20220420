@@ -1,0 +1,27 @@
+Deliverables:
+	1. assessments
+		
+	2. learning outcomes
+		
+	3. case study 
+		- documents 	
+			class diagram ???
+					-> SRS
+					-> HLD
+					-> LLD
+					-> Presentaion 
+		- case study - your portion 
+			i) functionality
+			ii) team work 
+			iii) conceptions implemented 
+			etc 
+		- viva voice 
+		- presentation 
+			(individual) 
+			(team) 
+	4. mock interview 		(orally sumbission)
+	   logic / analysis 	
+	   
+--------------------------------------
+Syllabus of the training program 	   
+--------------------------------------			
