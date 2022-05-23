@@ -1,0 +1,932 @@
+---------------------------------------------------------------------
+Q1:    Can you solve?
+---------------------------------------------------------------------
+Count frequency of characters in given string
+Given numbers of size N, Count frequency of eacg number in given list
+---------------------------------------------------------------------
+HelloHowAreYou
+222 3  111 1 1
+
+10 20 30 20 10 10 20 30 10 50 40 20 
+4  4   2                   1  1
+
+Step: Input 		!!!NO DOUBT
+
+Step: 
+	Approach 1
+		array of [{Char, Freq},{Char, Freq}, ...]			struct/class{Char, Freq}	[] array 
+		array of [{Number, Freq},{Number, Freq}, ...]
+		OR
+		map<char,int> - pairs
+		map<int,int> - pairs
+
+Step: Output        !!! Char/Number - Frequency 
+---------------------------------------------------------------------
+Q2: Can you solve?
+---------------------------------------------------------------------
+Remove duplicates from sorted array.
+Input: 10 10 10 10 20 20 20 20 30 30 40 50
+Output: 10 20 30 40 50
+---------------------------------------------------------------------
+	Scan every element via INDEX 
+		Check Element and Next Element 
+			till second to last element 
+			
+		? Copy to another array 
+			OR 
+		  In place 
+---------------------------------------------------------------------		  
+#include<iostream>
+using namespace std;
+
+int main() {
+	int N = 12;
+	int numbers[] = { 10, 10, 10, 10, 20, 20, 20, 20, 30, 30, 40, 50 };
+	for (int eIndex = 0; eIndex < (N - 1); ) { //One element before the last element 
+		if (numbers[eIndex] == numbers[eIndex + 1]) {
+			//Remove the I+1 th element -> SHIFT LEFT: Shift the elements after I + 1 left side 
+			for (int LShiftIndex = eIndex + 2; LShiftIndex < N; LShiftIndex++) {
+				numbers[LShiftIndex - 1] = numbers[LShiftIndex]; // LEFT SHIFT 
+			}
+			N = N - 1;
+		}
+		else {
+			eIndex = eIndex + 1;
+		}
+	}
+
+	cout << "Number of distinct elements:" << N << endl;
+	cout << "Distinct elements:" << endl;
+	for (int I = 0; I < N; I++) {
+		cout << numbers[I] << " ";
+	}
+
+	return 0;
+}
+---------------------------------------------------------------------			
+---------------------------------------------------------------------
+Q3
+---------------------------------------------------------------------
+Rotate given array from the specified index
+---------------------------------------------------------------------
+input: N=8
+	   numbers=4 8 5 3 6 2 1 9
+	   K=3
+	   ROTATE = LEFT [x] / RIGHT 
+output:3 6 2 1 9 4 8 5	   
+
+input: N=8
+	   numbers=4 8 5 3 6 2 1 9
+	   K=3
+	   ROTATE = LEFT / RIGHT [x]
+output:2 1 9 4 8 5 3 6 
+---------------------------------------------------------------------	   
+#include<iostream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+
+int main() {
+	int N = 8;
+	int numbers[] = { 4, 8, 5, 3, 6, 2, 1, 9 };
+	int K = 3;
+	int ROTATE = 1; //1-Left, 2-Right 
+
+	cout << "Left rotate " << K << " positions" << endl;
+	for (int I = K;I < N;I++) {
+		cout << numbers[I] << " ";
+	}
+	for (int I = 0;I < K;I++) {
+		cout << numbers[I] << " ";
+	}
+
+	cout << endl << "Right rotate " << K << " positions" << endl;
+	for (int I = N-K;I < N;I++) {
+		cout << numbers[I] << " ";
+	}
+	for (int I = 0;I < N-K;I++) {
+		cout << numbers[I] << " ";
+	}
+
+	return 0;
+}
+---------------------------------------------------------------------
+Q5
+---------------------------------------------------------------------
+reverse string, fibonacii			********DONE**********
+---------------------------------------------------------------------
+#include<iostream>
+using namespace std;
+
+int main() {
+	char name[] = "fibonacci";
+	int N = strlen(name);
+	int L = 0;
+	int R = N - 1;
+	for (; L < R; L++, R--) {
+		char temp = name[L];
+		name[L] = name[R];
+		name[R] = temp;
+	}
+	cout << name;
+
+	return 0;
+}
+---------------------------------------------------------------------
+Q6
+---------------------------------------------------------------------
+Given an array of intergers where every number is repeating two times. 
+  Find the number which is occuring only once.
+---------------------------------------------------------------------
+CHANGE STATEMENT:
+Given an array of intergers where every number is (consecutive) repeating two times. 
+  Find the number which is occuring only once.
+---------------------------------------------------------------------
+N = 9
+input: numbers=4 4 8 8 3 3 2 7 7 
+output: 2
+
+N = 9
+input: numbers=4 8 8 3 3 2 2 7 7 
+output: 4
+
+N = 9
+input: numbers=4 4 8 8 3 3 2 2 7 
+output: 7
+---------------------------------------------------------------------
+#include<iostream>
+using namespace std;
+
+int main() {
+	int N = 9;
+	//int numbers[] = { 4, 4, 8, 8, 3, 3, 2, 7, 7 };
+	//int numbers[] = { 4, 8, 8, 3, 3, 2, 2, 7, 7 };
+	int numbers[] = { 4, 4, 8, 8, 3, 3, 2, 2, 7 };
+	int search = -999;
+	for (int eIndex = 0; eIndex < (N - 2); eIndex += 2) { //Two elements before the last element 
+		if (numbers[eIndex] != numbers[eIndex + 1]) {
+			search = numbers[eIndex];
+			break;
+		}
+	}
+	if (search == -999) {
+		search = numbers[N - 1];
+	}
+	cout << search << " is only once" << endl;
+
+	return 0;
+}
+---------------------------------------------------------------------
+Q7
+---------------------------------------------------------------------
+Merge two sorted array.
+---------------------------------------------------------------------
+input: 
+	aSize=5,
+	A={10,20,30,40,50},
+	bSize=7,
+	B={7,15,20,25,45,55,70}
+[
+Intermediate Step:	
+	cSize=12
+	C = {10,20,30,40,50,7,15,20,25,45,55,70}
+	D = {7, 10, 15,20, 20, 25, 30, 40, 45, 50, 55,70}
+	lStart=0,lEnd=aSize-1,rStart=aSize,rEnd=rStart+bSize-1
+	dIndex = 0;
+	while(lStart<=lEnd && rStart<=rEnd){ // Compare copy the least or equal element 
+		if(C[lStart] <= C[rStart]){
+			D[dIndex++] = C[lStart++];
+		}else{
+			D[dIndex++] = C[rStart++];
+		}
+	}
+	while(lStart<=lEnd){//if any elements in left list 
+		D[dIndex++] = C[lStart++];
+	}
+	while(rStart<=rEnd){//if any elements in right list 
+		D[dIndex++] = C[rStart++];
+	}	
+	
+	for(int I=0; I<cSize;I++){//copy back to C 
+		C[I] = D[I];
+	}
+	
+]	
+output:
+	cSize=12
+	C = {7,10,15,20,20,25,30,40,45,50,55,70}
+---------------------------------------------------------------------
+merge process from merge sort 
+---------------------------------------------------------------------
+#include<iostream>
+using namespace std;
+
+int main() {
+	int aSize = 5;
+	int A[] = { 10,20,30,40,50 };
+	int bSize = 7;
+	int B[] = { 7,15,20,25,45,55,70 };
+	int C[200];
+	int D[200];
+	int cSize = aSize + bSize;
+	int J = 0;
+	for (int I = 0;I < aSize;I++) {
+		C[J++] = A[I];
+	}
+	for (int I = 0;I < bSize;I++) {
+		C[J++] = B[I];
+	}
+	
+	int lStart = 0, lEnd = aSize - 1;
+	int rStart = aSize, rEnd = rStart + bSize - 1;
+	int dIndex = 0;
+	while (lStart <= lEnd && rStart <= rEnd) { 
+		if (C[lStart] <= C[rStart]) {
+			D[dIndex++] = C[lStart++];
+		}
+		else {
+			D[dIndex++] = C[rStart++];
+		}
+	}
+	while (lStart <= lEnd) {
+		D[dIndex++] = C[lStart++];
+	}
+	while (rStart <= rEnd) {
+		D[dIndex++] = C[rStart++];
+	}
+	for (int I = 0; I < cSize;I++) {
+		C[I] = D[I];
+	}
+	cout << "Merged array:" << endl;
+	for (int I = 0; I < cSize;I++) {
+		cout << C[I] << " ";
+	}
+
+	return 0;
+}
+---------------------------------------------------------------------
+merge process using two arrays to just print 
+---------------------------------------------------------------------
+#include<iostream>
+using namespace std;
+
+int main() {
+	int aSize = 5;
+	int A[] = { 10,20,30,40,50 };
+	int bSize = 7;
+	int B[] = { 7,15,20,25,45,55,70 };
+	
+	int aStart = 0, aEnd = aSize - 1;
+	int bStart = 0, bEnd = bSize - 1;
+	
+	while (aStart <= aEnd && bStart <= bEnd) { 
+		if (A[aStart] <= B[bStart]) {
+			cout << A[aStart++] << " ";
+		}
+		else {
+			cout << B[bStart++] << " ";
+		}
+	}
+	while (aStart <= aEnd) {//if any elements in A list 
+		cout << A[aStart++] << " ";
+	}
+	while (bStart <= bEnd) {//if any elements in B list 
+		cout << B[bStart++] << " ";
+	}
+
+	return 0;
+}
+---------------------------------------------------------------------
+Merge two arrays into third and print the merged array
+---------------------------------------------------------------------
+#include<iostream>
+using namespace std;
+
+int main() {
+	int aSize = 5;
+	int A[] = { 10,20,30,40,50 };
+	int bSize = 7;
+	int B[] = { 7,15,20,25,45,55,70 };
+	int C[512];
+	int cSize = aSize + bSize;
+
+	int aStart = 0, aEnd = aSize - 1;
+	int bStart = 0, bEnd = bSize - 1;
+	int cIndex = 0;
+	while (aStart <= aEnd && bStart <= bEnd) {
+		if (A[aStart] <= B[bStart]) {
+			C[cIndex++] = A[aStart++];
+		}
+		else {
+			C[cIndex++] = B[bStart++];
+		}
+	}
+	while (aStart <= aEnd) {//if any elements in A list 
+		C[cIndex++] = A[aStart++];
+	}
+	while (bStart <= bEnd) {//if any elements in B list 
+		C[cIndex++] = B[bStart++];
+	}
+	cout << "Merged array:" << endl;
+	for (int I = 0; I < cSize;I++) {
+		cout << C[I] << " ";
+	}
+	return 0;
+}
+---------------------------------------------------------------------
+Q 8. 
+---------------------------------------------------------------------
+Find kth smallest element in an array.
+---------------------------------------------------------------------
+Sort the array in descending order
+K th element from the sorted array is Kth smallest 
+---------------------------------------------------------------------
+    1. Selecction Sort 
+    2. Bubble Sort 
+    3. Insertion Sort 
+    4. Quick Sort 
+    5. Merge Sort 
+    [6. Heap Sort]
+---------------------------------------------------------------------
+Q:9
+---------------------------------------------------------------------
+write vector/string.
+---------------------------------------------------------------------
+Implement the vector (dynamic array)
+
+or 
+
+Use the vector 
+---------------------------------------------------------------------
+#define MAX_SIZE 5000
+#include<iostream>
+#include<cstring>
+using namespace std;
+
+
+class MyVector {
+public:
+	double* items;
+	int capacity;
+	int count;
+public:
+	MyVector(int capacity) {
+		if (capacity > MAX_SIZE) {
+			throw "VECTOR allocation is out of range.";
+		}
+		count = 0;
+		this->capacity = capacity;
+		items = new double[this->capacity]{};
+	}
+	~MyVector() {
+		delete[] this->items;
+	}
+	void expand() {
+		int newCapacity = capacity + capacity / 2; // Form the new capacity 
+		if (newCapacity > MAX_SIZE) {
+			throw "VECTOR allocation is out of range.";
+		}
+		double* newItems = new double[newCapacity] {}; // Form the new array 
+		memcpy(newItems, items, this->capacity * sizeof(double)); //Copy the old array 
+		delete[] this->items;//Delete the old array 
+		this->items = newItems;//Make the new array as the vector items 
+		capacity = newCapacity;
+	}
+	void push_back(double data) {
+		if (capacity < (count + 1)) {
+			expand();
+		}
+		items[count++] = data;
+	}
+	void pop_back() {
+		//items[count-1] = 0.0;
+		--count;
+	}
+	double back() {
+		return items[count - 1];
+	}
+};
+
+int main() {
+	MyVector salaries(3);
+	//cout << salaries.count << " " << salaries.capacity << endl;
+	salaries.push_back(1000.0);
+	//cout << salaries.count << " " << salaries.capacity << endl;
+	salaries.push_back(3000.0);
+	salaries.push_back(1500.0);
+	salaries.push_back(4000.0);
+	//cout << salaries.count << " " << salaries.capacity << endl;
+	salaries.push_back(3000.0);
+	salaries.push_back(1500.0);
+	salaries.push_back(4000.0);
+	//cout << salaries.count << " " << salaries.capacity << endl;
+
+	cout << salaries.back() << endl; salaries.pop_back();
+	cout << salaries.back() << endl; salaries.pop_back();
+	cout << salaries.back() << endl; salaries.pop_back();
+	cout << salaries.back() << endl; salaries.pop_back();
+
+	cout << "End of vector implementation.";
+	return 0;
+}
+---------------------------------------------------------------------
+10. Implement stack and queue.
+---------------------------------------------------------------------
+---------------------------------------------------------------------
+
+
+---------------------------------------------------------------------
+Q. 
+---------------------------------------------------------------------
+11. Implement stack as queue and queue as stack.
+---------------------------------------------------------------------
+Assumption: stack exist. !!!Go for STL stack 
+Implement stack as queue
+
+input: 10 20 30 40 50
+
+stack (top->bottom): 50 40 30 20 10
+LIFO:pop->continuous: 50 40 30 20 10
+
+
+expected: 
+FIFO output: 10 20 30 40 50
+---------------------------------------------------------------------
+input: 10 20 30 40 50                       stack(top -1->bottom): empty
+output: 10 20 30 40 50                      support_stack(top -1->bottom)  empty 
+Operations:
+    1-Add, 2-Delete 
+    1-Add 
+    Data: 10
+    1-Add 
+    Data: 20 
+    2-Delete 
+    stack at top is 20 but we have to print 10 
+        i. pop the "stack" into "support_stack" till "stack" is empty
+        where is the first added item? in the "support_stack"
+        ii. pop the support_stack and print it : 10
+    1-Add 
+    Data: 30
+    1-Add Data: 40
+    1-Add Data 50 
+    1-Delete   ???? 20 is printned from support_stack
+        if support_stack is not empty, pop it              
+        otherwise 
+            i. pop the "stack" into "support_stack" till "stack" is empty
+            ii. pop the "support_stack" to print 
+    1-Delete     
+        as support stack is empty pop from stack into support stack for all elements 
+        pop from support stack 30 [PRINTED]        
+    1-Delete 
+        as support stack is not empty JUST pop from support stack  40 [PRINTED]
+    1-Delete 
+        as support stack is not empty JUST pop from support stack  50 [PRINTED]    
+    1-Delete 
+        as support stack is empty
+        and stack is empty 
+        So, queue is empty 
+
+---------------------------------------------------------------------
+#define MAX_SIZE 4
+#include<iostream>
+#include<stack> // STACK of STL 
+using namespace std;
+
+class MyQ {//Two stacks are required to form as queue
+protected:
+	stack<int> s;//stack
+	stack<int> ss;//support stack
+public:
+	void add(int data) {
+		if (s.size() == MAX_SIZE) {
+			throw "Q is full";
+		}
+		s.push(data);
+	}
+	int deleteData() {
+		if (ss.empty() && s.empty()) {
+			throw "Q is empty";
+		}
+		int data = -999;
+		if (ss.empty()){
+			while (!s.empty()) {//move from "stack" into "support_stack 
+				//cout << s.top() << endl;
+				ss.push(s.top());//Add into Support Stack
+				s.pop();//Remove from Stack
+			}
+		}
+		if (!ss.empty()) {//pop from "support_stack" to DELETE from Queue 
+			data = ss.top();
+			ss.pop();
+		}
+		return data;
+	}
+};
+
+int main() {
+	try {
+		MyQ Q;
+		Q.add(10);
+		Q.add(20);
+		cout << "Deleted!!!" << Q.deleteData() << endl;
+		Q.add(30);
+		Q.add(40);
+		Q.add(50);
+		cout << "Deleted!!!" << Q.deleteData() << endl;
+		cout << "Deleted!!!" << Q.deleteData() << endl;
+		cout << "Deleted!!!" << Q.deleteData() << endl;
+		cout << "Deleted!!!" << Q.deleteData() << endl;
+		cout << "Deleted!!!" << Q.deleteData() << endl;
+	}
+	catch (const char* ex) {
+		cout << ex << endl;
+	}
+	return 0;
+}
+
+---------------------------------------------------------------------
+
+Assumption: queue exist. !!!Go for STL queue
+queue as stack
+---------------------------------------------------------------------
+
+input: 10 20 30 40 50
+                   -- top 
+stack: 50 40 30 20 10
+       
+       10 20 30 40 50
+  front--          -- back
+queue   10 20 30 40   
+support queue      
+             front             back
+             
+             
+There are two queues 
+    one         q
+    another    sq
+    to add we add at q 
+    to remove,  move all the elements to "sq" except the last item 
+    the last item is the stack item to be displayed 
+    
+    add   add   del 
+    10    20  
+    
+    q           q.size() == 1
+    10 20 
+    
+    sq 
+    10 
+---------------------------------------------------------------------
+
+#define MAX_SIZE 6
+#include<iostream>
+#include<queue> // QUEUE of STL 
+using namespace std;
+
+class MyStack {//Two queues are required to form as stack
+protected:
+	queue<int> q;//queue
+	queue<int> sq;//support queue
+public:
+	void add(int data) {
+		if (q.size() == MAX_SIZE) {
+			throw "Q is full";
+		}
+		q.push(data);
+	}
+	int deleteData() {
+		if (q.size() == 0) {
+			throw "Q is empty.";
+		}
+		while (q.size() > 1) { //move from queue to support queue all elements but not first
+			sq.push(q.front());
+			q.pop();
+		}
+		int data = q.front();//the balance one item of the queue is the stack's LIFO item
+		q.pop();
+		while (!sq.empty()) {//move from support queue to queue all elements
+			q.push(sq.front());
+			sq.pop();
+		}
+		return data;
+	}
+};
+
+int main() {
+	try {
+		MyStack Stk;
+		Stk.add(10);
+		Stk.add(20);
+		Stk.add(30);
+		Stk.add(40);
+		Stk.add(50);
+		cout << "Deleted!!!" << Stk.deleteData() << endl;
+		cout << "Deleted!!!" << Stk.deleteData() << endl;
+		cout << "Deleted!!!" << Stk.deleteData() << endl;
+		
+		cout << "Deleted!!!" << Stk.deleteData() << endl;
+		cout << "Deleted!!!" << Stk.deleteData() << endl;
+	}
+	catch (const char* ex) {
+		cout << ex << endl;
+	}
+	return 0;
+}
+---------------------------------------------------------------------
+---------------------------------------------------------------------
+12. Delete a node from binary search tree.
+---------------------------------------------------------------------
+Step 1:
+Travesal of binary tree (or binary search tree)
+---------------------------------------------------------------------
+#include<iostream>
+using namespace std;
+
+class TreeNode {
+public:
+	int data;
+	TreeNode* left;
+	TreeNode* right;
+	TreeNode(int data) {
+		this->left = nullptr;
+		this->right = nullptr;
+		this->data = data;
+	}
+	void addLeft(TreeNode* node){
+		this->left = node;
+	}
+	void addRight(TreeNode* node) {
+		this->right = node;
+	}
+};
+
+class Tree {
+public:
+	TreeNode* root;
+	Tree() {
+		root = nullptr;
+	}
+	void preorder(TreeNode *node) {
+		if (node == nullptr) {
+			return;
+		}
+		cout << node->data << " ";
+		preorder(node->left);
+		preorder(node->right);
+	}
+	void postorder(TreeNode* node) {
+		if (node == nullptr) {
+			return;
+		}
+		postorder(node->left);
+		postorder(node->right);
+		cout << node->data << " ";
+	}
+	void inorder(TreeNode* node) {
+		if (node == nullptr) {
+			return;
+		}
+		inorder(node->left);
+		cout << node->data << " ";
+		inorder(node->right);		
+	}
+};
+
+int main() {	
+	Tree tree;
+	TreeNode node1(1);
+	TreeNode node2(2);
+	TreeNode node3(3);
+	TreeNode node4(4);
+	TreeNode node5(5);
+	node2.addLeft(&node4);
+	node2.addRight(&node5);
+	node1.addLeft(&node2);
+	node1.addRight(&node3);
+	tree.root = &node1;
+
+	cout << "In order:"; tree.inorder(tree.root); cout << endl;
+	cout << "Pre order:"; tree.preorder(tree.root); cout << endl;
+	cout << "Post order:"; tree.postorder(tree.root); cout << endl;
+	
+	return 0;
+}
+---------------------------------------------------------------------
+BST add and delete 
+---------------------------------------------------------------------
+#include<iostream>
+using namespace std;
+
+class TreeNode {
+public:
+	int data;
+	TreeNode* left;
+	TreeNode* right;
+	TreeNode(int data) {
+		this->left = nullptr;
+		this->right = nullptr;
+		this->data = data;
+	}
+	void addLeft(TreeNode* node){
+		this->left = node;
+	}
+	void addRight(TreeNode* node) {
+		this->right = node;
+	}
+};
+
+class Tree {
+public:
+	TreeNode* root;
+	Tree() {
+		root = nullptr;
+	}
+	void preorder(TreeNode *node) {
+		if (node == nullptr) {
+			return;
+		}
+		cout << node->data << " ";
+		preorder(node->left);
+		preorder(node->right);
+	}
+	void postorder(TreeNode* node) {
+		if (node == nullptr) {
+			return;
+		}
+		postorder(node->left);
+		postorder(node->right);
+		cout << node->data << " ";
+	}
+	void inorder(TreeNode* node) {
+		if (node == nullptr) {
+			return;
+		}
+		if(node->left != nullptr) inorder(node->left);
+		cout << node->data << " ";
+		if (node->right != nullptr) inorder(node->right);
+	}
+};
+
+class BST : public Tree {
+public:
+	BST() :Tree(){
+
+	}
+	static TreeNode* addElement(TreeNode* node, int data) {
+		/* If the tree is empty, return a new node */
+		
+		if (node == nullptr)
+			return &TreeNode(data);
+
+		/* Otherwise, recur down the tree */
+		if (data < node->data)
+			node->left = addElement(node->left, data);
+		else
+			node->right = addElement(node->right, data);
+
+		/* return the (unchanged) node pointer */
+		return node;
+	}
+	void deleteElement(int data) {
+
+	}
+};
+
+int main() {	
+	BST tree;
+	/*TreeNode node1(1);
+	TreeNode node2(2);
+	TreeNode node3(3);
+	TreeNode node4(4);
+	TreeNode node5(5);
+	node2.addLeft(&node4);
+	node2.addRight(&node5);
+	node1.addLeft(&node2);
+	node1.addRight(&node3);
+	tree.root = &node1;*/
+	
+	tree.root = BST::addElement(tree.root, 50);	
+	tree.root = BST::addElement(tree.root, 30);
+	tree.root = BST::addElement(tree.root, 20);
+	tree.root = BST::addElement(tree.root, 40);
+	tree.root = BST::addElement(tree.root, 70);
+	tree.root = BST::addElement(tree.root, 60);
+	tree.root = BST::addElement(tree.root, 80);
+	
+
+	cout << "In order:"; tree.inorder(tree.root); cout << endl;
+	//cout << "Pre order:"; tree.preorder(tree.root); cout << endl;
+	//cout << "Post order:"; tree.postorder(tree.root); cout << endl;
+	
+	return 0;
+}
+
+---------------------------------------------------------------------
+1) Node to be deleted is the leaf: 
+	Simply remove from the tree. 
+2) Node to be deleted has only one child: 
+	Copy the child to the node and delete the child 
+3) Node to be deleted has two children: 
+	Find inorder successor of the node. 
+	Copy contents of the inorder successor to the node and delete the inorder successor. 
+	Note that inorder predecessor can also be used. 
+	
+#include<iostream>
+using namespace std;
+
+class TreeNode {
+public:
+	int data;
+	TreeNode* left;
+	TreeNode* right;
+	TreeNode(int data) {
+		this->left = nullptr;
+		this->right = nullptr;
+		this->data = data;
+	}
+	void addLeft(TreeNode* node){
+		this->left = node;
+	}
+	void addRight(TreeNode* node) {
+		this->right = node;
+	}
+};
+
+class Tree {
+public:
+	TreeNode* root;
+	Tree() {
+		root = nullptr;
+	}
+	void preorder(TreeNode *node) {
+		if (node == nullptr) {
+			return;
+		}
+		cout << node->data << " ";
+		preorder(node->left);
+		preorder(node->right);
+	}
+	void postorder(TreeNode* node) {
+		if (node == nullptr) {
+			return;
+		}
+		postorder(node->left);
+		postorder(node->right);
+		cout << node->data << " ";
+	}
+	void inorder(TreeNode* node) {
+		if (node == nullptr) {
+			return;
+		}
+		inorder(node->left);
+		cout << node->data << " ";
+		inorder(node->right);
+	}
+};
+
+
+TreeNode* addElement(TreeNode* node, int data) {
+	/* If the tree is empty, return a new node */
+
+	if (node == nullptr)
+		return &TreeNode(data);
+
+	/* Otherwise, recur down the tree */
+	if (data < node->data)
+		node->left = addElement(node->left, data);
+	else
+		node->right = addElement(node->right, data);
+
+	/* return the (unchanged) node pointer */
+	return node;
+}
+int main() {	
+	Tree tree;
+	/*TreeNode node1(1);
+	TreeNode node2(2);
+	TreeNode node3(3);
+	TreeNode node4(4);
+	TreeNode node5(5);
+	node2.addLeft(&node4);
+	node2.addRight(&node5);
+	node1.addLeft(&node2);
+	node1.addRight(&node3);
+	tree.root = &node1;*/
+	
+	tree.root = addElement(tree.root, 50);	
+	tree.root = addElement(tree.root, 30);
+	tree.root = addElement(tree.root, 20);
+	tree.root = addElement(tree.root, 40);
+	tree.root = addElement(tree.root, 70);
+	tree.root = addElement(tree.root, 60);
+	tree.root = addElement(tree.root, 80);
+	
+
+	cout << "In order:"; tree.inorder(tree.root); cout << endl;
+	//cout << "Pre order:"; tree.preorder(tree.root); cout << endl;
+	//cout << "Post order:"; tree.postorder(tree.root); cout << endl;
+	
+	return 0;
+}
+---------------------------------------------------------------------
+

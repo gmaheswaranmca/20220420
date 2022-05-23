@@ -1,0 +1,25 @@
+RS232 Serial Port Communication - Tranmitter and Receiver 
+	com0com emulator(virtual ports - pairs - transreceiver) download 
+		install into the computer 
+		Computer->Manager->Device Manager 
+			com0com - serial port emulators 
+			Ports (COM & LPT)
+				com0com - serial port emulator (COM3)
+				com0com - serial port emulator (COM4)
+				
+				
+		Initialization
+			CreateFile
+			PurgeComm
+			GetCommState
+			SetCommState
+			SetCommTimeouts
+			PurgeComm		
+		
+		Tranmitter
+			WriteFile
+		Receiver 
+			ReadFile
+		
+		Cleanup
+			CloseHandle
