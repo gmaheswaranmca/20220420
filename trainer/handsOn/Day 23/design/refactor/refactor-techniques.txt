@@ -1,3 +1,5 @@
+https://refactoring.guru/
+
 SOLID Principle in Programming: Understand With Real Life Examples
 Topics:
 	1.	Single Responsibility Principle (SRP)
@@ -21,7 +23,7 @@ Topics:
 Topics:
 	1.	Introduction to Software Refactoring
 	2.	Most Common Code Refactoring Techniques
-		a.	Red – Green Refactoring
+		a.	Red–Green-Refactor "Refactoring Technique"
 		b.	Refactoring by Abstraction
 		c.	Composing Method
 		d.	Simplifying Methods
