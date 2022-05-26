@@ -97,8 +97,16 @@ Bubble Sort:
 	Each pass we should have one swap then we can move for the next pass 
 	If we "dont have any swap" in the "pass" then the "elements are sorted"
 ---------------------------------------------------	
-	
-		
+Q2
+input[N=9,numbers={3, 7, 8, 5, 2, 1, 9, 5, 4}]	
+output{3, 7, 9, 8, 5, 2, 1, 5, 4}
+
+input[N=8,numbers= {6, 5, 3, 1, 8, 7, 2, 4}]	
+output{6, 5, 8, 7, 3, 1, 2, 4}
+
+input[N=11,numbers= {6, 5, 3, 1, 8, 7, 4, 2, 0, 30, 20}]	
+output{6, 5, 8, 7, 4, 3, 2, 1, 0, 30, 20}
+---------------------------------------------------		
 	
 	
 	
