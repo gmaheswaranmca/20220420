@@ -7,17 +7,9 @@ input[N=11,numbers= {6, 5, 3, 1, 8, 7, 4, 2, 0, 30, 20}]
                                     ------------------					 
 output{5,7}
 --------------------------------------------------------------------------
-Shrikant - Ascending [xBubble] Selection
-		   ---------           ---------
-Subhash  - Descending Ascendingx  Bubble  
-           ---------              ------		   
-Uday - Descending Bubblex Selection 	Ascx 	   
-       ----------         ---------
-Divya - asc,insertion  bubblex
-        --- ---------	   
-Anil    - asc Bubble 
+
+--------------------------------------------------------------------------
 Avinash - desc insertion 		
-Manikanta - asc,selection
 --------------------------------------------------------------------------
 */
 #include <iostream>
@@ -72,3 +64,65 @@ int main()
     
     return 0;
 }
+
+/*
+Shrikant - Ascending [xBubble] Selection
+		   ---------           ---------
+Subhash  - Descending Ascendingx  Bubble  
+           ---------              ------		   
+Uday - Descending Bubblex Selection 	Ascx 	   
+       ----------         ---------
+Divya - asc,insertion  bubblex
+        --- ---------	   
+Anil    - asc Bubble 
+*/
+
+// C++ program to find third Largest
+// element in an array of distinct elements
+#include <bits/stdc++.h>
+
+void thirdLargest(int arr[], int startIndex, int endIndex)
+{
+    /* There should be atleast three elements */
+    if (endIndex < 3)
+    {
+        printf(" Invalid Input ");
+        return;
+    }
+
+    // Find first largest element
+    //int first = arr[0];
+    int first = INT_MIN;
+    for (int i = startIndex; i < endIndex ; i++)
+        if (arr[i] > first)
+            first = arr[i];
+
+    // Find second largest element
+    int second = INT_MIN;
+    for (int i = startIndex; i < endIndex ; i++)
+        if (arr[i] > second && arr[i] < first)
+            second = arr[i];
+
+    // Find third largest element
+    int third = INT_MIN;
+    for (int i = startIndex; i < endIndex ; i++)
+        if (arr[i] > third && arr[i] < second)
+            third = arr[i];
+
+    printf("%d  ", third);
+}
+
+/* Driver program to test above function */
+int main()
+{
+    int arr[] = {6, 50, 3, 1, 8, 7, 40, 2, 0, 30, 20};
+    int n = sizeof(arr)/sizeof(arr[0]);
+    thirdLargest(arr, 0, 5);
+    thirdLargest(arr, 5, 11);
+    return 0;
+}
+
+
+/*
+Manikanta - asc,selection
+*/
