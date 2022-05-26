@@ -49,7 +49,8 @@ void myBubbleSort(int arr[], int startIndex, int endIndex, bool isAsc)
 }
 
 
-void mySelectionSort(int arr[], int startIndex, int endIndex, bool isAsc)
+void mySelectionSort(int arr[], int startIndex, int endIndex, 
+    bool isAsc) //0, 1, 2, 7, 4, 8, 3
 {
     for (int I = startIndex; I <= (endIndex-1); I++)//each Pass
     {
@@ -67,8 +68,9 @@ void mySelectionSort(int arr[], int startIndex, int endIndex, bool isAsc)
                 sortIndex = J;
             }
         }
-        
-        mySwap(&arr[sortIndex], &arr[I]);
+        if(sortIndex != I){
+            mySwap(&arr[sortIndex], &arr[I]);
+        }
     }
 }
 void myInsertionSort(int arr[], int startIndex, int endIndex, bool isAsc){
