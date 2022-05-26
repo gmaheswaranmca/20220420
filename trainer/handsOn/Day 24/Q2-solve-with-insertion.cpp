@@ -106,6 +106,40 @@ void printArray(int arr[], int size)
 }
 
 
+/*
+int main()
+{   
+    int arr[] ={6, 5, 3, 1, 8, 7, 4, 2, 0, 30, 20};      
+    int N = sizeof(arr) / sizeof(arr[0]);
+    //int subListSize = 3;
+    int subListSize = 4;
+    
+    cout << "before sorting array: \n";
+    printArray(arr, N);
+    
+    int sortAlgorithmChoice;
+    cout << "Choice(1-Bubble,2-Selection):"; cin >> sortAlgorithmChoice;
+    int sortChoice;
+    cout << "Choice(1-Ascending,2-Descending):"; cin >> sortChoice;
+    int startIndex = (0) + 2;
+    int endIndex = (N - 1) - 2;
+    void (*mySortAddr)(int arr[], int startIndex, int endIndex, bool isAsc);
+    if(sortAlgorithmChoice == 1){
+        mySortAddr = &myBubbleSort;
+    }else if(sortAlgorithmChoice == 2){
+        mySortAddr = &mySelectionSort;
+    }else if(sortAlgorithmChoice == 3){
+        mySortAddr = &myInsertionSort;
+    }
+
+
+    (*mySortAddr)(arr,startIndex,endIndex,sortChoice==1);
+   
+    cout << "After Sorted array: \n";
+    printArray(arr, N);
+    return 0;
+}*/
+
 
 int main()
 {   
