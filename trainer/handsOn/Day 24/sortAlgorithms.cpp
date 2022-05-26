@@ -35,6 +35,28 @@ void bubbleSortv2(int arr[], int startIndex, int endIndex)//arr,3,6
     }
 }
 
+void bubbleSortv3(int arr[], int startIndex, int endIndex)//arr,3,6
+{
+    int lastIndex = endIndex;
+    
+    while(startIndex <= (lastIndex - 1)) //Each pass 
+     {
+        bool isSwapped = false;    
+        for (int J = startIndex; J <= (lastIndex - 1); J++) // "element" and "next element"
+        {
+            if (arr[J] > arr[J + 1])
+            {
+                swap(arr[J], arr[J + 1]);
+                isSwapped = true;
+            }
+        }
+        if(isSwapped == false){ //OPTIMIZATION 1
+            break;
+        }
+        lastIndex--; //OPTIMIZATION 2
+    }
+}
+
 void selectionSortv1(int arr[], int n)
 {
     int i, j, min_idx;
@@ -95,8 +117,11 @@ int main()
     int N = sizeof(arr) / sizeof(arr[0]);
     //bubbleSortv1(arr, N);
     //bubbleSortv2(arr, 0, N-1);
-    bubbleSortv2(arr, 0, 2);
-    bubbleSortv2(arr, 3, N-1);
+    //bubbleSortv2(arr, 0, 2);
+    //bubbleSortv2(arr, 3, N-1);
+    
+    bubbleSortv3(arr, 0, 2);
+    bubbleSortv3(arr, 3, N-1);
     //selectionSortv2(arr, 0, N-1);
     //selectionSortv2(arr, 0, 2);
     //selectionSortv2(arr, 3, N-1);

@@ -3,6 +3,9 @@ Subhash:   ***     ***       ***     ***       ???
 Divya  :   ***   
 Anil   :   ***                                 ***
 Manikanta:         ***
+Shrikant:  ***     ***       ***               
+Uday:      ***
+Avinash:   ???
 ---------------------------------------------------
 Case 1
 input:   N=9, 
@@ -26,4 +29,58 @@ output:           3 5 6 1 7 8 2 4
 			arguments are numbers,startIndex,	endIndex
 			task: to starts numbers from index startIndex to endIndex 
 ---------------------------------------------------
-    
+Bubble Sort:
+	Loop Outer
+		Loop Inner
+		[A "element" and "next element" till "the element before the last element"]
+			B comapare "element > "next element"
+			C if comparison is true do SWAP 
+		End Loop Inner
+		Apply A B C till no swap is there 
+	End Loop Outer
+	--> "sort asc"
+	
+
+	Each pass of M elements,
+		Number of comparisons is M-1  ie M minus One		
+		
+	Assume: Sorting is in ascending order 
+	For sort one element in each pass of M elements,
+		to arrive the position of the last element within M elements 
+		so that last element after the pass is sorted 
+		we used here the comparision "greater than" 
+	
+
+	Assume: Sorting is in descending order 
+	For sort one element in each pass of M elements,
+		to arrive the position of the last element within M elements 
+		so that last element after the pass is sorted 
+		we used here the comparision "less than" 
+	
+	Each pass we compare "element" and "next element" till the "element before the last element" 
+		if comparision is passed JOB: swap the "element" and "next element"
+	For the first pass, last element is sorted 
+		ie last element will have its position of the sorted result(output) 
+	For the second pass, 2nd to the last element is sorted 
+	For the third pass, 3rd to the last element is sorted 
+	For the fourth pass, 4th to the last element is sorted 
+	...
+	
+	
+	Each pass we should have one swap then we can move for the next pass 
+	If we "dont have any swap" in the "pass" then the "elements are sorted"
+---------------------------------------------------	
+	
+		
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
