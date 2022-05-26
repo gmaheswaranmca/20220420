@@ -1,0 +1,21 @@
+Assignment 1:
+Rows=4,Columns=5,numbers={
+	{4,3,5,1,2},
+	{5,1,2,4,3},
+	{1,2,4,3,5},
+	{5,1,4,3,2}
+} 4x5
+
+Odd Row(first and third), Sort asc, Even Row(second and fourth), Sort desc.
+
+
+Assignment 2:
+Print the following series 
+10 22 34 46 ... N terms 
+
+Assignment 3:
+	M
+   MA
+  MAH 
+ MAHE
+MAHES   for N=5 
