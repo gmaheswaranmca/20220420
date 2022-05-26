@@ -40,7 +40,7 @@ void bubbleSortv3(int arr[], int startIndex, int endIndex)//arr,3,6
     int lastIndex = endIndex;
     
     while(startIndex <= (lastIndex - 1)) //Each pass 
-     {
+    {
         bool isSwapped = false;    
         for (int J = startIndex; J <= (lastIndex - 1); J++) // "element" and "next element"
         {

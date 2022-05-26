@@ -20,7 +20,17 @@ input : N=8,
 				  ----- 
 				        -----
 						      ---
-output:           3 5 6 1 7 8 2 4 		
+output:           3 5 6 1 7 8 2 4 
+
+
+input[N=9,numbers= 3 7 8 5 2 1 9 5 4]	
+output[3 7 8 1 2 5 4 5 9]
+
+input[N=8,numbers= 6 5 3 1 8 7 2 4]	
+output[3 5 6 1 7 8 2 4]
+
+input[N=11,numbers= 6 5 3 1 8 7 4 2 0 30 20]	
+output[3 5 6 1 7 8 0 2 4 20 30]
 ---------------------------------------------------
 		subListSize = 3
 		startIndex = 4								//4
@@ -39,6 +49,23 @@ Bubble Sort:
 		Apply A B C till no swap is there 
 	End Loop Outer
 	--> "sort asc"
+	
+	
+	Start for N elements 
+	Loop Outer
+		Have the list of N elements 
+		
+		Loop Inner
+		[A "element" and "next element" till "the element before the last element"]
+			B comapare "element > "next element"
+			C if comparison is true do SWAP 
+		End Loop Inner
+		Apply A B C till no swap is there //optimization 
+		
+		N = N - 1 //Authors found another optimization 
+	End Loop Outer
+	--> "sort asc"
+	
 	
 
 	Each pass of M elements,
