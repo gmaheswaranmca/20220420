@@ -27,26 +27,28 @@ output[3 5 6 1 7 8 0 2 4 20 30]
 #include <bits/stdc++.h>
 using namespace std;
 
-void bubbleSortv3(int arr[], int startIndex, int endIndex)//arr,3,6
-{
-    int lastIndex = endIndex;
-    
-    while(startIndex <= (lastIndex - 1)) //Each pass 
+void sortSublistv3(int arr[],int N){
+     int startIndex,endIndex,sublistSize=3;
+     int SubListCount=N/sublistSize;        //11/3 =3       12/3=4      15/3=5
+     if(N%sublistSize!=0)           //11%3 =2       12%3==0     15%3==0
      {
-        bool isSwapped = false;    
-        for (int J = startIndex; J <= (lastIndex - 1); J++) // "element" and "next element"
-        {
-            if (arr[J] > arr[J + 1])
-            {
-                swap(arr[J], arr[J + 1]);
-                isSwapped = true;
+         SubListCount++;        //3+1=4
+     }
+     
+     startIndex =0;
+     endIndex =startIndex+sublistSize -1;   //2
+     
+     for(int i=1;i<=SubListCount;i++)       //i=1 i<=3 i=2  i=3 i=4 (i=5 Failed)
+     {
+        bubbleSortv3(arr,startIndex , endIndex);    //arr,0,2  arr,3,5      arr,6,8     arr,9,10
+        startIndex =endIndex+1;                     //sI =3     6       9       11
+        endIndex =startIndex+sublistSize -1;        //EI =3+3-1=5   8   11      13
+            if(endIndex>N-1)                        //failed   Failed   Passed  Passed
+             {
+                 endIndex =N-1;             //11-1=10   10
             }
-        }
-        if(isSwapped == false){ //OPTIMIZATION 1
-            break;
-        }
-        lastIndex--; //OPTIMIZATION 2
-    }
+     }
+      
 }
 
 void printArray(int arr[], int size)
