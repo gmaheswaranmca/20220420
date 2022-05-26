@@ -1,3 +1,29 @@
+/*
+Case 1
+input:   N=9, 
+         numbers= 3 7 8 5 2 1 9 5 4
+		          -----
+				        -----
+						      ------
+output:           3 7 8 1 2 5 4 5 9
+Case 2
+input : N=8,
+		numbers = 6 5 3 1 8 7 2 4 
+				  ----- 
+				        -----
+						      ---
+output:           3 5 6 1 7 8 2 4 
+
+
+input[N=9,numbers= 3 7 8 5 2 1 9 5 4]	
+output[3 7 8 1 2 5 4 5 9]
+
+input[N=8,numbers= 6 5 3 1 8 7 2 4]	
+output[3 5 6 1 7 8 2 4]
+
+input[N=11,numbers= 6 5 3 1 8 7 4 2 0 30 20]	
+output[3 5 6 1 7 8 0 2 4 20 30]
+*/
 #include <bits/stdc++.h>
 using namespace std;
 void bubbleSortv3(int arr[], int startIndex, int endIndex)//arr,3,6
@@ -53,8 +79,8 @@ void sortSublistv2(int arr[],int N){
   
 }
 
-void sortSublistv3(int arr[],int N,int sublistSize){
-     int startIndex,endIndex;
+void sortSublistv3(int arr[],int N){
+     int startIndex,endIndex,sublistSize=3;
      int SubListCount=N/sublistSize;        //11/3 =3       12/3=4      15/3=5
      if(N%sublistSize!=0)           //11%3 =2       12%3==0     15%3==0
      {
@@ -82,8 +108,7 @@ int main()
    
     int arr[] ={6, 5, 3, 1, 8, 7, 4, 2, 0, 30, 20};      
     int N = sizeof(arr) / sizeof(arr[0]);
-    //int subListSize = 3;
-    int subListSize = 4;
+    int subListSize = 3;
     
     cout << "before sorting array: \n";
     printArray(arr, N);
