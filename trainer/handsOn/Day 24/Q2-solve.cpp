@@ -97,9 +97,9 @@ int main()
     cout << "Choice(1-Ascending,2-Descending):"; cin >> sortChoice;
     int startIndex = (0) + 2;
     int endIndex = (N - 1) - 2;
-    if(sortChoice == 1){
+    if(sortAlgorithmChoice == 1){
         myBubbleSort(arr,startIndex,endIndex,sortChoice==1);
-    }else if(sortChoice == 2){
+    }else if(sortAlgorithmChoice == 2){
         mySelectionSort(arr,startIndex,endIndex,sortChoice==1);
     }
    
