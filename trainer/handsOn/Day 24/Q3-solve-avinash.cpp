@@ -72,3 +72,35 @@ int main()
     
     return 0;
 }
+/*
+
+int findThirdLargest(int arr[], int startIndex, int endIndex){
+    myInsertionSort(arr,startIndex,endIndex,false);
+    int foundIndex = startIndex + 3 - 1;
+    if(!(startIndex <= foundIndex && foundIndex <= endIndex)){
+        throw "Index Out of Bound";
+    }
+    return arr[foundIndex];
+}
+
+int main()
+{   
+    int arr[] ={6, 5, 3, 1};      
+    int N = sizeof(arr) / sizeof(arr[0]);    
+    
+    cout << "before sorting array: \n";
+    printArray(arr, N);
+    try{
+    cout << "third largest of first half sub array is " << findThirdLargest(arr,0,(N/2)-1) << endl;
+    }catch(const char* ex){
+        cout << ex << endl;
+    }
+    try{
+    cout << "third largest of second half sub array is " << findThirdLargest(arr,(N/2),N-1) << endl;
+    }catch(const char* ex){
+        cout << ex << endl;
+    }
+    
+    return 0;
+}
+*/
