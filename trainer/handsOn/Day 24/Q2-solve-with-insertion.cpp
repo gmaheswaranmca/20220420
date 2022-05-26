@@ -115,16 +115,18 @@ int main()
     cout << "before sorting array: \n";
     printArray(arr, N);
     
+    int sortAlgorithmChoice;
+    cout << "Choice(1-Bubble,2-Selection):"; cin >> sortAlgorithmChoice;
     int sortChoice;
-    cout << "Choice(1-Bubble,2-Selection,3-Insertion):"; cin >> sortChoice;
+    cout << "Choice(1-Ascending,2-Descending):"; cin >> sortChoice;
     int startIndex = (0) + 2;
     int endIndex = (N - 1) - 2;
-    if(sortChoice == 1){
-        myBubbleSort(arr,startIndex,endIndex,false);
-    }else if(sortChoice == 2){
-        mySelectionSort(arr,startIndex,endIndex,false);
-    }else if(sortChoice == 2){
-        myInsertionSort(arr,0,N-1,true);
+    if(sortAlgorithmChoice == 1){
+        myBubbleSort(arr,startIndex,endIndex,sortChoice==1);
+    }else if(sortAlgorithmChoice == 2){
+        mySelectionSort(arr,startIndex,endIndex,sortChoice==1);
+    }else if(sortAlgorithmChoice == 3){
+        myInsertionSort(arr,startIndex,endIndex,sortChoice==1);
     }
    
     cout << "After Sorted array: \n";
