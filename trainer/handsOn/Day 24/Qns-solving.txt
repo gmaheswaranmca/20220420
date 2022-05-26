@@ -1,0 +1,29 @@
+		 Bubble, Selection, Merge, Insertion, Quick
+Subhash:   ***     ***       ***     ***       ???
+Divya  :   ***   
+Anil   :   ***                                 ***
+Manikanta:         ***
+---------------------------------------------------
+Case 1
+input:   N=9, 
+         numbers= 3 7 8 5 2 1 9 5 4
+		          -----
+				        -----
+						      ------
+output:           3 7 8 1 2 5 4 5 9
+Case 2
+input : N=8,
+		numbers = 6 5 3 1 8 7 2 4 
+				  ----- 
+				        -----
+						      ---
+output:           3 5 6 1 7 8 2 4 		
+---------------------------------------------------
+		subListSize = 3
+		startIndex = 4								//4
+		endIndex = startIndex + (subListSize - 1)	//6
+		sort  : numbers,startIndex,	endIndex
+			arguments are numbers,startIndex,	endIndex
+			task: to starts numbers from index startIndex to endIndex 
+---------------------------------------------------
+    
