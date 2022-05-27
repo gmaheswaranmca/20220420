@@ -75,10 +75,21 @@ void print(int numbers[],int size){
 }
 int findIndex(int numbers[],int size,int foundNumber){
     //CODE HERE
+    for(int i=0;i<size;i++)
+    {
+        if(numbers[i]==foundNumber)
+        {
+            return i;
+        }
+    }
     return -1;
 }
 void removeNumber(int numbers[],int size, int removePosition){
-    //CODE HERE
+    int k;
+    
+    for(k=removePosition; k<=(size-1); k++){
+     numbers[k] = numbers[k+1];
+    }
 }
 int main(){
     int numbers[] = {1,  2,  3,  4,  5,   6,  7,  8};
@@ -99,7 +110,7 @@ int main(){
         cout << -1;
     }else{
         removeNumber(numbers,N,index);
-        print(numbers,N);
+        print(numbers,N-1);
     }
     
     
