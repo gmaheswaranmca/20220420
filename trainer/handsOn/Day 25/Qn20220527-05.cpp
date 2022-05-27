@@ -52,6 +52,7 @@ Output:
 256	196	25
 */
 #include<iostream>
+#include<cmath>
 using namespace std;
 
 void read(int numbers[],int size){
@@ -61,14 +62,16 @@ void read(int numbers[],int size){
     }
 }
 bool isPerfectSquare(int num){
-    //Write your code
-    return false;
+    double squareRoot_d = sqrt((double)num);
+    int squareRoot = (int)squareRoot_d;
+    int squareOfRoot = squareRoot * squareRoot;
+    return squareOfRoot == num; // if equals perfect square
 }
 void printPerfect(int numbers[],int size){
     int count = 0;
     cout << "Perfect squares are:" << endl;
     for(int I=0;I<size;I++){
-        if(isPerfectSquare(numbers[I]){
+        if(isPerfectSquare(numbers[I])){
             cout << numbers[I] << " ";
             count++;
         }
@@ -89,6 +92,9 @@ int main(){
     
     return 0;
 }
+
+
+
 
 
 
