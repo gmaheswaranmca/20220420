@@ -1,0 +1,50 @@
+Question: 20220527-01
+Compare two strings and check if they are anagram or not
+Get two strings from the user as input and check anagram or not 
+
+Input:
+Road
+Doar
+Output:
+Not Anagram
+
+Input :
+abcd			->abcd  <=sort asc
+bdca			->abcd  <=sort asc 
+Output:
+Anagram
+
+Test Case 1:
+Input:
+Program
+rogpmar
+Output:
+Not Anagram
+
+Test Case 2:
+Input:
+KeyWord
+WKodrye
+Output:
+Anagram
+
+Test Case 3:
+Input:
+madam
+dmmaa
+Output:
+Anagram
+
+Test Case 4:
+Input:
+LiriL
+Liril
+Output:
+Not Anagram
+
+Test Case 5:
+Input:
+Locker
+Locker
+Output:
+Anagram
