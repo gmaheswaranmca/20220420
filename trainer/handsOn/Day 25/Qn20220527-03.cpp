@@ -14,7 +14,7 @@ int main()
         
     auto last = unique(nameOne,nameOne+nameOneLen);
     for_each(nameOne,last,[](char e){cout << e ;});
-    cout << endl << nameOne << endl;
+    //cout << endl << nameOne << endl;
     
     return 0;
 }
