@@ -7,8 +7,13 @@ Output:
 Unique Array
 
 Input:
-10
-7  0  6  9  1  5  2  3  5  6 
+10=N
+7  0  6  9  1  5  2  3  5  6=Number            
+-> "number" to be checked "next numbers" if repeated stop and finalize duplicate
+for I -> 0 to <N-1
+  for J=I+1 to <N
+    compare number at I and number at J 
+        if matches stop for duplicate 
 Output:
 Duplicate Array
 
@@ -46,3 +51,8 @@ Input:
 12  134  12  34
 Output:
 Duplicate Array
+
+
+bool isUnique(int numbers[], int N){
+    
+}
