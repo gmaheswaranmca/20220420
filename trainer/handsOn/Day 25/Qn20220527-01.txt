@@ -48,3 +48,46 @@ Locker
 Locker
 Output:
 Anagram
+------------------------------------------------------------
+#include <iostream>
+#include<map>
+#include<cstring>
+using namespace std;
+
+int main()
+{
+    char nameOne[256] = "madam";
+    char nameTwo[256] = "dmmaa";
+    int nameOneLen = strlen(nameOne);
+    int nameTwoLen = strlen(nameTwo);
+    
+    if(nameOneLen!=nameTwoLen){
+        cout << "The words are not anagram." << endl;
+        return 0;
+    }
+    
+    map<char,int> nameOneFreq;
+    for(int I=0; I < nameOneLen; I++){
+        auto e = nameOne[I];
+        nameOneFreq[e]++;
+    }
+    map<char,int> nameTwoFreq;
+    for(int I=0; I < nameTwoLen; I++){
+        auto e = nameTwo[I];
+        nameTwoFreq[e] = nameTwoFreq[e] + 1;
+    }
+    for(auto e:nameOneFreq){
+        if(nameOneFreq[e.first] != nameTwoFreq[e.first]){
+            cout << "The words are not anagram." << endl;
+            return 0;
+        }
+        //cout << e.first << " " << nameOneFreq[e.first] << " " << nameTwoFreq[e.first] << endl;
+        //nameOneFreq[e.first]     nameOneFreq.second 
+    }
+    
+    cout << "The words are anagram." << endl;
+        
+    return 0;
+}
+
+------------------------------------------------------------
