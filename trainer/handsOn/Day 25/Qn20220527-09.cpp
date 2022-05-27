@@ -1,3 +1,4 @@
+/*
 Checking Armstrong numbers in three digit: 
 Get one three digit positive integer and check that number is Armstrong number or not.
 "Armstrong number of three digits means, 
@@ -44,3 +45,39 @@ Output:
 Not Armstrong
 
 
+
+*/
+
+#include<iostream>
+using namespace std;
+int main()
+{
+    int number,sum=0,arm,i,r;
+    cout << "enter your number";cin >> number;
+    arm = number;
+    if (number <= 0)
+    {
+        cout << "invalid output" << endl;
+
+    }
+    else {
+        while (number > 0)
+        {
+            i = number % 10;
+            r = i * i * i;
+            sum = sum + r;
+            number = number / 10;
+        }
+    }
+    number = arm;
+    if (number == sum)
+    {
+        cout << "given number is armstrong" << endl;
+
+    }
+    else
+    {
+        cout << "given number is not armstrong" << endl;
+    }
+
+}
