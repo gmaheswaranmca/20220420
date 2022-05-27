@@ -1,6 +1,6 @@
 /*
 Write the range function 
-to print prime numbers between r1(start number) and r2(end number)
+to print prime numbers between start(start number) and end(end number)
 NOTE: Use Pointers in the range function for the two argumetns 
 
 Input:
@@ -62,3 +62,41 @@ void main()
     range(&start, &end);
 }
  */
+ 
+#include<iostream>
+using namespace std;
+bool isPrimeNumber(int num){
+     if (num == 1 || num == 0){ return false;}
+   bool  flag = true;
+        for (int j = 2; j <= num / 2; ++j) {
+            if (num % j == 0) {
+                flag = false;
+                break;
+            }
+        }
+    return flag;
+}
+void range(int* startAddr, int* endAddr) {
+    //Print Prime Numbers between
+    int s=-1;
+    int i;
+    if(*startAddr<0||*endAddr<0){
+        cout<<s;
+        return ;
+    }
+    for (i = *startAddr; i <= *endAddr; i++) {
+       
+        
+        if (isPrimeNumber(i))
+         cout<<i<<" ";
+    }
+}
+void main()
+{
+    int start, end;
+    cout << "Enter start range:";
+    cin >> start;
+    cout << "Enter end range:";
+    cin >> end;
+    range(&start, &end);
+}
