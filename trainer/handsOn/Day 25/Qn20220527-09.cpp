@@ -9,7 +9,7 @@ Output:
 Not Armstrong
 
 Input:
-153
+153                 -> 1^3 + 5^3 + 3^3 -> 1 + 125 + 27 = 153
 Output:
 Armstrong
 
@@ -21,7 +21,7 @@ Not Armstrong
 
 Test Case 2:
 Input:
-370
+370                 ->  3^3 + 7^3 + 0^0 -> 27 + 343 + 0 = 370
 Output:
 Armstrong
 
@@ -33,7 +33,7 @@ Invalid Input
 
 Test Case 4:
 Input:
-371
+371                 ->  3^3 + 7^3 + 1^3 -> 27 + 343 + 1 = 371
 Output:
 Armstrong
 
