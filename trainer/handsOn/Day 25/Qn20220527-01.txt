@@ -91,3 +91,39 @@ int main()
 }
 
 ------------------------------------------------------------
+#include<iostream>
+#include<algorithm>
+#include<cstring>
+using namespace std;
+
+int main()
+{
+    char nameOne[256] = "madam";
+    char nameTwo[256] = "dmmaa";
+    int nameOneLen = strlen(nameOne);
+    int nameTwoLen = strlen(nameTwo);
+    
+    if(nameOneLen!=nameTwoLen){
+        cout << "The words are not anagram." << endl;
+        return 0;
+    }
+    
+    //cout << nameOne << endl;
+    //cout << nameTwo << endl;
+    
+    sort(nameOne,nameOne+nameOneLen);//pointer and pointer after the last letter
+    sort(nameTwo,nameTwo+nameTwoLen);
+    
+    //cout << nameOne << endl;
+    //cout << nameTwo << endl;
+    
+    if(strcmp(nameOne,nameTwo)==0){
+        cout << "The words are anagram." << endl;
+    }
+    else{
+        cout << "The words are not anagram." << endl;
+    }
+        
+    return 0;
+}
+------------------------------------------------------------
