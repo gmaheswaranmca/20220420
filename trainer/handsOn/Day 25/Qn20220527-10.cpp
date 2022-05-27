@@ -228,7 +228,7 @@ using namespace std;
 int main()
 {
     int N = 5;
-    for(int I=1;I<=N;I++){
+    for(int I=1;I<=N;I++){  
         cout << setw(N-I) << setfill(' ') << left << "" << setw(0);
         cout << setw(I) << setfill('*') << left << "" ;
         cout << setw(I-1) << setfill('*') << left << "" ;
@@ -244,6 +244,74 @@ int main()
 }      
     
     
+    
+Assignment: Hallow Diamond
+    
+    **                      //N-I space, I-1 space filled '*', I-1 space filled '*'
+   *  *
+  *    *
+ *      *
+*        *
+*        *
+ *      *
+  *    *
+   *  *
+    **
+
+#include <iostream>
+#include <iomanip>
+using namespace std;
+
+int main()
+{
+    int N = 5;
+    for(int I=1;I<=N;I++){  
+        cout << setw(N-I) << setfill(' ') << left << "" << setw(0);
+        cout << setw(I) << setfill(' ') << left << '*' ;
+        cout << setw(I) << setfill(' ') << right << '*' ;
+        cout << endl;
+    }
+    for(int I=N;I>=1;I--){
+        cout << setw(N-I) << setfill(' ') << left << "" << setw(0);
+        cout << setw(I) << setfill(' ') << left << '*' ;
+        cout << setw(I) << setfill(' ') << right << '*' ;
+        cout << endl;
+    }
+    return 0;
+}   
 
 
+Pattern:
+*
+**
+***
+****
+*****
+****
+***
+**
+*
+*
+**
+***
+****
+*****
+****
+***
+**
+* N=5
 
+
+Pattern:
+    *        *
+   ***      ***
+  *****    *****
+ *******  *******
+******************  N=5
+
+
+Pattern: 
+1234
+11223344
+111222333444
+1111222233334444 N=4
