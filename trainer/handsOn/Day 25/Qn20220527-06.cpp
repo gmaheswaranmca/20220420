@@ -113,7 +113,5 @@ int main(){
         print(numbers,N-1);
     }
     
-    
-    
     return 0;
 }
