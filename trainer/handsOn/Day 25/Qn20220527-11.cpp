@@ -72,10 +72,19 @@ void print(int numbers[],int size){
 }
 bool isUnique(int numbers[], int N){
     //"number" to be checked with "next numbers" if repeated stop and finalize duplicate
+    for(int I=0;I < (N-1);I++){
+        for(int J=I+1;J < N;J++){
+            if(numbers[I] == numbers[J]){
+                return false;
+            }
+        }
+    }
+    
+    return true;
 }
 int main(){
-    int numbers[] = {1,  2,  3,  4,  5,   6,  7,  6};
-    //int numbers[] = {1,  2,  3,  4,  5,   6,  7,  8};
+    //int numbers[] = {1,  2,  3,  4,  5,   6,  7,  6};
+    int numbers[] = {1,  2,  3,  4,  5,   6,  7,  8};
     
     int N = sizeof(numbers)/sizeof(int);
     //cout << "Enter size of numbers:"; cin >> N;
@@ -84,7 +93,6 @@ int main(){
     
     print(numbers,N);
     
-    int index = findIndex(numbers,N,searchNumber);
     if(isUnique(numbers, N)){
         cout << "Unique" << endl;
     }else{

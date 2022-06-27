@@ -1,0 +1,5 @@
+build:
+	gcc *.c -o list_singly
+	
+clean:
+	rm list_singly.exe 

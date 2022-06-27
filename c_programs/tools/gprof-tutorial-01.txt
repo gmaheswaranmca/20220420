@@ -1,0 +1,94 @@
+-------------------------------------------------------------
+#https://www.thegeekstuff.com/2012/08/gprof-tutorial/
+-------------------------------------------------------------
+
+gprof
+	o Through profiling one can determine the parts in program code 
+	  that are time consuming and need to be re-written.
+		o Determining the parts in your program 
+		  which are slower in execution than expected
+	o In profiling, we can find many other statistics 
+	  through which many potential bugs can be spotted and sorted out
+
+How to use gprof		  
+	***gprof Steps:***
+	1. Have profiling enabled while compiling the code
+	2. Execute the program code to produce the profiling data
+	3. Run the gprof tool on the profiling data file (generated in the step above).
+	
+The last step above produces an analysis file which is in human readable form.
+
+This file contains a couple of tables (flat profile and call graph) 
+in addition to some other information.	
+
+While flat profile gives 
+	an overview of the timing information of the functions like 
+		time consumption for the execution of a particular function, 
+		how many times it was called etc.
+
+On the other hand, 
+	call graph focuses 
+		on each function like the functions through which a particular function was called, 
+		what all functions were called from within this particular function etc		
+
+So this way one can get idea of the execution time spent in the sub-routines too.
+
+---------------------------------------------
+
+#1
+$gcc -Wall -pg test_gprof.c test_gprof_new.c -o test_gprof
+
+#1.1
+$ls
+
+#2
+$./test_gprof 
+
+#2.1
+$ ls
+
+#3
+$  gprof test_gprof gmon.out > analysis.txt			
+#$  gprof test_gprof.exe gmon.out > analysis.txt 		
+	#for cygwin
+	
+	
+
+#######Suppress the printing of statically(private) declared functions using -a
+$ gprof -a test_gprof gmon.out > analysis2.txt
+	# gprof -a test_gprof.exe gmon.out > analysis2.txt
+	
+	
+#######Suppress verbose blurbs using -b	
+$ gprof -b test_gprof gmon.out > analysis3.txt
+	# gprof -b test_gprof.exe gmon.out > analysis3.txt
+	
+#######Print only flat profile using -p	
+$gprof -p test_gprof.exe gmon.out > analysis3.txt
+
+$gprof -p -b test_gprof.exe gmon.out > analysis3.txt
+
+#######Print information related to specific function in flat profile
+$ gprof -pfunc1 -b test_gprof.exe gmon.out > analysis.txt
+
+$ gprof -pfunc1 -pfunc2 -b test_gprof.exe gmon.out > analysis.txt
+
+#######Suppress flat profile in output using -P
+$ gprof -P -b test_gprof gmon.out > analysis.txt
+
+######to print flat profile but excluding a particular function
+$ gprof -Pfunc1 -b test_gprof gmon.out > analysis.txt
+
+######Print only call graph information using -q
+gprof -q -b test_gprof gmon.out > analysis.txt
+
+######Print only specific function information in call graph.
+$ gprof -qfunc1 -b test_gprof gmon.out > analysis.txt
+
+######Suppress call graph using -Q
+$ gprof -Q -b test_gprof gmon.out > analysis.txt
+
+######suppress a specific function from call graph 
+$ gprof -Qfunc1 -b test_gprof gmon.out > analysis.txt
+
+		

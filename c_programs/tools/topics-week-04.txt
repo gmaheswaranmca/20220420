@@ -1,0 +1,39 @@
+Files
+	• Input and Output File Handling
+	• Opening & Closing a File
+	• Modes of File Opening
+	• Detection End of File
+	• File Pointers & Their Manipulation
+	• Text and Binary Files
+	• Sequential Files
+	• Random Access Files
+
+ADVANCED DEBUGGING, ANALYSIS, AND COMPILER OPTIONS
+	• GCC Compiler Options (part 1)
+	• GCC Compiler Options (part 2)
+	• Debugging with the preprocessor
+	• Debugging with gdb (part 1)
+	• Debugging with gdb (part 2)
+	• core files
+	• Profiling
+	• Static Analysis
+	• valgrind tool
+
+WORKING WITH LARGER PROGRAMS
+	• Compiling multiple source files from the command line
+	• Make Files
+	• Communication between files
+	• Using Header files effectively
+	• Heap and Stack Memory Allocation
+
+STATIC LIBRARIES AND SHARED OBJECTS
+	• Overview
+	• Creating a Static Library (archive)
+	• (Challenge) Static Library
+	• (Demonstration) Static Library
+	• Creating a Dynamic Library (Shared object)
+	• (Challenge) Dynamic Library
+	• (Demonstration) Dynamic Library
+	• Dynamically loading a shared object
+	• (Challenge) Dynamic Loading
+	• (Demonstration) Dynamic Loading
